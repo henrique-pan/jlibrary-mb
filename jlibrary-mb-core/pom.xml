@@ -18,6 +18,9 @@
     <name>jlibrary-mb-core</name>
 	<description>Library project: Core module</description>
 
+	<properties>
+	</properties>
+
 	<build>
 		<resources>
 			<resource>

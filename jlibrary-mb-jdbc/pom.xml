@@ -18,6 +18,10 @@
     <name>jlibrary-mb-jdbc</name>
 	<description>Library project: JDBC module</description>
 
+    <properties>
+        <mysql.version>8.0.11</mysql.version>
+    </properties>
+
 	<build>
 		<resources>
 			<resource>
@@ -29,6 +33,11 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+		</dependency>
 		<dependency>
             <groupId>com.grasset</groupId>
             <artifactId>jlibrary-mb-entity</artifactId>

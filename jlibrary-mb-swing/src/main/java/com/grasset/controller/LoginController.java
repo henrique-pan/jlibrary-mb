@@ -10,6 +10,8 @@ import com.grasset.view.alerts.JAlertHelper;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,9 +19,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author henrique
  */
+@Slf4j
 public class LoginController extends Controller {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
     // JPanel
     private final LoginJPanelView loginView;
@@ -46,15 +47,15 @@ public class LoginController extends Controller {
 
     private void setButtonEvents() {
         jButtonConnect.addActionListener(e -> {
-            LOGGER.info("Doing login: {} {}", userCode(), password());
+            log.info("Doing login: {} {}", userCode(), password());
             if(userCode().equalsIgnoreCase("admin")) {
-                LOGGER.info("Calling admin");
+                log.info("Calling admin");
                 mainController.showAdminView();
             } else if(userCode().equalsIgnoreCase("manager")) {
-                LOGGER.info("Calling manager");
+                log.info("Calling manager");
                 mainController.showManagerView();
             } else if(userCode().equalsIgnoreCase("client")) {
-                LOGGER.info("Calling client");
+                log.info("Calling client");
                 mainController.showUserView();
             } else {
                 JAlertHelper.showError("Login error", "Error during the login");

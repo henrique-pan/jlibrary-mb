@@ -35,7 +35,7 @@ public class ManagerBookController {
     private final JTextField jTextFieldEditionYear;
     private final JTextField jTextFieldBookFormat;
     private final JTextField jTextFieldNumberPages;
-    private final JTextField jTextFieldPenalityPrice;
+    private final JTextField jTextFieldPenaltyPrice;
     private final JTextField jTextFieldBookPrice;
     private final JTextField jTextFieldTotalSamples;
     private final JTextField jTextFieldOriginalLanguage;
@@ -61,7 +61,7 @@ public class ManagerBookController {
         jTextFieldEditionYear = managerView().getjTextFieldEditionYear();
         jTextFieldBookFormat = managerView().getjTextFieldBookFormat();
         jTextFieldNumberPages = managerView().getjTextFieldNumberPages();
-        jTextFieldPenalityPrice = managerView().getjTextFieldPenalityPrice();
+        jTextFieldPenaltyPrice = managerView().getjTextFieldPenalityPrice();
         jTextFieldBookPrice = managerView().getjTextFieldBookPrice();
         jTextFieldTotalSamples = managerView().getjTextFieldTotalSamples();
         jTextFieldOriginalLanguage = managerView().getjTextFieldOriginalLanguage();
@@ -147,8 +147,8 @@ public class ManagerBookController {
         return Integer.parseInt(jTextFieldNumberPages.getText());
     }
 
-    public BigDecimal editionPenalityPrice() {
-        return new BigDecimal(jTextFieldPenalityPrice.getText());
+    public BigDecimal editionPenaltyPrice() {
+        return new BigDecimal(jTextFieldPenaltyPrice.getText());
     }
     
     public BigDecimal editionBookPrice() {
