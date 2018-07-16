@@ -25,4 +25,4 @@ nbdist/
 .nb-gradle/
 
 ### MySQL
-.mwb.bak
+library-db-model.mwb.bak
