@@ -3,6 +3,7 @@ package com.grasset.user;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -12,6 +13,16 @@ public class ManagerUser extends SystemUser {
     private Integer idManagerUser;
     private String name;
     private String lastName;
+    private Date creationDate;
+    private Date modificationDate;
+
+    public void setSystemUserCreationDate(Date date) {
+        super.setCreationDate(date);
+    }
+
+    public void setSystemUserModificationDate(Date date) {
+        super.setModificationDate(date);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -33,6 +44,9 @@ public class ManagerUser extends SystemUser {
         sb.append("idManagerUser = ").append(idManagerUser);
         sb.append(", name = ").append(name);
         sb.append(", lastName = ").append(lastName);
+        sb.append(", creationDate = ").append(creationDate);
+        sb.append(", modificationDate = ").append(modificationDate);
+
         sb.append(']');
         return sb.toString();
     }

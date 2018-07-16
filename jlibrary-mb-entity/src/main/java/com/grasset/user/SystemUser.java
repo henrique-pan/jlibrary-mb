@@ -3,6 +3,7 @@ package com.grasset.user;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -14,6 +15,8 @@ public class SystemUser {
     private String password;
     private SystemUserType userType;
     private boolean isActive;
+    private Date creationDate;
+    private Date modificationDate;
 
     @Override
     public boolean equals(Object o) {
@@ -36,6 +39,8 @@ public class SystemUser {
         sb.append(", password = ").append(password);
         sb.append(", userType = ").append(userType);
         sb.append(", isActive = ").append(isActive);
+        sb.append(", creationDate = ").append(creationDate);
+        sb.append(", modificationDate = ").append(modificationDate);
         sb.append(']');
         return sb.toString();
     }

@@ -10,6 +10,9 @@ import java.awt.GridBagLayout;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -25,7 +28,7 @@ public class MainJFrameView extends JFrame {
     /**
      * Creates new form MainJFrameView
      */
-    public MainJFrameView() {
+    public MainJFrameView() {               
         setTitle("Bibliotèque Marguerite Bourgeoys");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -45,15 +48,15 @@ public class MainJFrameView extends JFrame {
 
         setMaximumSize(new Dimension(jpanel.getMaximumSize().width + 50, jpanel.getMaximumSize().height + 50));
         setMinimumSize(new Dimension(jpanel.getMinimumSize().width + 50, jpanel.getMinimumSize().height + 50));
-        
+
         setSize(jpanel.getSize());
-        
+
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
 
         setContentPane(content);
     }
-    
+
     public void setLookAndFeel() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -76,10 +79,23 @@ public class MainJFrameView extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuBar = new javax.swing.JMenuBar();
+        jMenuAccount = new javax.swing.JMenu();
+        jMenuItemLogout = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1200, 800));
         setMinimumSize(new java.awt.Dimension(1200, 800));
         setPreferredSize(new java.awt.Dimension(1200, 800));
+
+        jMenuAccount.setText("Compte");
+
+        jMenuItemLogout.setText("Quitter");
+        jMenuAccount.add(jMenuItemLogout);
+
+        jMenuBar.add(jMenuAccount);
+
+        setJMenuBar(jMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,11 +105,29 @@ public class MainJFrameView extends JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 278, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenuAccount;
+    private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenuItem jMenuItemLogout;
     // End of variables declaration//GEN-END:variables
+
+    public JMenu getjMenuAccount() {
+        return jMenuAccount;
+    }
+
+    public JMenuBar getjMenuBar() {
+        return jMenuBar;
+    }
+
+    public JMenuItem getjMenuItemLogout() {
+        return jMenuItemLogout;
+    }
+
+
+
 }

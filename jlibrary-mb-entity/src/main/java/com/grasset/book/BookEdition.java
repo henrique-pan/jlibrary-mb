@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.money.MonetaryAmount;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,6 +23,8 @@ public class BookEdition extends Book {
     private MonetaryAmount bookPrice;
     private String editionLanguage;
     private boolean isRare;
+    private Date creationDate;
+    private Date modificationDate;
 
     @Override
     public boolean equals(Object o) {
@@ -51,6 +54,8 @@ public class BookEdition extends Book {
         sb.append(", bookPrice = ").append(bookPrice);
         sb.append(", editionLanguage = ").append(editionLanguage);
         sb.append(", isRare = ").append(isRare);
+        sb.append(", creationDate = ").append(creationDate);
+        sb.append(", modificationDate = ").append(modificationDate);
         sb.append(']');
         return sb.toString();
     }

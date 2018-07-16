@@ -4,6 +4,7 @@ import com.grasset.user.SystemUser;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -17,6 +18,16 @@ public class Client extends SystemUser {
     private String phoneNumber;
     private String email;
     private Address address;
+    private Date creationDate;
+    private Date modificationDate;
+
+    public void setSystemUserCreationDate(Date date) {
+        super.setCreationDate(date);
+    }
+
+    public void setSystemUserModificationDate(Date date) {
+        super.setModificationDate(date);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -43,6 +54,8 @@ public class Client extends SystemUser {
         sb.append(", phoneNumber = ").append(phoneNumber);
         sb.append(", email = ").append(email);
         sb.append(", address = ").append(address);
+        sb.append(", creationDate = ").append(creationDate);
+        sb.append(", modificationDate = ").append(modificationDate);
         sb.append(']');
         return sb.toString();
     }

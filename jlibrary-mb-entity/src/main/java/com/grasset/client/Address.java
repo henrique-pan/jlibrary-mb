@@ -3,6 +3,7 @@ package com.grasset.client;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -17,6 +18,8 @@ public class Address {
     private String zipCode;
     private String addressProof;
     private boolean isValid;
+    private Date creationDate;
+    private Date modificationDate;
 
     @Override
     public boolean equals(Object o) {
@@ -46,6 +49,8 @@ public class Address {
         sb.append(", zipCode = ").append(zipCode);
         sb.append(", addressProof = ").append(addressProof);
         sb.append(", isValid = ").append(isValid);
+        sb.append(", creationDate = ").append(creationDate);
+        sb.append(", modificationDate = ").append(modificationDate);
         sb.append(']');
         return sb.toString();
     }

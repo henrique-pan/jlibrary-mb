@@ -5,9 +5,8 @@
  */
 package com.grasset.view;
 
-import javax.swing.JButton;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
+import java.awt.event.KeyEvent;
 
 public class LoginJPanelView extends javax.swing.JPanel {
 
@@ -96,7 +95,6 @@ public class LoginJPanelView extends javax.swing.JPanel {
                 .addGap(17, 17, 17))
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonConnect;

@@ -15,7 +15,7 @@ public enum SystemUserType {
     private Integer idSystemUserType;
     private String type;
 
-    public SystemUserType getType(Integer idSystemUserType) {
+    public static SystemUserType getType(Integer idSystemUserType) {
         switch (idSystemUserType) {
             case 1: return ADMIN;
             case 2: return MANAGER;

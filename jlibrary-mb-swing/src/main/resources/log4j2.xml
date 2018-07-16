@@ -6,14 +6,14 @@
 
     <Appenders>
         <Console name="Console">
-            <PatternLayout pattern="%d{dd-MM-yyyy HH:mm:ss} %X{logId} %-5p %c{0}:%L - %m%n"/>
+            <PatternLayout pattern="%d{dd-MM-yyyy HH:mm:ss} %X{logId} %-5p %c{0}:%L %m%n"/>
         </Console>
 
         <!-- ROLLING POLICY-->
         <RollingRandomAccessFile name="File"
                                  fileName="${log-path}/application.log"
                                 filePattern="${log-path}/log-%d{dd-MM-yyyy}.log">
-            <PatternLayout pattern="%d{dd-MM-yyyy HH:mm:ss} %X{logId} %-5p %c{0}:%L - %m%n"/>
+            <PatternLayout pattern="%d{dd-MM-yyyy HH:mm:ss} %X{logId} %-5p %c{0}:%L %m%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
             </Policies>

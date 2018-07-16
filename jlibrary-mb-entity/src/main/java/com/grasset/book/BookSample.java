@@ -3,6 +3,7 @@ package com.grasset.book;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -11,6 +12,8 @@ public class BookSample extends BookEdition {
 
     private Integer idBookSample;
     private String codeSample;
+    private Date creationDate;
+    private Date modificationDate;
 
     @Override
     public boolean equals(Object o) {
@@ -31,6 +34,8 @@ public class BookSample extends BookEdition {
         final StringBuilder sb = new StringBuilder("BookSample [");
         sb.append("idBookSample = ").append(idBookSample);
         sb.append(", codeSample = ").append(codeSample);
+        sb.append(", creationDate = ").append(creationDate);
+        sb.append(", modificationDate = ").append(modificationDate);
         sb.append(']');
         return sb.toString();
     }
