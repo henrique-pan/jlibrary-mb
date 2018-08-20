@@ -2,7 +2,7 @@ package com.grasset;
 
 import com.grasset.user.ManagerUser;
 
-public interface ManagerService {
+public interface ManagerUserService {
 
 	void save(ManagerUser managerUser) throws Exception;
 	

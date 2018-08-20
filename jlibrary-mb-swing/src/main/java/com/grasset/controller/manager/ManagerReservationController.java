@@ -81,7 +81,15 @@ public class ManagerReservationController {
         });
 
         jButtonReservationClear.addActionListener(e -> {
-
+        		jTextFieldReservationBookISBN.setText("");
+            jTextFieldReservationBookName.setText("");
+            jTextFieldReservationBookCodeSample.setText("");
+            jCheckBoxReservationRare.setSelected(false);
+            jTextFieldReservationClientCode.setText("");
+            jTextFieldReservationClientName.setText("");
+            jTextFieldReservationDate.setText("");
+            jTextFieldReservationReturnDate.setText("");
+            jTextFieldReservationStatus.setText("");
         });
     }
 

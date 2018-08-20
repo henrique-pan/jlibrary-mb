@@ -6,18 +6,17 @@ import com.grasset.dao.user.SystemUserDAO;
 import com.grasset.dao.user.impl.SystemUserDAOImpl;
 import com.grasset.user.ManagerUser;
 import com.grasset.user.SystemUser;
-import com.grasset.user.SystemUserType;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ManagerServiceImpl implements ManagerService {
+public class ManagerUserServiceImpl implements ManagerUserService {
 	
 	private ManagerUserDAO managerUserDAO;
 	private SystemUserDAO systemUserDAO;
 	private SystemUserService systemUserService;
 	
-	public ManagerServiceImpl() {
+	public ManagerUserServiceImpl() {
 		managerUserDAO = new ManagerUserDAOImpl();
 		systemUserDAO = new SystemUserDAOImpl();
 		systemUserService = new SystemUserServiceImpl();

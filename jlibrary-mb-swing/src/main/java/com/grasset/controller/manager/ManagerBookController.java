@@ -6,13 +6,34 @@
 package com.grasset.controller.manager;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+
+import javax.money.CurrencyUnit;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
+import com.grasset.AuthorService;
+import com.grasset.AuthorServiceImpl;
+import com.grasset.BookEditionService;
+import com.grasset.BookEditionServiceImpl;
+import com.grasset.BookSampleService;
+import com.grasset.BookSampleServiceImpl;
+import com.grasset.BookService;
+import com.grasset.BookServiceImpl;
+import com.grasset.PublisherService;
+import com.grasset.PublisherServiceImpl;
+import com.grasset.book.Author;
+import com.grasset.book.Book;
+import com.grasset.book.BookEdition;
+import com.grasset.book.BookSample;
+import com.grasset.book.Publisher;
 import com.grasset.view.ManagerJPanelView;
+
+import org.javamoney.moneta.Money;
+import org.javamoney.moneta.format.MonetaryAmountDecimalFormatBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +69,14 @@ public class ManagerBookController {
     private final JButton jButtonBookReserve;
     private final JButton jButtonBookClear;
     private final JTextField jTextFieldBookSearch;
+    
+    private PublisherService publisherService;
+    private AuthorService authorService;
+    private BookService bookService;
+    private BookEditionService bookEditionService;
+    private BookSampleService bookSampleService;
+    
+    //private static CurrencyUnit DOLLAR = (CurrencyUnit) MonetaryAmountDecimalFormatBuilder.of(Locale.CANADA);
 
     public ManagerBookController(ManagerController managerController) {
         this.managerController = managerController;
@@ -76,6 +105,12 @@ public class ManagerBookController {
         
         jTextFieldBookSearch = managerView().getjTextFieldBookSearch();
         
+        publisherService = new PublisherServiceImpl();
+        authorService = new AuthorServiceImpl();
+        bookService = new BookServiceImpl();
+        bookEditionService = new BookEditionServiceImpl();
+        bookSampleService = new BookSampleServiceImpl();
+        
         setEvents();
     }
     
@@ -86,6 +121,69 @@ public class ManagerBookController {
     
     private void setButtonEvents() {
         jButtonBookSave.addActionListener(e -> {
+        		Author author = new Author();
+        		Book book = new Book();
+        		BookEdition bookEdition = new BookEdition();
+        		BookSample bookSample = new BookSample();
+        		Publisher publisher = new Publisher();
+        		ManagerHelper mh = new ManagerHelper();
+        		
+        		//BOOK
+        		book.setTitle(bookTitle());
+        		if(mh.yearValidation(bookYear()))
+        			book.setBookYear(Integer.parseInt(bookYear()));
+        		book.setOriginalLanguage(bookOriginalLanguage());
+        		
+        		int idBook = bookService.save(book);
+        		
+        		//BOOKEDITION
+        		bookEdition.setIdBook(idBook);
+        		bookEdition.setTitle(bookTitle());
+        		
+        		if(mh.yearValidation(bookYear()))
+        			bookEdition.setBookYear(Integer.parseInt(bookYear()));
+        		
+        		//AUTHOR
+    			String[] authors = bookAuthors().split(",");
+    			Set<Author> hsAuthor = new HashSet<>();
+    			for(int i = 0; i < authors.length; i++) {
+    				author.setName(authors[i]);
+    				author = authorService.save(author);
+    				hsAuthor.add(author);
+    			}
+    			bookEdition.setAuthors(hsAuthor);
+        		
+    			if(mh.isbnValidation(bookISBN()))
+    				bookEdition.setISBN(bookISBN());
+        		
+    			//PUBLISHER
+        		publisher.setName(bookEditor());
+        		publisher = publisherService.save(publisher);
+        		bookEdition.setPublisher(publisher);
+        		
+        		bookEdition.setEdition(edition());
+        		
+        		if(mh.yearValidation(editionYear()))
+        			bookEdition.setEditionYear(Integer.parseInt(editionYear()));
+        		
+        		bookEdition.setFormat(editionFormat());
+        		bookEdition.setTotalPages(editionNumberPages());
+        		
+        		//bookEdition.setPenaltyPrice(Money.of(editionPenaltyPrice(), DOLLAR));
+        		//bookEdition.setBookPrice(Money.of(editionBookPrice(), DOLLAR));
+        		
+        		bookEdition.setOriginalLanguage(bookOriginalLanguage());
+        		bookEdition.setEditionLanguage(editionLanguage());
+        	
+        		int idBookEdition = bookEditionService.save(bookEdition);
+        		
+        		bookEdition.setIdBookEdition(idBookEdition);
+        		
+        		//BOOKSAMPLE
+        		bookSample.setIdBookEdition(bookEdition.getIdBookEdition());
+        		bookSample.setCodeSample(sampleCode());
+
+        		bookSampleService.save(bookSample);
             
         });
         
@@ -102,7 +200,22 @@ public class ManagerBookController {
         });
         
         jButtonBookClear.addActionListener(e -> {
-            
+        		jTextFieldBookTitle.setText("");
+            jTextFieldBookYear.setText("");
+            jTextFieldBookAuthors.setText("");
+            jTextFieldBookISBN.setText("");
+            jTextFieldEditor.setText("");
+            jTextFieldBookEdition.setText("");
+            jTextFieldEditionYear.setText("");
+            jTextFieldBookFormat.setText("");
+            jTextFieldNumberPages.setText("");
+            jTextFieldPenaltyPrice.setText("");
+            jTextFieldBookPrice.setText("");
+            jTextFieldTotalSamples.setText("");
+            jTextFieldOriginalLanguage.setText("");
+            jTextFieldEditionLanguage.setText("");
+            jTextFieldSampleCode.setText("");
+            jCheckBoxBookRare.setSelected(false);
         });
     }
 
@@ -118,9 +231,8 @@ public class ManagerBookController {
         return jTextFieldBookYear.getText();
     }
     
-    public List<String> bookAuthors() {
-        jTextFieldBookAuthors.getText();
-        return new ArrayList<String>();
+    public String bookAuthors() {
+        return jTextFieldBookAuthors.getText();
     }
     
     public String bookISBN() {

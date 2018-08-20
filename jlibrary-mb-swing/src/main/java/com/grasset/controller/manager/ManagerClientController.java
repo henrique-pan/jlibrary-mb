@@ -93,7 +93,19 @@ public class ManagerClientController {
         });
 
         jButtonClientClear.addActionListener(e -> {
-
+        		jTextFieldClientName.setText("");
+        		jTextFieldClientLastName.setText("");
+            jTextFieldClientId.setText("");
+            jTextFieldClientPhone.setText("");
+            jTextFieldClientEmail.setText("");
+            jTextFieldClientCode.setText("");
+            jTextFieldClientAddress.setText("");
+            jTextFieldClientCity.setText("");
+            jTextFieldClientState.setText("");
+            jTextFieldCountry.setText("");
+            jTextFieldZIPCode.setText("");
+            jTextFieldDocVerification.setText("");
+            jCheckBoxClientValid.setSelected(false);
         });
     }
 

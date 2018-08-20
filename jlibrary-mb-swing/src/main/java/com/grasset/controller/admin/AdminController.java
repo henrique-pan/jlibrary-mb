@@ -12,8 +12,8 @@ import javax.swing.JTextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.grasset.ManagerService;
-import com.grasset.ManagerServiceImpl;
+import com.grasset.ManagerUserServiceImpl;
+import com.grasset.ManagerUserService;
 import com.grasset.SystemUserService;
 import com.grasset.SystemUserServiceImpl;
 import com.grasset.controller.Controller;
@@ -47,8 +47,7 @@ public class AdminController extends Controller {
     private final JTextField jTextFieldSearch;
     
     //Service
-    private final ManagerService manageService;
-    private final SystemUserService systemUserService;
+    private final ManagerUserService manageService;
 
     public AdminController() {
         adminView = new AdminJPanelView();
@@ -62,8 +61,7 @@ public class AdminController extends Controller {
         jButtonClear = adminView.getjButtonClear();
         jTextFieldSearch = adminView.getjTextFieldSearch();
         
-        manageService = new ManagerServiceImpl();
-        systemUserService = new SystemUserServiceImpl();
+        manageService = new ManagerUserServiceImpl();
         
         setEvents();
     }
