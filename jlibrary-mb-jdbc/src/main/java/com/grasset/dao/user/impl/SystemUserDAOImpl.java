@@ -26,7 +26,7 @@ public class SystemUserDAOImpl implements SystemUserDAO {
 
             preparedStatement.setInt(1, idEntity);
 
-            log.info("Executing query: \n\t{}", query.toString());
+            log.info("Executing query: \n\t{}", preparedStatement.toString());
             ResultSet rs = preparedStatement.executeQuery();
 
             SystemUser systemUser = null;
@@ -36,7 +36,7 @@ public class SystemUserDAOImpl implements SystemUserDAO {
                 systemUser.setCode(rs.getString("CD_USER"));
                 systemUser.setPassword(rs.getString("DS_PASSWORD"));
 
-                SystemUserType systemUserType = SystemUserType.getType(rs.getInt("ID_SYSTEM_USER"));
+                SystemUserType systemUserType = SystemUserType.getType(rs.getInt("ID_SYSTEM_USER_TYPE"));
                 systemUser.setUserType(systemUserType);
 
                 systemUser.setActive(rs.getString("FL_ACTIVE").equalsIgnoreCase("Y"));
@@ -66,7 +66,7 @@ public class SystemUserDAOImpl implements SystemUserDAO {
 
             preparedStatement.setString(1, code);
 
-            log.info("Executing query: \n\t{}", query.toString());
+            log.info("Executing query: \n\t{}", preparedStatement.toString());
             ResultSet rs = preparedStatement.executeQuery();
 
             SystemUser systemUser = null;
@@ -76,7 +76,7 @@ public class SystemUserDAOImpl implements SystemUserDAO {
                 systemUser.setCode(rs.getString("CD_USER"));
                 systemUser.setPassword(rs.getString("DS_PASSWORD"));
 
-                SystemUserType systemUserType = SystemUserType.getType(rs.getInt("ID_SYSTEM_USER"));
+                SystemUserType systemUserType = SystemUserType.getType(rs.getInt("ID_SYSTEM_USER_TYPE"));
                 systemUser.setUserType(systemUserType);
 
                 systemUser.setActive(rs.getString("FL_ACTIVE").equalsIgnoreCase("Y"));
@@ -150,9 +150,8 @@ public class SystemUserDAOImpl implements SystemUserDAO {
             preparedStatement.setString(4, entity.isActive() ? "Y" : "N");
             preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
 
-            log.info("Executing insert: \n\t{}", query.toString());
+            log.info("Executing insert: \n\t{}", preparedStatement.toString());
             preparedStatement.executeUpdate();
-
 
             log.info("{} persisted successfully.", entity);
             return true;
@@ -169,7 +168,7 @@ public class SystemUserDAOImpl implements SystemUserDAO {
         if(entity.getIdSystemUser() == null) new DBException("Error: idSystemUser not found.");
 
         StringBuilder query = new StringBuilder();
-        query.append("UPDATE SYSTEM_USER SET CD_USER = ?, DS_PASSWORD = ?, ID_SYSTEM_USER_TYPE = ? ");
+        query.append("UPDATE SYSTEM_USER SET CD_USER = ?, DS_PASSWORD = ?, ID_SYSTEM_USER_TYPE = ?, ");
         query.append("FL_ACTIVE = ?, DT_MODIFICATION = ? ");
         query.append("WHERE ID_SYSTEM_USER = ? ");
 
@@ -183,11 +182,11 @@ public class SystemUserDAOImpl implements SystemUserDAO {
             preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
             preparedStatement.setInt(6, entity.getIdSystemUser());
 
-            log.info("Executing update: \n\t{}", query.toString());
+            log.info("Executing update: \n\t{}", preparedStatement.toString());
             preparedStatement.executeUpdate();
 
 
-            log.info("{} persisted successfully.", entity);
+            log.info("{} merged successfully.", entity);
             return true;
         } catch (SQLException e) {
             log.error("Error to execute query: ", e);

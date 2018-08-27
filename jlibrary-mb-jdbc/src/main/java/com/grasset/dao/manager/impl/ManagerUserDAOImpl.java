@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
 @Slf4j
@@ -28,7 +30,7 @@ public class ManagerUserDAOImpl implements ManagerUserDAO {
 
             preparedStatement.setInt(1, idEntity);
 
-            log.info("Executing query: \n\t{}", query.toString());
+            log.info("Executing query: \n\t{}", preparedStatement.toString());
             ResultSet rs = preparedStatement.executeQuery();
 
             ManagerUser managerUser = null;
@@ -47,7 +49,7 @@ public class ManagerUserDAOImpl implements ManagerUserDAO {
                 managerUser.setSystemUserModificationDate(rs.getTimestamp("su.DT_MODIFICATION"));
                 // System User
                 // Manager User
-                managerUser.setIdManagerUser(rs.getInt("mu.ID_CLIENT"));
+                managerUser.setIdManagerUser(rs.getInt("mu.ID_MANAGER_USER"));
                 managerUser.setName(rs.getString("mu.NM_NAME"));
                 managerUser.setLastName(rs.getString("mu.NM_LAST_NAME"));
                 managerUser.setCreationDate(rs.getTimestamp("mu.DT_CREATION"));
@@ -77,7 +79,7 @@ public class ManagerUserDAOImpl implements ManagerUserDAO {
 
             preparedStatement.setInt(1, idSystemUser);
 
-            log.info("Executing query: \n\t{}", query.toString());
+            log.info("Executing query: \n\t{}", preparedStatement.toString());
             ResultSet rs = preparedStatement.executeQuery();
 
             ManagerUser managerUser = null;
@@ -96,7 +98,7 @@ public class ManagerUserDAOImpl implements ManagerUserDAO {
                 managerUser.setSystemUserModificationDate(rs.getTimestamp("su.DT_MODIFICATION"));
                 // System User
                 // Manager User
-                managerUser.setIdManagerUser(rs.getInt("mu.ID_CLIENT"));
+                managerUser.setIdManagerUser(rs.getInt("mu.ID_MANAGER_USER"));
                 managerUser.setName(rs.getString("mu.NM_NAME"));
                 managerUser.setLastName(rs.getString("mu.NM_LAST_NAME"));
                 managerUser.setCreationDate(rs.getTimestamp("mu.DT_CREATION"));
@@ -121,12 +123,65 @@ public class ManagerUserDAOImpl implements ManagerUserDAO {
 
     @Override
     public boolean persist(ManagerUser entity) {
-        return false;
+    		log.info("Start persist process");
+    	
+    		StringBuilder query = new StringBuilder();
+        query.append("INSERT INTO MANAGER_USER(NM_NAME, NM_LAST_NAME, ID_SYSTEM_USER, DT_CREATION, DT_MODIFICATION) ");
+        query.append("VALUES(?, ?, ?, ?, ?) ");
+    	
+        try (Connection connection = ConnectionFactory.getDBConnection();
+               PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+               preparedStatement.setString(1, entity.getName());
+               preparedStatement.setString(2, entity.getLastName());
+               preparedStatement.setInt(3, entity.getIdSystemUser());
+               preparedStatement.setTimestamp(4, new Timestamp(new Date().getTime()));
+               preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
+
+               log.info("Executing insert: \n\t{}", preparedStatement.toString());
+               preparedStatement.executeUpdate();
+
+
+               log.info("{} persisted successfully.", entity);
+               return true;
+           } catch (SQLException e) {
+               log.error("Error to execute query: ", e);
+               throw new DBException(e);
+           } catch (ClassNotFoundException e) {
+               throw new DBException(e);
+           }
     }
 
     @Override
     public boolean merge(ManagerUser entity) {
-        return false;
+    		log.info("Start merge process");
+    	
+    		if(entity.getIdSystemUser() == null) new DBException("Error: idSystemUser not found.");
+    		
+    		StringBuilder query = new StringBuilder();
+            query.append("UPDATE MANAGER_USER SET NM_NAME = ?, NM_LAST_NAME = ?, ");
+            query.append("DT_MODIFICATION = ? ");
+            query.append("WHERE ID_SYSTEM_USER = ? ");
+
+            try (Connection connection = ConnectionFactory.getDBConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+                preparedStatement.setString(1, entity.getName());
+                preparedStatement.setString(2, entity.getLastName());
+                preparedStatement.setTimestamp(3, new Timestamp(new Date().getTime()));
+                preparedStatement.setInt(4, entity.getIdSystemUser());
+
+                log.info("Executing update: \n\t{}", preparedStatement.toString());
+                preparedStatement.executeUpdate();
+
+                log.info("{} updated successfully.", entity);
+                return true;
+            } catch (SQLException e) {
+                log.error("Error to execute query: ", e);
+                throw new DBException(e);
+            } catch (ClassNotFoundException e) {
+                throw new DBException(e);
+            }
     }
 
     @Override
@@ -136,6 +191,27 @@ public class ManagerUserDAOImpl implements ManagerUserDAO {
 
     @Override
     public boolean remove(ManagerUser entity) {
-        return false;
+    		log.info("Start delete process");
+    		if(entity.getIdSystemUser() == null) throw new DBException("Error: idSystemUser not found.");
+    		
+    		StringBuilder query = new StringBuilder();
+    		query.append("DELETE FROM MANAGER_USER WHERE ID_SYSTEM_USER = ? ");
+    		
+    		try(Connection connection = ConnectionFactory.getDBConnection(); 
+    			PreparedStatement preparedStatement = connection.prepareStatement(query.toString())){
+    			
+    			preparedStatement.setInt(1, entity.getIdSystemUser());
+    			
+    			log.info("Executing remove: \n\t{}", preparedStatement.toString());
+    			preparedStatement.executeUpdate();
+    			
+    			log.info("{} deleted successfully.", entity);
+    			return true;
+    		} catch (SQLException e) {
+                log.error("Error to execute query: ", e);
+                throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+                throw new DBException(e);
+        }
     }
 }
