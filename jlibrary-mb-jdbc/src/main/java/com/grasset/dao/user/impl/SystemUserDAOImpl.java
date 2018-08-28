@@ -3,6 +3,7 @@ package com.grasset.dao.user.impl;
 import com.grasset.dao.user.SystemUserDAO;
 import com.grasset.db.ConnectionFactory;
 import com.grasset.exception.DBException;
+import com.grasset.reservation.Room;
 import com.grasset.user.SystemUser;
 import com.grasset.user.SystemUserType;
 import lombok.extern.slf4j.Slf4j;
@@ -222,5 +223,79 @@ public class SystemUserDAOImpl implements SystemUserDAO {
     public boolean remove(SystemUser entity) {
         if(entity.getIdSystemUser() == null) new DBException("Error: idSystemUser not found.");
         return remove(entity.getIdSystemUser());
+    }
+
+    // BOOT UP LOAD
+    @Override
+    public void createAdmin() {
+        String code = "admin";
+        SystemUser systemUser = findByCode(code);
+        if(systemUser == null) {
+            systemUser = new SystemUser();
+            systemUser.setCode("admin");
+            systemUser.setPassword("81DC9BDB52D04DC20036DBD8313ED055");
+            systemUser.setActive(true);
+            systemUser.setUserType(SystemUserType.ADMIN);
+            persist(systemUser);
+        }
+    }
+
+    private boolean exists(SystemUserType systemUserType) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM SYSTEM_USER_TYPE ");
+        query.append("WHERE ID_SYSTEM_USER_TYPE = ? ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, systemUserType.getIdSystemUserType());
+
+            log.info("Executing query: \n\t{}", preparedStatement.toString());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if(rs.next()) return true;
+
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+
+        return false;
+    }
+
+    private boolean persist(SystemUserType systemUserType) {
+        StringBuilder query = new StringBuilder();
+        query.append("INSERT INTO SYSTEM_USER_TYPE(ID_SYSTEM_USER_TYPE, DS_TYPE) ");
+        query.append("VALUES(?, ?) ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, systemUserType.getIdSystemUserType());
+            preparedStatement.setString(2, systemUserType.getType());
+
+
+            log.info("Executing insert: \n\t{}", preparedStatement.toString());
+            preparedStatement.executeUpdate();
+
+            log.info("{} persisted successfully.", systemUserType);
+            return true;
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+    }
+
+    @Override
+    public void createSystemUserTypes() {
+        for(SystemUserType type : SystemUserType.values()) {
+            if(!exists(type)) {
+                persist(type);
+            }
+        }
     }
 }

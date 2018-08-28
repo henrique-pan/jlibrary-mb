@@ -14,7 +14,6 @@ public class Client extends SystemUser {
     private Integer idClient;
     private String name;
     private String lastName;
-    private String id;
     private String phoneNumber;
     private String email;
     private Address address;
@@ -35,13 +34,12 @@ public class Client extends SystemUser {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Client client = (Client) o;
-        return Objects.equals(id, client.id) ||
-                Objects.equals(phoneNumber, client.phoneNumber);
+        return Objects.equals(email, client.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id, phoneNumber);
+        return Objects.hash(super.hashCode(), email);
     }
 
     @Override
@@ -50,7 +48,6 @@ public class Client extends SystemUser {
         sb.append("idClient = ").append(idClient);
         sb.append(", name = ").append(name);
         sb.append(", lastName = ").append(lastName);
-        sb.append(", id = ").append(id);
         sb.append(", phoneNumber = ").append(phoneNumber);
         sb.append(", email = ").append(email);
         sb.append(", address = ").append(address);

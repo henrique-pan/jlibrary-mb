@@ -5,11 +5,20 @@
  */
 package com.grasset.view;
 
+import com.grasset.client.Client;
+import com.grasset.user.ManagerUser;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,6 +31,8 @@ public class ManagerJPanelView extends javax.swing.JPanel {
      */
     public ManagerJPanelView() {
         initComponents();
+        
+        configureTables();
     }
 
     /**
@@ -101,8 +112,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jLabelClientDocConfirmation = new javax.swing.JLabel();
         jTextFieldDocVerification = new javax.swing.JTextField();
         jCheckBoxClientValid = new javax.swing.JCheckBox();
-        jLabelClientId = new javax.swing.JLabel();
-        jTextFieldClientId = new javax.swing.JTextField();
         jLabelClientCode = new javax.swing.JLabel();
         jTextFieldClientCode = new javax.swing.JTextField();
         jButtonClientSave = new javax.swing.JButton();
@@ -110,6 +119,8 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jButtonClientDetails = new javax.swing.JButton();
         jButtonClientReserve = new javax.swing.JButton();
         jButtonClientClear = new javax.swing.JButton();
+        jLabelClientCode1 = new javax.swing.JLabel();
+        jPasswordFieldClient = new javax.swing.JPasswordField();
         jPanelReservations = new javax.swing.JPanel();
         jScrollPaneReservations = new javax.swing.JScrollPane();
         jTableReservations = new javax.swing.JTable();
@@ -316,7 +327,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Code", "Id", "Prénom", "Nom", "E-mail", "Téléphone"
+                "Code", "Prénom", "Nom", "Satus", "Date", "Code Postal"
             }
         ) {
             Class[] types = new Class [] {
@@ -420,17 +431,10 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jPanelClients.add(jCheckBoxClientValid);
         jCheckBoxClientValid.setBounds(870, 190, 74, 23);
 
-        jLabelClientId.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jLabelClientId.setText("Id:");
-        jPanelClients.add(jLabelClientId);
-        jLabelClientId.setBounds(740, 10, 16, 16);
-        jPanelClients.add(jTextFieldClientId);
-        jTextFieldClientId.setBounds(760, 0, 227, 38);
-
         jLabelClientCode.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jLabelClientCode.setText("Code:");
+        jLabelClientCode.setText("Mot d Passe:");
         jPanelClients.add(jLabelClientCode);
-        jLabelClientCode.setBounds(720, 50, 37, 16);
+        jLabelClientCode.setBounds(720, 10, 90, 16);
         jPanelClients.add(jTextFieldClientCode);
         jTextFieldClientCode.setBounds(760, 40, 227, 38);
 
@@ -453,6 +457,13 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jButtonClientClear.setText("Nettoyer");
         jPanelClients.add(jButtonClientClear);
         jButtonClientClear.setBounds(760, 249, 98, 40);
+
+        jLabelClientCode1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jLabelClientCode1.setText("Code:");
+        jPanelClients.add(jLabelClientCode1);
+        jLabelClientCode1.setBounds(720, 50, 37, 16);
+        jPanelClients.add(jPasswordFieldClient);
+        jPasswordFieldClient.setBounds(810, 0, 180, 40);
 
         jTabbedPane.addTab("Clients", jPanelClients);
 
@@ -638,9 +649,9 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelClientAddress;
     private javax.swing.JLabel jLabelClientCity;
     private javax.swing.JLabel jLabelClientCode;
+    private javax.swing.JLabel jLabelClientCode1;
     private javax.swing.JLabel jLabelClientDocConfirmation;
     private javax.swing.JLabel jLabelClientEmail;
-    private javax.swing.JLabel jLabelClientId;
     private javax.swing.JLabel jLabelClientLastName;
     private javax.swing.JLabel jLabelClientName;
     private javax.swing.JLabel jLabelClientPhone;
@@ -666,6 +677,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     private javax.swing.JPanel jPanelClients;
     private javax.swing.JPanel jPanelReservation;
     private javax.swing.JPanel jPanelReservations;
+    private javax.swing.JPasswordField jPasswordFieldClient;
     private javax.swing.JScrollPane jScrollPaneBook;
     private javax.swing.JScrollPane jScrollPaneClient;
     private javax.swing.JScrollPane jScrollPaneReservations;
@@ -689,7 +701,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextFieldClientCity;
     private javax.swing.JTextField jTextFieldClientCode;
     private javax.swing.JTextField jTextFieldClientEmail;
-    private javax.swing.JTextField jTextFieldClientId;
     private javax.swing.JTextField jTextFieldClientLastName;
     private javax.swing.JTextField jTextFieldClientName;
     private javax.swing.JTextField jTextFieldClientPhone;
@@ -717,6 +728,76 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextFieldZIPCode;
     // End of variables declaration//GEN-END:variables
 
+    //JTABLE
+    private void configureTables() {
+        jTableClients.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        jTableClients.getColumnModel().getColumn(0).setPreferredWidth(80);
+        jTableClients.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTableClients.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTableClients.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jTableClients.getColumnModel().getColumn(4).setPreferredWidth(200);
+        jTableClients.getColumnModel().getColumn(5).setPreferredWidth(100);
+    }
+
+    public Integer actualClientSelectedVenue = null;
+
+    public void updateClientTable(Set<Client> clientSet) {
+        DefaultTableModel defaultTableModel = (DefaultTableModel) jTableClients.getModel();
+        int size = defaultTableModel.getRowCount();
+        for (int i = 0; i < size; i++) {
+            defaultTableModel.removeRow(0);
+        }
+
+        if (!clientSet.isEmpty()) {
+            clientSet.stream().map((client) -> {
+                Object[] obj = new Object[6];
+                obj[0] = client.getCode();
+                obj[1] = client.getName();
+                obj[2] = client.getLastName();
+                obj[3] = client.getAddress().isValid() ? "Valid" : "Invalid";
+                
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");                
+                Date date;
+                if (client.getModificationDate() == null) {
+                    date = client.getCreationDate();
+                } else {
+                    date = client.getModificationDate();
+                }
+                String fomatedDate = df.format(date);
+                obj[4] = fomatedDate;
+                
+                obj[5] = client.getAddress().getZipCode();
+                
+                return obj;
+            }).forEachOrdered((obj) -> {
+                defaultTableModel.addRow(obj);
+            });
+
+            actualClientSelectedVenue = 0;
+            jTableClients.setRowSelectionInterval(0, actualClientSelectedVenue);
+        }
+    }
+
+    public void setClientFields(Client client) {
+        if (client != null) {
+            jTextFieldClientName.setText(client.getName());
+            jTextFieldClientLastName.setText(client.getLastName());
+            jTextFieldClientPhone.setText(client.getPhoneNumber());
+            jTextFieldClientEmail.setText(client.getEmail());
+            jTextFieldClientCode.setText(client.getCode());
+            jTextFieldClientAddress.setText(client.getAddress().getAddress());
+            jTextFieldClientCity.setText(client.getAddress().getCity());
+            jTextFieldCountry.setText(client.getAddress().getCountry());
+            jTextFieldClientState.setText(client.getAddress().getState());
+            jTextFieldZIPCode.setText(client.getAddress().getZipCode());
+            jTextFieldDocVerification.setText(client.getAddress().getAddressProof());
+            jCheckBoxClientValid.setSelected(client.getAddress().isValid());
+        }
+    }
+    // JTABLE
+    
+    
     public JButton getjButtonBookClear() {
         return jButtonBookClear;
     }
@@ -848,11 +929,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     public JTextField getjTextFieldClientEmail() {
         return jTextFieldClientEmail;
     }
-
-    public JTextField getjTextFieldClientId() {
-        return jTextFieldClientId;
-    }
-
+    
     public JTextField getjTextFieldClientLastName() {
         return jTextFieldClientLastName;
     }
@@ -951,6 +1028,10 @@ public class ManagerJPanelView extends javax.swing.JPanel {
 
     public JTextField getjTextFieldZIPCode() {
         return jTextFieldZIPCode;
+    }
+    
+    public JPasswordField getjPasswordFieldClient() {
+        return jPasswordFieldClient;
     }
 
 }

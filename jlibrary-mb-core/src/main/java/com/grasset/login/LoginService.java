@@ -1,4 +1,4 @@
-package com.grasset;
+package com.grasset.login;
 
 import com.grasset.user.SystemUser;
 

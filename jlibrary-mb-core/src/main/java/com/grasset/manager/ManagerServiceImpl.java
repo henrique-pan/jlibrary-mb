@@ -1,14 +1,17 @@
-package com.grasset;
+package com.grasset.manager;
 
+import com.grasset.user.SystemUserService;
+import com.grasset.user.SystemUserServiceImpl;
 import com.grasset.dao.manager.ManagerUserDAO;
 import com.grasset.dao.manager.impl.ManagerUserDAOImpl;
 import com.grasset.dao.user.SystemUserDAO;
 import com.grasset.dao.user.impl.SystemUserDAOImpl;
 import com.grasset.user.ManagerUser;
 import com.grasset.user.SystemUser;
-import com.grasset.user.SystemUserType;
 
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Set;
 
 @Slf4j
 public class ManagerServiceImpl implements ManagerService {
@@ -23,30 +26,32 @@ public class ManagerServiceImpl implements ManagerService {
 		systemUserService = new SystemUserServiceImpl();
 	}
 
-	@Override
+    @Override
+    public ManagerUser getManagerUser(String userCode) throws Exception {
+        SystemUser systemUser = systemUserDAO.findByCode(userCode);
+	    if(systemUser == null) return null;
+
+        ManagerUser managerUser = managerUserDAO.findByIdSystemUser(systemUser.getIdSystemUser());
+        return managerUser;
+    }
+
+    @Override
 	public void save(ManagerUser managerUser) throws Exception {
 		log.info("Start save progress");
 		if(managerUser == null) throw new Exception("Error to save: managerUser is null");
 		
 		SystemUser systemUser = systemUserDAO.findByCode(managerUser.getCode());
-		
+
+        // SAVE SYSTEM USER
 		if(systemUser == null) {
-			systemUserService.createNewSystemUser(managerUser);
+            Integer idSystemUser = systemUserService.createNewSystemUser(managerUser);
+            managerUser.setIdSystemUser(idSystemUser);
+            managerUserDAO.persist(managerUser);
 		} else {
 			managerUser.setIdSystemUser(systemUser.getIdSystemUser());
-			managerUser.setPassword(systemUser.getPassword());
-			managerUser.setUserType(systemUser.getUserType());
-			systemUserService.modifyStatus(managerUser);
-		}
-		
-		if(managerUserDAO.findByIdSystemUser(systemUser.getIdSystemUser()) == null) {
-			managerUser.setIdSystemUser(systemUser.getIdSystemUser());
-			managerUserDAO.persist(managerUser);
-			return;
-		} else {
-			managerUser.setIdSystemUser(systemUser.getIdSystemUser());
-			managerUserDAO.merge(managerUser);
-			return;
+            managerUser.setUserType(systemUser.getUserType());
+            systemUserDAO.merge(managerUser);
+            managerUserDAO.merge(managerUser);
 		}
 	}
 
@@ -64,14 +69,12 @@ public class ManagerServiceImpl implements ManagerService {
 			managerUser.setIdSystemUser(systemUser.getIdSystemUser());
 			managerUser.setPassword(systemUser.getPassword());
 			managerUser.setUserType(systemUser.getUserType());
-			systemUserService.modifyStatus(managerUser);
+			systemUserService.update(managerUser);
 		}
-		
-		if(!(managerUserDAO.findByIdSystemUser(systemUser.getIdSystemUser()) == null)) {
-			managerUserDAO.remove(managerUser);
-			return;
-		}
-
 	}
-	
+
+    @Override
+    public Set<ManagerUser> getManagerUsers() throws Exception {
+        return managerUserDAO.findAll();
+    }
 }

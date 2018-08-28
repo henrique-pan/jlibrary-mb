@@ -21,6 +21,14 @@ public enum BookWaitingListStatus {
         return null;
     }
 
+    public Integer getIdBookWaitingListStatus() {
+        return idBookWaitingListStatus;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("BookWaitingListStatus [");

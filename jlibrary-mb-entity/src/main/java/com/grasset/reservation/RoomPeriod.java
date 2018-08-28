@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum RoomPeriod {
 
-    MORNING(1, "07:00 - 12:00"), AFTERNOON(1, "12:00 - 17:00"), NIGHT(3, "17:00 - 22:00");
+    MORNING(1, "07:00 - 12:00"), AFTERNOON(2, "12:00 - 17:00"), NIGHT(3, "17:00 - 22:00");
 
     RoomPeriod(Integer idRoomPeriod, String description) {
         this.idRoomPeriod = idRoomPeriod;

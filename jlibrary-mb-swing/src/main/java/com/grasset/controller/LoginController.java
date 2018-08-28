@@ -5,8 +5,8 @@
  */
 package com.grasset.controller;
 
-import com.grasset.LoginService;
-import com.grasset.LoginServiceImpl;
+import com.grasset.login.LoginService;
+import com.grasset.login.LoginServiceImpl;
 import com.grasset.env.CurrentSystemUser;
 import com.grasset.user.SystemUser;
 import com.grasset.view.LoginJPanelView;

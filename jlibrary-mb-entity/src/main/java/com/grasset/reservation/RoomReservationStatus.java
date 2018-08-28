@@ -22,6 +22,14 @@ public enum RoomReservationStatus {
         return null;
     }
 
+    public Integer getIdRoomReservationStatus() {
+        return idRoomReservationStatus;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("RoomReservationStatus [");

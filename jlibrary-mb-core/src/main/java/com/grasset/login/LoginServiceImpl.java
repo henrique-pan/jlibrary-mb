@@ -1,4 +1,4 @@
-package com.grasset;
+package com.grasset.login;
 
 import com.grasset.client.Client;
 import com.grasset.dao.client.ClientDAO;
