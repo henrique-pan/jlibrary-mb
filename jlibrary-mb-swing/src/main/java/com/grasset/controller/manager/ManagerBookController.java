@@ -18,6 +18,8 @@ import com.grasset.book.*;
 import com.grasset.client.Address;
 import com.grasset.client.Client;
 import com.grasset.client.ClientService;
+import com.grasset.controller.MainFrameController;
+import com.grasset.view.JDialogBookSample;
 import com.grasset.view.ManagerJPanelView;
 import com.grasset.view.alerts.JAlertHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author henrique
  */
 @Slf4j
@@ -47,7 +48,6 @@ public class ManagerBookController {
     private final JTextField jTextFieldTotalSamples;
     private final JTextField jTextFieldOriginalLanguage;
     private final JTextField jTextFieldEditionLanguage;
-    private final JTextField jTextFieldSampleCode;
     private final JCheckBox jCheckBoxBookRare;
     private final JButton jButtonBookSave;
     private final JButton jButtonBookDelete;
@@ -77,7 +77,6 @@ public class ManagerBookController {
         jTextFieldTotalSamples = managerView().getjTextFieldTotalSamples();
         jTextFieldOriginalLanguage = managerView().getjTextFieldOriginalLanguage();
         jTextFieldEditionLanguage = managerView().getjTextFieldEditionLanguage();
-        jTextFieldSampleCode = managerView().getjTextFieldSampleCode();
         jCheckBoxBookRare = managerView().getjCheckBoxBookRare();
         jButtonBookSave = managerView().getjButtonBookSave();
         jButtonBookDelete = managerView().getjButtonBookDelete();
@@ -85,21 +84,21 @@ public class ManagerBookController {
         jButtonBookReserve = managerView().getjButtonBookReserve();
         jButtonBookClear = managerView().getjButtonBookClear();
         jTableBook = managerView().getjTableBooks();
-        
+
         jTextFieldBookSearch = managerView().getjTextFieldBookSearch();
 
         bookService = new BookServiceImpl();
-        
+
         setEvents();
     }
-    
+
     private void setEvents() {
         // Table Events
         setTableEvents();
         // Button Events
         setButtonEvents();
     }
-    
+
     private void setButtonEvents() {
         jButtonBookSave.addActionListener(e -> {
             try {
@@ -112,7 +111,7 @@ public class ManagerBookController {
 
                 Set<Author> authors = new HashSet<>();
                 List<String> authorsName = bookAuthors();
-                for(String authorName : authorsName) {
+                for (String authorName : authorsName) {
                     Author author = new Author();
                     author.setName(authorName);
                     authors.add(author);
@@ -144,19 +143,42 @@ public class ManagerBookController {
                 JAlertHelper.showError("Erreur de Enregistrement", "Erreur pour faire le enregistrement: " + exp.getMessage());
             }
         });
-        
+
         jButtonBookDelete.addActionListener(e -> {
-            
+            try {
+                managerView().actualBookSelectedVenue = jTableBook.getSelectedRow();
+                if (jTableBook.getRowCount() > 0 && managerView().actualBookSelectedVenue != null) {
+                    String ISBN = (String) jTableBook.getModel().getValueAt(managerView().actualBookSelectedVenue, 0);
+                    BookEdition bookEdition = (BookEdition) bookService.getBook(ISBN);
+                    bookService.delete(bookEdition);
+                    updateTable();
+                }
+            } catch (Exception exp) {
+                exp.printStackTrace();
+                JAlertHelper.showError("Erreur de Enlèvement", "Erreur pour faire le Enlèvement: " + exp.getMessage());
+            }
         });
-        
+
         jButtonBookDetails.addActionListener(e -> {
-            
+            try {
+                managerView().actualBookSelectedVenue = jTableBook.getSelectedRow();
+                if (jTableBook.getRowCount() > 0 && managerView().actualBookSelectedVenue != null) {
+                    String ISBN = (String) jTableBook.getModel().getValueAt(managerView().actualBookSelectedVenue, 0);
+                    BookEdition bookEdition = (BookEdition) bookService.getBook(ISBN);
+                    MainFrameController mainFrameController = MainFrameController.getInstance();
+                    JDialogBookSample jDialogFavoriteMigration = new JDialogBookSample(mainFrameController.getMainFrameView(), true, bookEdition);
+                    jDialogFavoriteMigration.setVisible(true);
+                }
+            } catch (Exception exp) {
+                exp.printStackTrace();
+                JAlertHelper.showError("Erreur de Enlèvement", "Erreur pour faire le Enlèvement: " + exp.getMessage());
+            }
         });
-        
+
         jButtonBookReserve.addActionListener(e -> {
-            
+
         });
-        
+
         jButtonBookClear.addActionListener(e -> {
             clear();
         });
@@ -277,7 +299,6 @@ public class ManagerBookController {
         jTextFieldTotalSamples.setText("");
         jTextFieldOriginalLanguage.setText("");
         jTextFieldEditionLanguage.setText("");
-        jTextFieldSampleCode.setText("");
 
         jCheckBoxBookRare.setSelected(false);
     }
@@ -290,36 +311,36 @@ public class ManagerBookController {
     public String bookTitle() {
         return jTextFieldBookTitle.getText();
     }
-    
+
     public Integer bookYear() {
         return Integer.parseInt(jTextFieldBookYear.getText());
     }
-    
+
     public List<String> bookAuthors() {
         jTextFieldBookAuthors.getText();
         return new ArrayList<String>();
     }
-    
+
     public String bookISBN() {
         return jTextFieldBookISBN.getText();
     }
-    
+
     public String bookEditor() {
         return jTextFieldEditor.getText();
     }
-    
+
     public String edition() {
         return jTextFieldBookEdition.getText();
     }
-    
+
     public Integer editionYear() {
         return Integer.parseInt(jTextFieldEditionYear.getText());
     }
-    
+
     public String editionFormat() {
         return jTextFieldBookFormat.getText();
     }
-    
+
     public int editionNumberPages() {
         return Integer.parseInt(jTextFieldNumberPages.getText());
     }
@@ -327,27 +348,23 @@ public class ManagerBookController {
     public Double editionPenaltyPrice() {
         return Double.parseDouble(jTextFieldPenaltyPrice.getText());
     }
-    
+
     public Double editionBookPrice() {
         return Double.parseDouble(jTextFieldBookPrice.getText());
     }
-    
+
     public int totalSamples() {
         return Integer.parseInt(jTextFieldTotalSamples.getText());
     }
-    
+
     public String bookOriginalLanguage() {
         return jTextFieldOriginalLanguage.getText();
     }
-    
+
     public String editionLanguage() {
         return jTextFieldEditionLanguage.getText();
     }
-    
-    public String sampleCode() {
-        return jTextFieldSampleCode.getText();
-    }
-    
+
     public boolean isRare() {
         return jCheckBoxBookRare.isSelected();
     }

@@ -72,7 +72,6 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jTextFieldClientCode = new javax.swing.JTextField();
         jButtonInfoCancel = new javax.swing.JButton();
         jButtonInfoRenew = new javax.swing.JButton();
-        jButtonClear = new javax.swing.JButton();
         jPanelBooks = new javax.swing.JPanel();
         jScrollPaneBook = new javax.swing.JScrollPane();
         jTableBooks = new javax.swing.JTable();
@@ -92,7 +91,6 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jCheckBoxRare = new javax.swing.JCheckBox();
         jButtonBookWaitList = new javax.swing.JButton();
         jButtonBookReserve = new javax.swing.JButton();
-        jButtonBookClear = new javax.swing.JButton();
         jLabelEditionYear = new javax.swing.JLabel();
         jTextFieldEditionYear = new javax.swing.JTextField();
         jLabelBookEdition = new javax.swing.JLabel();
@@ -149,6 +147,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelClientName.setText("Prénom:");
         jPanelInfo.add(jLabelClientName);
         jLabelClientName.setBounds(110, 10, 55, 16);
+
+        jTextFieldClientName.setEditable(false);
         jPanelInfo.add(jTextFieldClientName);
         jTextFieldClientName.setBounds(170, 0, 199, 38);
 
@@ -156,6 +156,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelClientAddress.setText("Addresse:");
         jPanelInfo.add(jLabelClientAddress);
         jLabelClientAddress.setBounds(60, 110, 67, 16);
+
+        jTextFieldClientAddress.setEditable(false);
         jPanelInfo.add(jTextFieldClientAddress);
         jTextFieldClientAddress.setBounds(150, 100, 599, 38);
 
@@ -163,8 +165,12 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelClientCity.setText("Ville:");
         jPanelInfo.add(jLabelClientCity);
         jLabelClientCity.setBounds(100, 160, 32, 16);
+
+        jTextFieldClientCity.setEditable(false);
         jPanelInfo.add(jTextFieldClientCity);
         jTextFieldClientCity.setBounds(150, 150, 250, 38);
+
+        jTextFieldClientState.setEditable(false);
         jPanelInfo.add(jTextFieldClientState);
         jTextFieldClientState.setBounds(490, 150, 264, 38);
 
@@ -177,6 +183,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelCountry.setText("Pays:");
         jPanelInfo.add(jLabelCountry);
         jLabelCountry.setBounds(100, 190, 34, 45);
+
+        jTextFieldCountry.setEditable(false);
         jPanelInfo.add(jTextFieldCountry);
         jTextFieldCountry.setBounds(150, 200, 248, 38);
 
@@ -184,8 +192,12 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelClientEmail.setText("E-mail:");
         jPanelInfo.add(jLabelClientEmail);
         jLabelClientEmail.setBounds(380, 50, 48, 16);
+
+        jTextFieldClientEmail.setEditable(false);
         jPanelInfo.add(jTextFieldClientEmail);
         jTextFieldClientEmail.setBounds(440, 40, 263, 38);
+
+        jTextFieldClientPhone.setEditable(false);
         jPanelInfo.add(jTextFieldClientPhone);
         jTextFieldClientPhone.setBounds(170, 40, 199, 38);
 
@@ -198,6 +210,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelClientLastName.setText("Nom:");
         jPanelInfo.add(jLabelClientLastName);
         jLabelClientLastName.setBounds(390, 10, 34, 16);
+
+        jTextFieldClientLastName.setEditable(false);
         jPanelInfo.add(jTextFieldClientLastName);
         jTextFieldClientLastName.setBounds(440, 0, 264, 38);
 
@@ -205,6 +219,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelClientZIPCode.setText("<html><p align=\"center\">Code</p>Postal:</html>");
         jPanelInfo.add(jLabelClientZIPCode);
         jLabelClientZIPCode.setBounds(440, 190, 43, 45);
+
+        jTextFieldZIPCode.setEditable(false);
         jPanelInfo.add(jTextFieldZIPCode);
         jTextFieldZIPCode.setBounds(490, 200, 264, 38);
         jPanelInfo.add(jSeparatorClientAddress);
@@ -216,11 +232,14 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelClientDocConfirmation.setText("Preuve d'addresse:");
         jPanelInfo.add(jLabelClientDocConfirmation);
         jLabelClientDocConfirmation.setBounds(830, 120, 128, 16);
+
+        jTextFieldDocVerification.setEditable(false);
         jPanelInfo.add(jTextFieldDocVerification);
         jTextFieldDocVerification.setBounds(830, 140, 159, 38);
 
         jCheckBoxValid.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jCheckBoxValid.setText("Validé");
+        jCheckBoxValid.setEnabled(false);
         jPanelInfo.add(jCheckBoxValid);
         jCheckBoxValid.setBounds(870, 190, 74, 23);
 
@@ -228,6 +247,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelClientId.setText("Id:");
         jPanelInfo.add(jLabelClientId);
         jLabelClientId.setBounds(740, 10, 16, 16);
+
+        jTextFieldClientId.setEditable(false);
         jPanelInfo.add(jTextFieldClientId);
         jTextFieldClientId.setBounds(760, 0, 227, 38);
 
@@ -235,20 +256,18 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelClientCode.setText("Code:");
         jPanelInfo.add(jLabelClientCode);
         jLabelClientCode.setBounds(720, 50, 37, 16);
+
+        jTextFieldClientCode.setEditable(false);
         jPanelInfo.add(jTextFieldClientCode);
         jTextFieldClientCode.setBounds(760, 40, 227, 38);
 
         jButtonInfoCancel.setText("Annuler");
         jPanelInfo.add(jButtonInfoCancel);
-        jButtonInfoCancel.setBounds(470, 250, 88, 40);
+        jButtonInfoCancel.setBounds(550, 250, 88, 40);
 
         jButtonInfoRenew.setText("Renouveler");
         jPanelInfo.add(jButtonInfoRenew);
-        jButtonInfoRenew.setBounds(230, 250, 97, 40);
-
-        jButtonClear.setText("Nettoyer");
-        jPanelInfo.add(jButtonClear);
-        jButtonClear.setBounds(680, 250, 98, 40);
+        jButtonInfoRenew.setBounds(380, 250, 97, 40);
 
         jTabbedPane.addTab("Info", jPanelInfo);
 
@@ -316,16 +335,28 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelTotalSamples.setText("<html><p align=\"center\">Quantité</p>d'examplaires:<html>");
         jPanelBooks.add(jLabelTotalSamples);
         jLabelTotalSamples.setBounds(730, 130, 110, 32);
+
+        jTextFieldBookTitle.setEditable(false);
         jPanelBooks.add(jTextFieldBookTitle);
         jTextFieldBookTitle.setBounds(100, 10, 620, 38);
+
+        jTextFieldBookAuthors.setEditable(false);
         jPanelBooks.add(jTextFieldBookAuthors);
         jTextFieldBookAuthors.setBounds(100, 50, 620, 38);
+
+        jTextFieldBookYear.setEditable(false);
         jPanelBooks.add(jTextFieldBookYear);
         jTextFieldBookYear.setBounds(790, 10, 116, 38);
+
+        jTextFieldBookISBN.setEditable(false);
         jPanelBooks.add(jTextFieldBookISBN);
         jTextFieldBookISBN.setBounds(790, 50, 230, 38);
+
+        jTextFieldEditor.setEditable(false);
         jPanelBooks.add(jTextFieldEditor);
         jTextFieldEditor.setBounds(100, 90, 250, 38);
+
+        jTextFieldTotalSamples.setEditable(false);
         jPanelBooks.add(jTextFieldTotalSamples);
         jTextFieldTotalSamples.setBounds(840, 130, 180, 38);
 
@@ -336,20 +367,18 @@ public class ClientJPanelView extends javax.swing.JPanel {
 
         jButtonBookWaitList.setText("Attendre");
         jPanelBooks.add(jButtonBookWaitList);
-        jButtonBookWaitList.setBounds(360, 220, 98, 60);
+        jButtonBookWaitList.setBounds(400, 220, 98, 60);
 
         jButtonBookReserve.setText("Réserver");
         jPanelBooks.add(jButtonBookReserve);
-        jButtonBookReserve.setBounds(470, 220, 97, 60);
-
-        jButtonBookClear.setText("Nettoyer");
-        jPanelBooks.add(jButtonBookClear);
-        jButtonBookClear.setBounds(580, 220, 98, 60);
+        jButtonBookReserve.setBounds(560, 220, 97, 60);
 
         jLabelEditionYear.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabelEditionYear.setText("<html><p align=\"center\">Année</p>Édition:<html>");
         jPanelBooks.add(jLabelEditionYear);
         jLabelEditionYear.setBounds(540, 90, 50, 32);
+
+        jTextFieldEditionYear.setEditable(false);
         jPanelBooks.add(jTextFieldEditionYear);
         jTextFieldEditionYear.setBounds(600, 90, 120, 38);
 
@@ -357,6 +386,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelBookEdition.setText("Édition:");
         jPanelBooks.add(jLabelBookEdition);
         jLabelBookEdition.setBounds(360, 100, 50, 16);
+
+        jTextFieldBookEdition.setEditable(false);
         jPanelBooks.add(jTextFieldBookEdition);
         jTextFieldBookEdition.setBounds(420, 90, 112, 38);
 
@@ -364,6 +395,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelBookFormat.setText("Format:");
         jPanelBooks.add(jLabelBookFormat);
         jLabelBookFormat.setBounds(730, 100, 60, 16);
+
+        jTextFieldBookFormat.setEditable(false);
         jPanelBooks.add(jTextFieldBookFormat);
         jTextFieldBookFormat.setBounds(790, 90, 230, 38);
 
@@ -371,6 +404,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelNumberPages.setText("<html><p align=\"center\">Nombre</p>Pages:<html>");
         jPanelBooks.add(jLabelNumberPages);
         jLabelNumberPages.setBounds(40, 130, 60, 32);
+
+        jTextFieldNumberPages.setEditable(false);
         jPanelBooks.add(jTextFieldNumberPages);
         jTextFieldNumberPages.setBounds(100, 130, 150, 38);
 
@@ -378,6 +413,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelOriginalLanguage.setText("<html><p align=\"center\">Langue</p>Originelle:<html>");
         jPanelBooks.add(jLabelOriginalLanguage);
         jLabelOriginalLanguage.setBounds(260, 130, 70, 32);
+
+        jTextFieldOriginalLanguage.setEditable(false);
         jPanelBooks.add(jTextFieldOriginalLanguage);
         jTextFieldOriginalLanguage.setBounds(330, 130, 150, 38);
 
@@ -385,6 +422,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelEditionLanguage.setText("<html><p align=\"center\">Langue</p>Édition:<html>");
         jPanelBooks.add(jLabelEditionLanguage);
         jLabelEditionLanguage.setBounds(500, 130, 70, 32);
+
+        jTextFieldEditionLanguage.setEditable(false);
         jPanelBooks.add(jTextFieldEditionLanguage);
         jTextFieldEditionLanguage.setBounds(570, 130, 150, 38);
 
@@ -414,10 +453,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonBookClear;
     private javax.swing.JButton jButtonBookReserve;
     private javax.swing.JButton jButtonBookWaitList;
-    private javax.swing.JButton jButtonClear;
     private javax.swing.JButton jButtonInfoCancel;
     private javax.swing.JButton jButtonInfoRenew;
     private javax.swing.JCheckBox jCheckBoxRare;
@@ -554,21 +591,12 @@ public class ClientJPanelView extends javax.swing.JPanel {
     }
     // BOOK TABLE
 
-
-    public JButton getjButtonBookClear() {
-        return jButtonBookClear;
-    }
-
     public JButton getjButtonBookReserve() {
         return jButtonBookReserve;
     }
 
     public JButton getjButtonBookWaitList() {
         return jButtonBookWaitList;
-    }
-
-    public JButton getjButtonClear() {
-        return jButtonClear;
     }
 
     public JButton getjButtonInfoCancel() {

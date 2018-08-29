@@ -87,8 +87,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jTextFieldOriginalLanguage = new javax.swing.JTextField();
         jLabelEditionLanguage = new javax.swing.JLabel();
         jTextFieldEditionLanguage = new javax.swing.JTextField();
-        jLabelSampleCode = new javax.swing.JLabel();
-        jTextFieldSampleCode = new javax.swing.JTextField();
         jPanelClients = new javax.swing.JPanel();
         jScrollPaneClient = new javax.swing.JScrollPane();
         jTableClients = new javax.swing.JTable();
@@ -241,7 +239,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jCheckBoxBookRare.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jCheckBoxBookRare.setText("Rare");
         jPanelBooks.add(jCheckBoxBookRare);
-        jCheckBoxBookRare.setBounds(930, 180, 63, 23);
+        jCheckBoxBookRare.setBounds(620, 180, 63, 23);
 
         jButtonBookSave.setText("Enregistrer");
         jPanelBooks.add(jButtonBookSave);
@@ -311,13 +309,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jLabelEditionLanguage.setBounds(310, 170, 70, 32);
         jPanelBooks.add(jTextFieldEditionLanguage);
         jTextFieldEditionLanguage.setBounds(380, 170, 150, 38);
-
-        jLabelSampleCode.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jLabelSampleCode.setText("<html><p align=\"center\">Code</p>d'examplaire:<html>");
-        jPanelBooks.add(jLabelSampleCode);
-        jLabelSampleCode.setBounds(580, 170, 110, 32);
-        jPanelBooks.add(jTextFieldSampleCode);
-        jTextFieldSampleCode.setBounds(690, 170, 180, 38);
 
         jTabbedPane.addTab("Livres", jPanelBooks);
 
@@ -675,7 +666,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelReservationDate;
     private javax.swing.JLabel jLabelReservationReturnDate;
     private javax.swing.JLabel jLabelReservationStatus;
-    private javax.swing.JLabel jLabelSampleCode;
     private javax.swing.JLabel jLabelTotalSamples;
     private javax.swing.JPanel jPanelBooks;
     private javax.swing.JPanel jPanelClients;
@@ -727,7 +717,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextFieldReservationReturnDate;
     private javax.swing.JTextField jTextFieldReservationSearch;
     private javax.swing.JTextField jTextFieldReservationStatus;
-    private javax.swing.JTextField jTextFieldSampleCode;
     private javax.swing.JTextField jTextFieldTotalSamples;
     private javax.swing.JTextField jTextFieldZIPCode;
     // End of variables declaration//GEN-END:variables
@@ -810,7 +799,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
             jTextFieldOriginalLanguage.setText(bookEdition.getOriginalLanguage());
             jTextFieldEditionLanguage.setText(bookEdition.getEditionLanguage());
 
-            jCheckBoxBookRare.setSelected(false);
+            jCheckBoxBookRare.setSelected(bookEdition.isRare());
         }
     }
     // BOOK TABLE
@@ -1092,10 +1081,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
 
     public JTextField getjTextFieldReservationStatus() {
         return jTextFieldReservationStatus;
-    }
-
-    public JTextField getjTextFieldSampleCode() {
-        return jTextFieldSampleCode;
     }
 
     public JTextField getjTextFieldTotalSamples() {

@@ -71,6 +71,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public void delete(BookEdition bookEdition) throws Exception {
+        bookDAO.remove(bookEdition);
+    }
+
+    @Override
     public Set<Book> getBooks() throws Exception {
         return bookDAO.findAll();
     }

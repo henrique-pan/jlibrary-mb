@@ -78,5 +78,8 @@ public class MainFrameController {
         
         jMenuBar.setVisible(true);
     }
-    
+
+    public MainJFrameView getMainFrameView() {
+        return mainFrameView;
+    }
 }

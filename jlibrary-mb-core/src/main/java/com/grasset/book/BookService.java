@@ -10,6 +10,8 @@ public interface BookService {
 
     void delete(Book book) throws Exception;
 
+    void delete(BookEdition bookEdition) throws Exception;
+
     Set<Book> getBooks() throws Exception;
 
 }

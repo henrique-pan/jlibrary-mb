@@ -307,7 +307,7 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public Book findByEdition(Integer idEdition) {
+    public Set<Book> findByEdition(Integer idEdition) {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM BOOK b ");
         query.append("INNER JOIN BOOK_EDITION be ON(be.ID_BOOK = b.ID_BOOK) ");
@@ -319,6 +319,74 @@ public class BookDAOImpl implements BookDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
 
             preparedStatement.setInt(1, idEdition);
+
+            log.info("Executing query: \n\t{}", query.toString());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            Set<Book> set = new HashSet<>();
+            while (rs.next()) {
+                BookSample bookSample = new BookSample();
+                bookSample.setIdBook(rs.getInt("b.ID_BOOK"));
+                bookSample.setTitle(rs.getString("b.NM_TITLE"));
+                bookSample.setBookYear(rs.getInt("b.NR_YEAR"));
+                bookSample.setOriginalLanguage(rs.getString("b.DS_LANGUAGE"));
+                bookSample.setBookCreationDate(rs.getTimestamp("b.DT_CREATION"));
+                bookSample.setBookModificationDate(rs.getTimestamp("b.DT_MODIFICATION"));
+
+                // EDITION
+                bookSample.setIdBookEdition(rs.getInt("be.ID_BOOK_EDITION"));
+
+                Publisher publisher = new Publisher();
+                publisher.setIdPublisher(rs.getInt("p.ID_PUBLISHER"));
+                publisher.setName(rs.getString("p.NM_NAME"));
+                publisher.setCreationDate(rs.getTimestamp("p.DT_CREATION"));
+                publisher.setModificationDate(rs.getTimestamp("p.DT_MODIFICATION"));
+                bookSample.setPublisher(publisher);
+
+                bookSample.setISBN(rs.getString("be.CD_ISBN"));
+                bookSample.setEdition(rs.getString("be.DS_EDITION"));
+                bookSample.setEditionYear(rs.getInt("be.NR_YEAR"));
+                bookSample.setFormat(rs.getString("be.DS_FORMAT"));
+                bookSample.setTotalPages(rs.getInt("be.NR_TOTAL_PAGES"));
+                bookSample.setPenaltyPrice(rs.getDouble("be.VL_PENALTY_PRICE"));
+                bookSample.setBookPrice(rs.getDouble("be.VL_BOOK_PRICE"));
+                bookSample.setEditionLanguage(rs.getString("be.DS_LANGUAGE"));
+                bookSample.setRare(rs.getString("be.FL_RARE").equalsIgnoreCase("Y"));
+                bookSample.setEditionCreationDate(rs.getTimestamp("be.DT_CREATION"));
+                bookSample.setEditionModificationDate(rs.getTimestamp("be.DT_MODIFICATION"));
+
+                // SAMPLE
+                bookSample.setIdBookSample(rs.getInt("bs.ID_BOOK_SAMPLE"));
+                bookSample.setCodeSample(rs.getString("bs.CD_CODE"));
+                bookSample.setCreationDate(rs.getTimestamp("bs.DT_CREATION"));
+                bookSample.setModificationDate(rs.getTimestamp("bs.DT_MODIFICATION"));
+
+                set.add(bookSample);
+            }
+
+            log.info("Query Result: \n\t{}", set);
+            return set;
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+    }
+
+    @Override
+    public BookSample findByCode(String codeSample) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM BOOK b ");
+        query.append("INNER JOIN BOOK_EDITION be ON(be.ID_BOOK = b.ID_BOOK) ");
+        query.append("INNER JOIN BOOK_SAMPLE bs ON(bs.ID_BOOK_EDITION = be.ID_BOOK_EDITION) ");
+        query.append("INNER JOIN PUBLISHER p ON(be.ID_PUBLISHER = p.ID_PUBLISHER) ");
+        query.append("WHERE bs.CD_CODE = ? ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setString(1, codeSample);
 
             log.info("Executing query: \n\t{}", query.toString());
             ResultSet rs = preparedStatement.executeQuery();
@@ -356,6 +424,7 @@ public class BookDAOImpl implements BookDAO {
                 bookSample.setEditionModificationDate(rs.getTimestamp("be.DT_MODIFICATION"));
 
                 // SAMPLE
+                bookSample.setIdBookSample(rs.getInt("bs.ID_BOOK_SAMPLE"));
                 bookSample.setCodeSample(rs.getString("bs.CD_CODE"));
                 bookSample.setCreationDate(rs.getTimestamp("bs.DT_CREATION"));
                 bookSample.setModificationDate(rs.getTimestamp("bs.DT_MODIFICATION"));
@@ -593,6 +662,71 @@ public class BookDAOImpl implements BookDAO {
             preparedStatement.executeUpdate();
 
             log.info("{} persisted successfully.", bookWaitingListStatus);
+            return true;
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+    }
+
+    @Override
+    public boolean remove(BookSample bookSample) {
+        StringBuilder query = new StringBuilder();
+        query.append("DELETE FROM BOOK_SAMPLE WHERE ID_BOOK_SAMPLE = ? ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, bookSample.getIdBookSample());
+
+            log.info("Executing insert: \n\t{}", preparedStatement.toString());
+            preparedStatement.executeUpdate();
+
+            log.info("{} removed successfully.", bookSample);
+            return true;
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+    }
+
+    @Override
+    public boolean remove(BookEdition bookEdition) {
+        StringBuilder query = new StringBuilder();
+        query.append("DELETE FROM BOOK_SAMPLE WHERE ID_BOOK_EDITION = ? ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, bookEdition.getIdBookEdition());
+
+            log.info("Executing insert: \n\t{}", preparedStatement.toString());
+            preparedStatement.executeUpdate();
+
+            log.info("{} removed successfully.", bookEdition);
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+
+        query = new StringBuilder();
+        query.append("DELETE FROM BOOK_EDITION WHERE ID_BOOK_EDITION = ? ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, bookEdition.getIdBookEdition());
+
+            log.info("Executing insert: \n\t{}", preparedStatement.toString());
+            preparedStatement.executeUpdate();
+
+            log.info("{} removed successfully.", bookEdition);
             return true;
         } catch (SQLException e) {
             log.error("Error to execute query: ", e);

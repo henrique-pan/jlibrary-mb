@@ -3,14 +3,17 @@ package com.grasset.dao.book;
 import com.grasset.book.*;
 import com.grasset.dao.GenericDAO;
 
+import java.util.Set;
+
 public interface BookDAO extends GenericDAO<Book> {
 
     void createBookWaitingListStatus();
 
     Book find(String title);
     Book findByISBN(String ISBN);
+    BookSample findByCode(String codeSample);
     Book findByIdBook(Integer idBook);
-    Book findByEdition(Integer idEdition);
+    Set<Book> findByEdition(Integer idEdition);
     Publisher findPublisher(String name);
     Author findAuthor(String name);
 
@@ -20,4 +23,6 @@ public interface BookDAO extends GenericDAO<Book> {
     boolean persist(Publisher publisher);
     boolean persist(Author author);
 
+    boolean remove(BookSample bookSample);
+    boolean remove(BookEdition bookEdition);
 }
