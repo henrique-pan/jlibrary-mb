@@ -5,6 +5,10 @@
  */
 package com.grasset.view;
 
+import com.grasset.book.Author;
+import com.grasset.book.Book;
+import com.grasset.book.BookEdition;
+import com.grasset.book.BookSample;
 import com.grasset.client.Client;
 import com.grasset.user.ManagerUser;
 import java.text.DateFormat;
@@ -738,8 +742,80 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jTableClients.getColumnModel().getColumn(3).setPreferredWidth(100);
         jTableClients.getColumnModel().getColumn(4).setPreferredWidth(200);
         jTableClients.getColumnModel().getColumn(5).setPreferredWidth(100);
+
+        jTableBooks.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        jTableBooks.getColumnModel().getColumn(0).setPreferredWidth(80);
+        jTableBooks.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTableBooks.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTableBooks.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jTableBooks.getColumnModel().getColumn(4).setPreferredWidth(200);
+        jTableBooks.getColumnModel().getColumn(5).setPreferredWidth(100);
     }
 
+    // BOOK TABLE
+    public Integer actualBookSelectedVenue = null;
+
+    public void updateBookTable(Set<Book> bookSet) {
+        DefaultTableModel defaultTableModel = (DefaultTableModel) jTableBooks.getModel();
+        int size = defaultTableModel.getRowCount();
+        for (int i = 0; i < size; i++) {
+            defaultTableModel.removeRow(0);
+        }
+
+        if (!bookSet.isEmpty()) {
+            bookSet.stream().map((book) -> {
+                BookEdition bookEdition = (BookEdition) book;
+                Object[] obj = new Object[6];
+                obj[0] = bookEdition.getISBN();
+                obj[1] = bookEdition.getTitle();
+                Set<Author> authors = bookEdition.getAuthors();
+                obj[2] = authors == null ? "" : authors.toString();
+                obj[3] = bookEdition.getBookYear();
+                obj[4] = bookEdition.getPublisher().getName();
+                obj[5] = "45";
+
+                return obj;
+            }).forEachOrdered((obj) -> {
+                defaultTableModel.addRow(obj);
+            });
+
+            actualBookSelectedVenue = 0;
+            jTableBooks.setRowSelectionInterval(0, actualBookSelectedVenue);
+        }
+    }
+
+    public void setBookFields(Book book, String totalSamples) {
+        if (book != null) {
+            BookEdition bookEdition = (BookSample) book;
+            jTextFieldBookTitle.setText(bookEdition.getTitle());
+            jTextFieldBookYear.setText(String.valueOf(bookEdition.getBookYear()));
+
+            Set<Author> authors = bookEdition.getAuthors();
+            if(authors != null) {
+                jTextFieldBookAuthors.setText(authors.toString());
+            } else {
+                jTextFieldBookAuthors.setText("");
+            }
+
+            jTextFieldBookISBN.setText(bookEdition.getISBN());
+            jTextFieldEditor.setText(bookEdition.getPublisher().getName());
+            jTextFieldBookEdition.setText(bookEdition.getEdition());
+            jTextFieldEditionYear.setText(String.valueOf(bookEdition.getEditionYear()));
+            jTextFieldBookFormat.setText(bookEdition.getFormat());
+            jTextFieldNumberPages.setText(String.valueOf(bookEdition.getTotalPages()));
+            jTextFieldPenalityPrice.setText(bookEdition.getBookPrice().toString());
+            jTextFieldBookPrice.setText(bookEdition.getBookPrice().toString());
+            jTextFieldTotalSamples.setText(totalSamples);
+            jTextFieldOriginalLanguage.setText(bookEdition.getOriginalLanguage());
+            jTextFieldEditionLanguage.setText(bookEdition.getEditionLanguage());
+
+            jCheckBoxBookRare.setSelected(false);
+        }
+    }
+    // BOOK TABLE
+
+    // CLIENT TABLE
     public Integer actualClientSelectedVenue = null;
 
     public void updateClientTable(Set<Client> clientSet) {
@@ -756,8 +832,8 @@ public class ManagerJPanelView extends javax.swing.JPanel {
                 obj[1] = client.getName();
                 obj[2] = client.getLastName();
                 obj[3] = client.getAddress().isValid() ? "Valid" : "Invalid";
-                
-                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");                
+
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 Date date;
                 if (client.getModificationDate() == null) {
                     date = client.getCreationDate();
@@ -766,9 +842,9 @@ public class ManagerJPanelView extends javax.swing.JPanel {
                 }
                 String fomatedDate = df.format(date);
                 obj[4] = fomatedDate;
-                
+
                 obj[5] = client.getAddress().getZipCode();
-                
+
                 return obj;
             }).forEachOrdered((obj) -> {
                 defaultTableModel.addRow(obj);
@@ -795,7 +871,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
             jCheckBoxClientValid.setSelected(client.getAddress().isValid());
         }
     }
-    // JTABLE
+    // CLIENT TABLE
     
     
     public JButton getjButtonBookClear() {

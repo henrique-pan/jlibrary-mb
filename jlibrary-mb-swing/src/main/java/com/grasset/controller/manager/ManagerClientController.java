@@ -60,7 +60,6 @@ public class ManagerClientController {
 
     //Service
     private final ClientService clientService;
-    private final SystemUserService systemUserService;
 
     public ManagerClientController(ManagerController managerController) {
         this.managerController = managerController;
@@ -87,7 +86,6 @@ public class ManagerClientController {
         jPasswordField = managerView().getjPasswordFieldClient();
 
         clientService = new ClientServiceImpl();
-        systemUserService = new SystemUserServiceImpl();
 
         setEvents();
     }
@@ -141,7 +139,7 @@ public class ManagerClientController {
         });
 
         jButtonClientDetails.addActionListener(e -> {
-
+            JAlertHelper.showInfo("Attention!", "Pour cette functionnalité, veuillez acheter la version PREMIUM.");
         });
 
         jButtonClientReserve.addActionListener(e -> {

@@ -15,6 +15,14 @@ public class BookSample extends BookEdition {
     private Date creationDate;
     private Date modificationDate;
 
+    public void setEditionCreationDate(Date date) {
+        super.setCreationDate(date);
+    }
+
+    public void setEditionModificationDate(Date date) {
+        super.setModificationDate(date);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

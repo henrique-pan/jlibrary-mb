@@ -8,6 +8,8 @@ package com.grasset.controller.client;
 import com.grasset.controller.Controller;
 import com.grasset.view.ClientJPanelView;
 import javax.swing.JPanel;
+
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,9 +17,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author henrique
  */
+@Slf4j
 public class ClientController extends Controller {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
     
     // JPanel
     protected final ClientJPanelView clientView;
@@ -29,7 +30,7 @@ public class ClientController extends Controller {
     public ClientController() {
         clientView = new ClientJPanelView();
         infoController = new ClientInfoController(this);
-
+        bookController = new ClientBookController(this);
     }
     
     @Override

@@ -9,9 +9,12 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
+import com.grasset.client.Client;
 import com.grasset.controller.manager.ManagerController;
+import com.grasset.env.CurrentSystemUser;
 import com.grasset.view.ClientJPanelView;
 import com.grasset.view.ManagerJPanelView;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,16 +22,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author henrique
  */
+@Slf4j
 public class ClientInfoController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientInfoController.class);
 
     private final ClientController clientController;
 
     // JComponents
     private final JTextField jTextFieldClientName;
     private final JTextField jTextFieldClientLastName;
-    private final JTextField jTextFieldClientId;
     private final JTextField jTextFieldClientPhone;
     private final JTextField jTextFieldClientEmail;
     private final JTextField jTextFieldClientCode;
@@ -49,7 +50,6 @@ public class ClientInfoController {
 
         jTextFieldClientName = clientView().getjTextFieldClientName();
         jTextFieldClientLastName = clientView().getjTextFieldClientLastName();
-        jTextFieldClientId = clientView().getjTextFieldClientId();
         jTextFieldClientPhone = clientView().getjTextFieldClientPhone();
         jTextFieldClientEmail = clientView().getjTextFieldClientEmail();
         jTextFieldClientCode = clientView().getjTextFieldClientCode();
@@ -64,6 +64,8 @@ public class ClientInfoController {
         jButtonInfoCancel = clientView().getjButtonInfoCancel();
         jButtonClear = clientView().getjButtonClear();
         jTextFieldClientSearch = clientView().getjTextFieldClientSearch();
+
+        loadInfo();
 
         setEvents();
     }
@@ -87,6 +89,23 @@ public class ClientInfoController {
         });
     }
 
+    private void loadInfo() {
+        Client client = CurrentSystemUser.getClient();
+        jTextFieldClientName.setText(client.getName());
+        jTextFieldClientLastName.setText(client.getLastName());
+        jTextFieldClientPhone.setText(client.getPhoneNumber());
+        jTextFieldClientEmail.setText(client.getEmail());
+        jTextFieldClientCode.setText(client.getCode());
+        jTextFieldClientAddress.setText(client.getAddress().getAddress());
+        jTextFieldClientCity.setText(client.getAddress().getCity());
+        jTextFieldClientState.setText(client.getAddress().getState());
+        jTextFieldCountry.setText(client.getAddress().getCountry());
+        jTextFieldZIPCode.setText(client.getAddress().getZipCode());
+        jTextFieldDocVerification.setText(client.getAddress().getAddressProof());
+        jCheckBoxValid.setSelected(client.getAddress().isValid());
+    }
+
+
     // Getters & Setters
     public ClientJPanelView clientView() {
         return clientController.clientView;
@@ -98,10 +117,6 @@ public class ClientInfoController {
 
     public String clientLastName() {
         return jTextFieldClientLastName.getText();
-    }
-
-    public String clientId() {
-        return jTextFieldClientId.getText();
     }
 
     public String clientPhone() {
@@ -125,7 +140,7 @@ public class ClientInfoController {
     }
 
     public String clientState() {
-        return jTextFieldClientCity.getText();
+        return jTextFieldClientState.getText();
     }
 
     public String clientCountry() {

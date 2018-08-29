@@ -226,9 +226,7 @@ public class AdminController extends Controller {
     private void updateTable() {
         try {
             Set<ManagerUser> set = manageService.getManagerUsers();
-            if (!set.isEmpty()) {
-                adminView.updateTable(set);
-            }
+            adminView.updateTable(set);
         } catch (Exception exp) {
             JAlertHelper.showError("Erreur pour remplir table", "Erreur pour creer table: " + exp.getMessage());
         }
@@ -236,9 +234,7 @@ public class AdminController extends Controller {
 
     private void updateTable(Set<ManagerUser> set) {
         try {
-            if (!set.isEmpty()) {
-                adminView.updateTable(set);
-            }
+            adminView.updateTable(set);
         } catch (Exception exp) {
             JAlertHelper.showError("Erreur pour remplir table", "Erreur pour creer table: " + exp.getMessage());
         }
@@ -257,7 +253,8 @@ public class AdminController extends Controller {
                 String code = managerUser.getCode().toUpperCase();
                 String name = managerUser.getName().toUpperCase();
                 String lastName = managerUser.getLastName().toUpperCase();
-                if (code.concat(name).concat(lastName).toUpperCase().contains(text.toUpperCase())) {
+                String s = code.concat(name).concat(lastName);
+                if (s.toUpperCase().contains(text.toUpperCase())) {
                     resultSet.add(managerUser);
                 }
             }

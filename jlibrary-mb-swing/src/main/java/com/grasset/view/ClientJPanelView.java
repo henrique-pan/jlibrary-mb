@@ -5,9 +5,14 @@
  */
 package com.grasset.view;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JTextField;
+import com.grasset.book.Author;
+import com.grasset.book.Book;
+import com.grasset.book.BookEdition;
+import com.grasset.book.BookSample;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.util.Set;
 
 /**
  *
@@ -20,6 +25,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
      */
     public ClientJPanelView() {
         initComponents();
+
+        configureTables();
     }
 
     /**
@@ -476,6 +483,78 @@ public class ClientJPanelView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextFieldZIPCode;
     // End of variables declaration//GEN-END:variables
 
+    //JTABLE
+    private void configureTables() {
+        jTableBooks.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        jTableBooks.getColumnModel().getColumn(0).setPreferredWidth(80);
+        jTableBooks.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTableBooks.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTableBooks.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jTableBooks.getColumnModel().getColumn(4).setPreferredWidth(200);
+        jTableBooks.getColumnModel().getColumn(5).setPreferredWidth(100);
+    }
+
+    // BOOK TABLE
+    public Integer actualBookSelectedVenue = null;
+
+    public void updateBookTable(Set<Book> bookSet) {
+        DefaultTableModel defaultTableModel = (DefaultTableModel) jTableBooks.getModel();
+        int size = defaultTableModel.getRowCount();
+        for (int i = 0; i < size; i++) {
+            defaultTableModel.removeRow(0);
+        }
+
+        if (!bookSet.isEmpty()) {
+            bookSet.stream().map((book) -> {
+                BookEdition bookEdition = (BookEdition) book;
+                Object[] obj = new Object[6];
+                obj[0] = bookEdition.getISBN();
+                obj[1] = bookEdition.getTitle();
+                Set<Author> authors = bookEdition.getAuthors();
+                obj[2] = authors == null ? "" : authors.toString();
+                obj[3] = bookEdition.getBookYear();
+                obj[4] = bookEdition.getPublisher().getName();
+                obj[5] = "45";
+
+                return obj;
+            }).forEachOrdered((obj) -> {
+                defaultTableModel.addRow(obj);
+            });
+
+            actualBookSelectedVenue = 0;
+            jTableBooks.setRowSelectionInterval(0, actualBookSelectedVenue);
+        }
+    }
+
+    public void setBookFields(Book book, String totalSamples) {
+        if (book != null) {
+            BookEdition bookEdition = (BookSample) book;
+            jTextFieldBookTitle.setText(bookEdition.getTitle());
+            jTextFieldBookYear.setText(String.valueOf(bookEdition.getBookYear()));
+
+            Set<Author> authors = bookEdition.getAuthors();
+            if(authors != null) {
+                jTextFieldBookAuthors.setText(authors.toString());
+            } else {
+                jTextFieldBookAuthors.setText("");
+            }
+
+            jTextFieldBookISBN.setText(bookEdition.getISBN());
+            jTextFieldEditor.setText(bookEdition.getPublisher().getName());
+            jTextFieldBookEdition.setText(bookEdition.getEdition());
+            jTextFieldEditionYear.setText(String.valueOf(bookEdition.getEditionYear()));
+            jTextFieldBookFormat.setText(bookEdition.getFormat());
+            jTextFieldNumberPages.setText(String.valueOf(bookEdition.getTotalPages()));
+            jTextFieldTotalSamples.setText(totalSamples);
+            jTextFieldOriginalLanguage.setText(bookEdition.getOriginalLanguage());
+            jTextFieldEditionLanguage.setText(bookEdition.getEditionLanguage());
+            jCheckBoxRare.setSelected(false);
+        }
+    }
+    // BOOK TABLE
+
+
     public JButton getjButtonBookClear() {
         return jButtonBookClear;
     }
@@ -610,6 +689,14 @@ public class ClientJPanelView extends javax.swing.JPanel {
 
     public JTextField getjTextFieldZIPCode() {
         return jTextFieldZIPCode;
+    }
+
+    public JTable getjTableBooks() {
+        return jTableBooks;
+    }
+
+    public JTable getjTableReservations() {
+        return jTable2;
     }
     
 }

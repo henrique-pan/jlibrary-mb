@@ -19,12 +19,20 @@ public class BookEdition extends Book {
     private Integer editionYear;
     private String format;
     private Integer totalPages;
-    private MonetaryAmount penaltyPrice;
-    private MonetaryAmount bookPrice;
+    private Double penaltyPrice;
+    private Double bookPrice;
     private String editionLanguage;
     private boolean isRare;
     private Date creationDate;
     private Date modificationDate;
+
+    public void setBookCreationDate(Date date) {
+        super.setCreationDate(date);
+    }
+
+    public void setBookModificationDate(Date date) {
+        super.setModificationDate(date);
+    }
 
     @Override
     public boolean equals(Object o) {
