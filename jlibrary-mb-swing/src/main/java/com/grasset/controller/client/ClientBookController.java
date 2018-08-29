@@ -47,7 +47,6 @@ public class ClientBookController {
     private final JTextField jTextFieldEditionLanguage;
     private final JButton jButtonBookWaitList;
     private final JButton jButtonBookReserve;
-    private final JButton jButtonBookClear;
     private final JTextField jTextFieldBookSearch;
     private final JTable jTable;
 
@@ -72,7 +71,6 @@ public class ClientBookController {
         jTextFieldEditionLanguage = clientView().getjTextFieldEditionLanguage();
         jButtonBookWaitList = clientView().getjButtonBookWaitList();
         jButtonBookReserve = clientView().getjButtonBookReserve();
-        jButtonBookClear = clientView().getjButtonBookClear();
         jTextFieldBookSearch = clientView().getjTextFieldBookSearch();
 
         jTable = clientView().getjTableBooks();
@@ -95,10 +93,6 @@ public class ClientBookController {
         });
 
         jButtonBookReserve.addActionListener(e -> {
-
-        });
-
-        jButtonBookClear.addActionListener(e -> {
 
         });
     }
@@ -134,7 +128,7 @@ public class ClientBookController {
                         clientView().actualBookSelectedVenue = jTable.getSelectedRow();
                         String ISBN = (String) jTable.getModel().getValueAt(clientView().actualBookSelectedVenue, 0);
                         Book book = bookService.getBook(ISBN);
-                        clientView().setBookFields(book, "3");
+                        clientView().setBookFields(book);
                     }
                 } catch (Exception exp) {
                     exp.printStackTrace();
@@ -151,7 +145,7 @@ public class ClientBookController {
                         clientView().actualBookSelectedVenue = jTable.getSelectedRow();
                         String ISBN = (String) jTable.getModel().getValueAt(clientView().actualBookSelectedVenue, 0);
                         Book book = bookService.getBook(ISBN);
-                        clientView().setBookFields(book, "3");
+                        clientView().setBookFields(book);
                     }
                 } catch (Exception exp) {
                     exp.printStackTrace();

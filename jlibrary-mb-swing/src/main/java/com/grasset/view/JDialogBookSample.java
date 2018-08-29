@@ -309,8 +309,12 @@ public class JDialogBookSample extends javax.swing.JDialog {
             jTextFieldBookTitle.setText(bookEdition.getTitle());
             jTextFieldBookYear.setText(String.valueOf(bookEdition.getBookYear()));
             Set<Author> authors = bookEdition.getAuthors();
-            if (authors != null) {
-                jTextFieldBookAuthors.setText(authors.toString());
+            if(authors != null && !authors.isEmpty()) {
+                List<String> list = new ArrayList<>();
+                authors.forEach(author -> {
+                    list.add(author.getName());
+                });
+                jTextFieldBookAuthors.setText(String.join(",", list));
             } else {
                 jTextFieldBookAuthors.setText("");
             }
@@ -331,46 +335,11 @@ public class JDialogBookSample extends javax.swing.JDialog {
 
     private void setButtonEvents() {
         jButtonAjouter.addActionListener(e -> {
-            try {
-                log.info("Start save process.");
-
-                BookSample bookSample = new BookSample();
-                bookSample.setTitle(bookTitle());
-                bookSample.setBookYear(bookYear());
-                bookSample.setISBN(bookISBN());
-
-                Set<Author> authors = new HashSet<>();
-                List<String> authorsName = bookAuthors();
-                for (String authorName : authorsName) {
-                    Author author = new Author();
-                    author.setName(authorName);
-                    authors.add(author);
-                }
-                bookSample.setAuthors(authors);
-
-                Publisher publisher = new Publisher();
-                publisher.setName(bookEditor());
-                bookSample.setPublisher(publisher);
-
-                bookSample.setEdition(edition());
-                bookSample.setRare(isRare());
-
-                // Entries validation
-                log.info("idBook: [{}] idBookEdition: [{}] idBookSample [{}]", bookSample.getIdBook(), bookSample.getIdBookEdition(), bookSample.getIdBookSample());
-                // Entries validation
-
-                bookService.save(bookSample);
-                updateTable();
-            } catch (Exception exp) {
-                JAlertHelper.showError("Erreur de Enregistrement", "Erreur pour faire le enregistrement: " + exp.getMessage());
-            }
-        });
-
-        jButtonAjouter.addActionListener(e -> {
             BookSample bookSample = (BookSample) bookEdition;
             try {
                 bookSample.setCodeSample(sampleCode());
                 bookDAO.persist(bookSample);
+                updateTable();
             } catch (Exception exp) {
                 JAlertHelper.showError("Erreur de Enregistrement", "Erreur pour faire le enregistrement: " + exp.getMessage());
             }

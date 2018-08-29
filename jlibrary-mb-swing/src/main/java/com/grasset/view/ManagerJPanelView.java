@@ -13,7 +13,9 @@ import com.grasset.client.Client;
 import com.grasset.user.ManagerUser;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -758,11 +760,21 @@ public class ManagerJPanelView extends javax.swing.JPanel {
                 Object[] obj = new Object[6];
                 obj[0] = bookEdition.getISBN();
                 obj[1] = bookEdition.getTitle();
+
                 Set<Author> authors = bookEdition.getAuthors();
-                obj[2] = authors == null ? "" : authors.toString();
+                if(authors != null && !authors.isEmpty()) {
+                    List<String> list = new ArrayList<>();
+                    authors.forEach(author -> {
+                        list.add(author.getName());
+                    });
+                    obj[2] = String.join(",", list);
+                } else {
+                    obj[2] = "";
+                }
+
                 obj[3] = bookEdition.getBookYear();
                 obj[4] = bookEdition.getPublisher().getName();
-                obj[5] = "45";
+                obj[5] = String.valueOf(bookEdition.getTotalSamples());
 
                 return obj;
             }).forEachOrdered((obj) -> {
@@ -774,15 +786,19 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         }
     }
 
-    public void setBookFields(Book book, String totalSamples) {
+    public void setBookFields(Book book) {
         if (book != null) {
             BookEdition bookEdition = (BookSample) book;
             jTextFieldBookTitle.setText(bookEdition.getTitle());
             jTextFieldBookYear.setText(String.valueOf(bookEdition.getBookYear()));
 
             Set<Author> authors = bookEdition.getAuthors();
-            if(authors != null) {
-                jTextFieldBookAuthors.setText(authors.toString());
+            if(authors != null && !authors.isEmpty()) {
+                List<String> list = new ArrayList<>();
+                authors.forEach(author -> {
+                    list.add(author.getName());
+                });
+                jTextFieldBookAuthors.setText(String.join(",", list));
             } else {
                 jTextFieldBookAuthors.setText("");
             }
@@ -795,7 +811,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
             jTextFieldNumberPages.setText(String.valueOf(bookEdition.getTotalPages()));
             jTextFieldPenalityPrice.setText(bookEdition.getBookPrice().toString());
             jTextFieldBookPrice.setText(bookEdition.getBookPrice().toString());
-            jTextFieldTotalSamples.setText(totalSamples);
+            jTextFieldTotalSamples.setText(String.valueOf(bookEdition.getTotalSamples()));
             jTextFieldOriginalLanguage.setText(bookEdition.getOriginalLanguage());
             jTextFieldEditionLanguage.setText(bookEdition.getEditionLanguage());
 

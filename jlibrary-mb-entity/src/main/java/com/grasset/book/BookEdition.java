@@ -26,6 +26,8 @@ public class BookEdition extends Book {
     private Date creationDate;
     private Date modificationDate;
 
+    private transient Integer totalSamples;
+
     public void setBookCreationDate(Date date) {
         super.setCreationDate(date);
     }

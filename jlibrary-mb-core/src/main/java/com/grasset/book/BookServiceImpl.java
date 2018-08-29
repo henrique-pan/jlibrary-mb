@@ -14,6 +14,7 @@ import com.grasset.user.SystemUserService;
 import com.grasset.user.SystemUserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Slf4j
@@ -27,7 +28,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getBook(String ISBN) throws Exception {
-        return bookDAO.findByISBN(ISBN);
+        BookEdition be = (BookEdition) bookDAO.findByISBN(ISBN);
+
+        Set<Author> allAuthors = bookDAO.findAllAuthor(be);
+        be.setAuthors(allAuthors);
+
+        Integer totalSamples = bookDAO.countSamples(be);
+        be.setTotalSamples(totalSamples);
+
+        return be;
     }
 
     @Override
@@ -55,14 +64,33 @@ public class BookServiceImpl implements BookService {
         BookEdition existentBookEdition = (BookEdition) bookDAO.findByISBN(bookEdition.getISBN());
         if (existentBookEdition == null) {
             bookDAO.persist(bookEdition);
+            existentBookEdition = (BookEdition) bookDAO.findByISBN(bookEdition.getISBN());
+            bookEdition.setIdBookEdition(existentBookEdition.getIdBookEdition());
+        } else {
+            bookEdition.setIdBookEdition(existentBookEdition.getIdBookEdition());
+            bookDAO.merge(bookEdition);
         }
 
-        /* AUTHOR
+        // AUTHOR
+        bookDAO.removeAuthors(bookEdition);
         Set<Author> authors = bookEdition.getAuthors();
         for (Author author : authors) {
-            bookDAO.persist(author);
+             Author existentAuthor = bookDAO.findAuthor(author.getName());
+            if(existentAuthor == null) {
+                bookDAO.persist(author);
+
+                existentAuthor = bookDAO.findAuthor(author.getName());
+                author.setIdAuthor(existentAuthor.getIdAuthor());
+
+                bookDAO.persist(bookEdition, author);
+            } else {
+                author.setIdAuthor(existentAuthor.getIdAuthor());
+                boolean existsBookEdition = bookDAO.exists(bookEdition, author);
+                if(!existsBookEdition) {
+                    bookDAO.persist(bookEdition, author);
+                }
+            }
         }
-        */
     }
 
     @Override
@@ -77,6 +105,17 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Set<Book> getBooks() throws Exception {
-        return bookDAO.findAll();
+        Set<Book> allBooks = bookDAO.findAll();
+        for(Book b : allBooks) {
+            BookEdition be = (BookEdition) b;
+
+            Set<Author> allAuthors = bookDAO.findAllAuthor(be);
+            be.setAuthors(allAuthors);
+
+            Integer totalSamples = bookDAO.countSamples(be);
+            be.setTotalSamples(totalSamples);
+        }
+
+        return allBooks;
     }
 }

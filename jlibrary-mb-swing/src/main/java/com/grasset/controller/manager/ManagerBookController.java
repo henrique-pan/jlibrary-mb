@@ -109,13 +109,7 @@ public class ManagerBookController {
                 bookSample.setBookYear(bookYear());
                 bookSample.setISBN(bookISBN());
 
-                Set<Author> authors = new HashSet<>();
-                List<String> authorsName = bookAuthors();
-                for (String authorName : authorsName) {
-                    Author author = new Author();
-                    author.setName(authorName);
-                    authors.add(author);
-                }
+                Set<Author> authors = bookAuthors();
                 bookSample.setAuthors(authors);
 
                 Publisher publisher = new Publisher();
@@ -140,6 +134,7 @@ public class ManagerBookController {
                 bookService.save(bookSample);
                 updateTable();
             } catch (Exception exp) {
+                exp.printStackTrace();
                 JAlertHelper.showError("Erreur de Enregistrement", "Erreur pour faire le enregistrement: " + exp.getMessage());
             }
         });
@@ -215,7 +210,7 @@ public class ManagerBookController {
                         managerView().actualBookSelectedVenue = jTableBook.getSelectedRow();
                         String ISBN = (String) jTableBook.getModel().getValueAt(managerView().actualBookSelectedVenue, 0);
                         Book book = bookService.getBook(ISBN);
-                        managerView().setBookFields(book, "3");
+                        managerView().setBookFields(book);
                     }
                 } catch (Exception exp) {
                     exp.printStackTrace();
@@ -232,7 +227,7 @@ public class ManagerBookController {
                         managerView().actualBookSelectedVenue = jTableBook.getSelectedRow();
                         String ISBN = (String) jTableBook.getModel().getValueAt(managerView().actualBookSelectedVenue, 0);
                         Book book = bookService.getBook(ISBN);
-                        managerView().setBookFields(book, "3");
+                        managerView().setBookFields(book);
                     }
                 } catch (Exception exp) {
                     exp.printStackTrace();
@@ -316,9 +311,19 @@ public class ManagerBookController {
         return Integer.parseInt(jTextFieldBookYear.getText());
     }
 
-    public List<String> bookAuthors() {
-        jTextFieldBookAuthors.getText();
-        return new ArrayList<String>();
+    public Set<Author> bookAuthors() {
+        Set<Author> authors = new HashSet<>();
+
+        String authorsString = jTextFieldBookAuthors.getText();
+        if(authorsString != null && !authorsString.isEmpty()) {
+            String[] sArray = authorsString.split(",");
+            for(String authorName : sArray) {
+                Author author = new Author();
+                author.setName(authorName);
+                authors.add(author);
+            }
+        }
+        return authors;
     }
 
     public String bookISBN() {

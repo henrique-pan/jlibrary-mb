@@ -8,6 +8,7 @@ package com.grasset.controller.manager;
 import javax.swing.*;
 import javax.xml.bind.DatatypeConverter;
 
+import com.grasset.book.BookEdition;
 import com.grasset.client.Address;
 import com.grasset.client.Client;
 import com.grasset.client.ClientService;
@@ -135,7 +136,18 @@ public class ManagerClientController {
         });
 
         jButtonClientDelete.addActionListener(e -> {
-            clear();
+            try {
+                managerView().actualBookSelectedVenue = jTableClient.getSelectedRow();
+                if (jTableClient.getRowCount() > 0 && managerView().actualBookSelectedVenue != null) {
+                    String userCode = (String) jTableClient.getModel().getValueAt(managerView().actualClientSelectedVenue, 0);
+                    Client client = clientService.getClient(userCode);
+                    clientService.delete(client);
+                    updateTable();
+                }
+                clear();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         });
 
         jButtonClientDetails.addActionListener(e -> {

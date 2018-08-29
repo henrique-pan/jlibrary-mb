@@ -144,6 +144,42 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
+    public Set<Author> findAllAuthor(BookEdition bookEdition) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM BOOK_EDITION_AUTHOR bea ");
+        query.append("INNER JOIN AUTHOR a ON(a.ID_AUTHOR = bea.ID_AUTHOR) ");
+        query.append("WHERE bea.ID_BOOK_EDITION = ? ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, bookEdition.getIdBookEdition());
+
+            log.info("Executing query: \n\t{}", query.toString());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            Set<Author> set = new HashSet<>();
+            while (rs.next()) {
+                Author author = new Author();
+                author.setIdAuthor(rs.getInt("a.ID_AUTHOR"));
+                author.setName(rs.getString("a.NM_NAME"));
+                author.setCreationDate(rs.getTimestamp("a.DT_CREATION"));
+                author.setModificationDate(rs.getTimestamp("a.DT_MODIFICATION"));
+
+                set.add(author);
+                log.info("Query Result: \n\t{}", bookEdition);
+            }
+
+            return set;
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+    }
+
+    @Override
     public boolean persist(Book book) {
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO BOOK(NM_TITLE, NR_YEAR, DS_LANGUAGE, DT_CREATION) ");
@@ -491,7 +527,7 @@ public class BookDAOImpl implements BookDAO {
             while (rs.next()) {
                 author = new Author();
                 author.setIdAuthor(rs.getInt("a.ID_AUTHOR"));
-                author.setName(rs.getString("a.NM_AUTHOR"));
+                author.setName(rs.getString("a.NM_NAME"));
                 author.setCreationDate(rs.getTimestamp("a.DT_CREATION"));
                 author.setModificationDate(rs.getTimestamp("a.DT_MODIFICATION"));
             }
@@ -535,6 +571,98 @@ public class BookDAOImpl implements BookDAO {
             preparedStatement.executeUpdate();
 
             log.info("{} persisted successfully.", bookEdition);
+            return true;
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+    }
+
+    @Override
+    public boolean persist(BookEdition bookEdition, Author author) {
+        StringBuilder query = new StringBuilder();
+        query.append("INSERT INTO BOOK_EDITION_AUTHOR(ID_BOOK_EDITION, ID_AUTHOR) ");
+        query.append("VALUES(?, ?) ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, bookEdition.getIdBookEdition());
+            preparedStatement.setInt(2, author.getIdAuthor());
+
+            log.info("Executing insert: \n\t{}", preparedStatement.toString());
+            preparedStatement.executeUpdate();
+
+            log.info("{} persisted successfully.", bookEdition);
+            return true;
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+    }
+
+    @Override
+    public boolean exists(BookEdition bookEdition, Author author) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM BOOK_EDITION_AUTHOR ");
+        query.append("WHERE ID_BOOK_EDITION = ? AND ID_AUTHOR = ? ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, bookEdition.getIdBookEdition());
+            preparedStatement.setInt(2, author.getIdAuthor());
+
+            log.info("Executing query: \n\t{}", preparedStatement.toString());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if(rs.next()) return true;
+
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+
+        return false;
+    }
+
+
+    @Override
+    public boolean merge(BookEdition bookEdition) {
+        log.info("Start merge process");
+
+        StringBuilder query = new StringBuilder();
+        query.append("UPDATE BOOK_EDITION SET ID_BOOK = ?, ID_PUBLISHER = ?, DS_EDITION = ?, ");
+        query.append("NR_YEAR = ?, DS_FORMAT = ?, NR_TOTAL_PAGES = ?, VL_PENALTY_PRICE = ?,  ");
+        query.append("VL_BOOK_PRICE = ?, DS_LANGUAGE = ?, FL_RARE = ?, DT_MODIFICATION = ?  ");
+        query.append("WHERE ID_BOOK_EDITION = ? ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, bookEdition.getIdBook());
+            preparedStatement.setInt(2, bookEdition.getPublisher().getIdPublisher());
+            preparedStatement.setString(3, bookEdition.getEdition());
+            preparedStatement.setInt(4, bookEdition.getEditionYear());
+            preparedStatement.setString(5, bookEdition.getFormat());
+            preparedStatement.setInt(6, bookEdition.getTotalPages());
+            preparedStatement.setDouble(7, bookEdition.getPenaltyPrice());
+            preparedStatement.setDouble(8, bookEdition.getBookPrice());
+            preparedStatement.setString(9, bookEdition.getEditionLanguage());
+            preparedStatement.setString(10, bookEdition.isRare() ? "Y" : "N");
+            preparedStatement.setTimestamp(11, new Timestamp(new Date().getTime()));
+            preparedStatement.setInt(12, bookEdition.getIdBookEdition());
+
+            log.info("Executing update: \n\t{}", preparedStatement.toString());
+            preparedStatement.executeUpdate();
+
+            log.info("{} updated successfully.", bookEdition);
             return true;
         } catch (SQLException e) {
             log.error("Error to execute query: ", e);
@@ -620,6 +748,34 @@ public class BookDAOImpl implements BookDAO {
         }
     }
 
+    @Override
+    public Integer countSamples(BookEdition bookEdition) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT COUNT(*) as TOTAL_SAMPLE FROM BOOK_SAMPLE ");
+        query.append("WHERE ID_BOOK_EDITION = ? ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, bookEdition.getIdBookEdition());
+
+            log.info("Executing query: \n\t{}", preparedStatement.toString());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            Integer result = 0;
+            if(rs.next()) {
+                result = rs.getInt("TOTAL_SAMPLE");
+            }
+
+            return result;
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+    }
+
     // BOOT UP LOAD
     private boolean exists(BookWaitingListStatus bookWaitingListStatus) {
         StringBuilder query = new StringBuilder();
@@ -695,9 +851,51 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
+    public boolean removeAuthors(BookEdition bookEdition) {
+        StringBuilder query = new StringBuilder();
+        query.append("DELETE FROM BOOK_EDITION_AUTHOR WHERE ID_BOOK_EDITION = ? ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, bookEdition.getIdBookEdition());
+
+            log.info("Executing insert: \n\t{}", preparedStatement.toString());
+            preparedStatement.executeUpdate();
+
+            log.info("{} removed successfully.", bookEdition);
+            return true;
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+    }
+
+    @Override
     public boolean remove(BookEdition bookEdition) {
         StringBuilder query = new StringBuilder();
         query.append("DELETE FROM BOOK_SAMPLE WHERE ID_BOOK_EDITION = ? ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, bookEdition.getIdBookEdition());
+
+            log.info("Executing insert: \n\t{}", preparedStatement.toString());
+            preparedStatement.executeUpdate();
+
+            log.info("{} removed successfully.", bookEdition);
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
+
+        query = new StringBuilder();
+        query.append("DELETE FROM BOOK_EDITION_AUTHOR WHERE ID_BOOK_EDITION = ? ");
 
         try (Connection connection = ConnectionFactory.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
