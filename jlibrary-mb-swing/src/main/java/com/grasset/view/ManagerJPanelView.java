@@ -235,6 +235,8 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jTextFieldEditor.setBounds(100, 90, 250, 38);
         jPanelBooks.add(jTextFieldPenalityPrice);
         jTextFieldPenalityPrice.setBounds(360, 130, 140, 38);
+
+        jTextFieldTotalSamples.setEditable(false);
         jPanelBooks.add(jTextFieldTotalSamples);
         jTextFieldTotalSamples.setBounds(840, 130, 180, 38);
 

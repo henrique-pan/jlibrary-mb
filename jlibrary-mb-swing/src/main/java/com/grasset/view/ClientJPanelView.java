@@ -364,6 +364,7 @@ public class ClientJPanelView extends javax.swing.JPanel {
 
         jCheckBoxRare.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jCheckBoxRare.setText("Rare");
+        jCheckBoxRare.setEnabled(false);
         jPanelBooks.add(jCheckBoxRare);
         jCheckBoxRare.setBounds(930, 180, 63, 23);
 
