@@ -176,7 +176,7 @@ public class BookReservationDAOImpl implements BookReservationDAO {
         query.append("SELECT * FROM BOOK_RESERVATION br ");
         query.append("INNER JOIN BOOK_SAMPLE bs ON(bs.ID_BOOK_SAMPLE = br.ID_BOOK_SAMPLE) ");
         query.append("INNER JOIN CLIENT c ON(c.ID_CLIENT = br.ID_CLIENT) ");
-        query.append("WHERE bs.ID_BOOK_EDITION = ? AND ID_BOOK_RESERVATION_STATUS IN(2, 5) ");
+        query.append("WHERE bs.ID_BOOK_EDITION = ? AND ID_BOOK_RESERVATION_STATUS NOT IN(2, 5) ");
         query.append("ORDER BY br.DT_MODIFICATION DESC ");
 
         try (Connection connection = ConnectionFactory.getDBConnection();
@@ -233,7 +233,7 @@ public class BookReservationDAOImpl implements BookReservationDAO {
         query.append("SELECT * FROM BOOK_SAMPLE bs ");
         query.append("WHERE bs.ID_BOOK_SAMPLE NOT IN( ");
         query.append("SELECT ID_BOOK_SAMPLE FROM BOOK_RESERVATION ");
-        query.append("WHERE ID_BOOK_RESERVATION_STATUS IN(2, 5)) AND bs.ID_BOOK_EDITION = ? ");
+        query.append("WHERE ID_BOOK_RESERVATION_STATUS NOT IN(2, 5)) AND bs.ID_BOOK_EDITION = ? ");
         query.append("LIMIT 1 ");
 
         try (Connection connection = ConnectionFactory.getDBConnection();

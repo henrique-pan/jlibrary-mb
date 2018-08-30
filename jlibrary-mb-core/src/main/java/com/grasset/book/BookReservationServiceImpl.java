@@ -61,7 +61,7 @@ public class BookReservationServiceImpl implements BookReservationService {
         Set<BookReservation> allActives = getAllActives(bookEdition);
         Integer totalActives = allActives.size();
 
-        if (totalExistent >= totalActives) {
+        if (totalExistent > totalActives) {
             BookSample bookSample = getFirstAvailable(bookEdition);
 
             BookReservation bookReservation = new BookReservation();
@@ -71,7 +71,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 
             bookReservationDAO.persist(bookReservation);
         } else {
-            // ENTRAR NA FILA?
+            throw new InvalidActionException("Il n'y a plus de livres disponibles.");
         }
 
         return true;
