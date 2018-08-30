@@ -7,10 +7,12 @@ package com.grasset.controller.client;
 
 import javax.swing.*;
 
-import com.grasset.book.Book;
-import com.grasset.book.BookEdition;
-import com.grasset.book.BookService;
-import com.grasset.book.BookServiceImpl;
+import com.grasset.book.*;
+import com.grasset.client.Client;
+import com.grasset.env.CurrentSystemUser;
+import com.grasset.exception.InvalidActionException;
+import com.grasset.reservation.BookReservation;
+import com.grasset.reservation.BookReservationStatus;
 import com.grasset.view.ClientJPanelView;
 import com.grasset.view.alerts.JAlertHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +25,6 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *
  * @author henrique
  */
 @Slf4j
@@ -52,6 +53,7 @@ public class ClientBookController {
 
     //Service
     private final BookService bookService;
+    private final BookReservationService bookReservationService;
 
     public ClientBookController(ClientController clientController) {
         this.clientController = clientController;
@@ -76,6 +78,7 @@ public class ClientBookController {
         jTable = clientView().getjTableBooks();
 
         bookService = new BookServiceImpl();
+        bookReservationService = new BookReservationServiceImpl();
 
         setEvents();
     }
@@ -93,7 +96,24 @@ public class ClientBookController {
         });
 
         jButtonBookReserve.addActionListener(e -> {
+            try {
+                clientView().actualBookSelectedVenue = jTable.getSelectedRow();
+                if (jTable.getRowCount() > 0 && clientView().actualBookSelectedVenue != null) {
+                    clientView().actualBookSelectedVenue = jTable.getSelectedRow();
+                    String ISBN = (String) jTable.getModel().getValueAt(clientView().actualBookSelectedVenue, 0);
+                    BookEdition bookEdition = (BookEdition) bookService.getBook(ISBN);
 
+                    Client client = CurrentSystemUser.getClient();
+
+                    bookReservationService.reserve(bookEdition, client);
+                }
+            } catch (InvalidActionException exp) {
+                exp.printStackTrace();
+                JAlertHelper.showInfo("Attention", exp.getMessage());
+            } catch (Exception exp) {
+                exp.printStackTrace();
+                JAlertHelper.showError("Erreur de Enlèvement", "Erreur pour faire le Enlèvement: " + exp.getMessage());
+            }
         });
     }
 
