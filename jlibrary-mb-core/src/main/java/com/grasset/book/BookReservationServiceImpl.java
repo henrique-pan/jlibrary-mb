@@ -25,6 +25,11 @@ public class BookReservationServiceImpl implements BookReservationService {
     }
 
     @Override
+    public BookReservation getById(Integer idBookReservation) {
+        return bookReservationDAO.find(idBookReservation);
+    }
+
+    @Override
     public Set<BookReservation> getAll(Client client) {
         return bookReservationDAO.findAll(client);
     }
@@ -74,6 +79,13 @@ public class BookReservationServiceImpl implements BookReservationService {
             throw new InvalidActionException("Il n'y a plus de livres disponibles.");
         }
 
+        return true;
+    }
+
+    @Override
+    public boolean cancel(BookReservation bookReservation) throws InvalidActionException {
+        bookReservation.setReservationStatus(BookReservationStatus.CANCELED);
+        bookReservationDAO.merge(bookReservation);
         return true;
     }
 }

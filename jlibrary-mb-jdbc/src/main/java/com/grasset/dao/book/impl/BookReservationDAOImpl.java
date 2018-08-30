@@ -1,17 +1,13 @@
 package com.grasset.dao.book.impl;
 
-import com.grasset.book.Author;
-import com.grasset.book.Book;
 import com.grasset.book.BookEdition;
 import com.grasset.book.BookSample;
 import com.grasset.client.Client;
-import com.grasset.dao.book.BookDAO;
 import com.grasset.dao.book.BookReservationDAO;
 import com.grasset.db.ConnectionFactory;
 import com.grasset.exception.DBException;
 import com.grasset.reservation.BookReservation;
 import com.grasset.reservation.BookReservationStatus;
-import com.grasset.reservation.BookWaitingListStatus;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
@@ -23,8 +19,58 @@ import java.util.Set;
 public class BookReservationDAOImpl implements BookReservationDAO {
 
     @Override
-    public BookReservation find(Integer idEntity) {
-        return null;
+    public BookReservation find(Integer idBookReservation) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM BOOK_RESERVATION br ");
+        query.append("INNER JOIN BOOK_SAMPLE bs ON(bs.ID_BOOK_SAMPLE = br.ID_BOOK_SAMPLE) ");
+        query.append("INNER JOIN CLIENT c ON(c.ID_CLIENT = br.ID_CLIENT) ");
+        query.append("WHERE br.ID_BOOK_RESERVATION = ? ");
+        query.append("ORDER BY br.DT_MODIFICATION DESC ");
+
+        try (Connection connection = ConnectionFactory.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            preparedStatement.setInt(1, idBookReservation);
+
+            log.info("Executing query: \n\t{}", query.toString());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            BookReservation bookReservation = null;
+            while (rs.next()) {
+                bookReservation = new BookReservation();
+                bookReservation.setIdBookReservation(rs.getInt("br.ID_BOOK_RESERVATION"));
+
+                BookSample bookSample = new BookSample();
+                bookSample.setIdBookSample(rs.getInt("bs.ID_BOOK_SAMPLE"));
+                bookSample.setCodeSample(rs.getString("bs.CD_CODE"));
+                bookSample.setCreationDate(rs.getTimestamp("bs.DT_CREATION"));
+                bookSample.setModificationDate(rs.getTimestamp("bs.DT_MODIFICATION"));
+                bookReservation.setBookSample(bookSample);
+
+                Client client = new Client();
+                client.setIdClient(rs.getInt("c.ID_CLIENT"));
+                client.setName(rs.getString("c.NM_NAME"));
+                client.setLastName(rs.getString("c.NM_LAST_NAME"));
+                client.setPhoneNumber(rs.getString("c.DS_PHONE_NUMBER"));
+                client.setEmail(rs.getString("c.DS_EMAIL"));
+                bookReservation.setClient(client);
+
+                Integer status = rs.getInt("br.ID_BOOK_RESERVATION_STATUS");
+                BookReservationStatus reservationStatus = BookReservationStatus.getStatus(status);
+                bookReservation.setReservationStatus(reservationStatus);
+                bookReservation.setCreationDate(rs.getTimestamp("br.DT_CREATION"));
+                bookReservation.setModificationDate(rs.getTimestamp("br.DT_MODIFICATION"));
+
+                log.info("Query Result: \n\t{}", bookReservation);
+            }
+
+            return bookReservation;
+        } catch (SQLException e) {
+            log.error("Error to execute query: ", e);
+            throw new DBException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DBException(e);
+        }
     }
 
     @Override
@@ -276,7 +322,7 @@ public class BookReservationDAOImpl implements BookReservationDAO {
 
             preparedStatement.setInt(1, bookReservation.getBookSample().getIdBookSample());
             preparedStatement.setInt(2, bookReservation.getClient().getIdClient());
-            preparedStatement.setInt(3, BookReservationStatus.COMPLETED.getIdBookReservationStatus());
+            preparedStatement.setInt(3, BookReservationStatus.PENDING.getIdBookReservationStatus());
             preparedStatement.setTimestamp(4, new Timestamp(new Date().getTime()));
             preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
 

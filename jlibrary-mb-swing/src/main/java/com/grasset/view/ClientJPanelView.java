@@ -534,14 +534,14 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jTableBooks.getColumnModel().getColumn(4).setPreferredWidth(200);
         jTableBooks.getColumnModel().getColumn(5).setPreferredWidth(100);
 
-        jTableBooks.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTableReservations.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        jTableBooks.getColumnModel().getColumn(0).setPreferredWidth(80);
-        jTableBooks.getColumnModel().getColumn(1).setPreferredWidth(100);
-        jTableBooks.getColumnModel().getColumn(2).setPreferredWidth(100);
-        jTableBooks.getColumnModel().getColumn(3).setPreferredWidth(100);
-        jTableBooks.getColumnModel().getColumn(4).setPreferredWidth(200);
-        jTableBooks.getColumnModel().getColumn(5).setPreferredWidth(100);
+        jTableReservations.getColumnModel().getColumn(0).setPreferredWidth(80);
+        jTableReservations.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTableReservations.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTableReservations.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jTableReservations.getColumnModel().getColumn(4).setPreferredWidth(200);
+        jTableReservations.getColumnModel().getColumn(5).setPreferredWidth(100);
     }
 
     // BOOK TABLE

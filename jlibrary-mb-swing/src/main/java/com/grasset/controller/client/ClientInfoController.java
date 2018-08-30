@@ -51,6 +51,7 @@ public class ClientInfoController {
     private final JCheckBox jCheckBoxValid;
     private final JButton jButtonInfoRenew;
     private final JButton jButtonInfoCancel;
+    private final JButton jButtonReload;
     private final JTextField jTextFieldClientSearch;
 
     private BookReservationService bookReservationService;
@@ -72,6 +73,7 @@ public class ClientInfoController {
         jCheckBoxValid = clientView().getjCheckBoxValid();
         jButtonInfoRenew = clientView().getjButtonInfoRenew();
         jButtonInfoCancel = clientView().getjButtonInfoCancel();
+        jButtonReload = clientView().getjButtonInfoReload();
         jTextFieldClientSearch = clientView().getjTextFieldClientSearch();
 
         bookReservationService = new BookReservationServiceImpl();
@@ -94,7 +96,12 @@ public class ClientInfoController {
         });
 
         jButtonInfoCancel.addActionListener(e -> {
+            BookReservation bookReservation = new BookReservation();
+            bookReservationService.cancel(bookReservation);
+        });
 
+        jButtonReload.addActionListener(e -> {
+            updateTable();
         });
     }
 
