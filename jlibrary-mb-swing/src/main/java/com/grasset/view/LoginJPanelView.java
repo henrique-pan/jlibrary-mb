@@ -30,7 +30,6 @@ public class LoginJPanelView extends javax.swing.JPanel {
         jLabelPassword = new javax.swing.JLabel();
         jTextFieldUserCode = new javax.swing.JTextField();
         jPasswordField = new javax.swing.JPasswordField();
-        jLabelRecoverPassword = new javax.swing.JLabel();
         jButtonConnect = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Login", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 1, 24))); // NOI18N
@@ -43,9 +42,6 @@ public class LoginJPanelView extends javax.swing.JPanel {
 
         jLabelPassword.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabelPassword.setText("Mot de Passe: ");
-
-        jLabelRecoverPassword.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jLabelRecoverPassword.setText("J'ai oublié mon mot de passe.");
 
         jButtonConnect.setText("Connecter");
 
@@ -64,14 +60,9 @@ public class LoginJPanelView extends javax.swing.JPanel {
                     .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(101, 101, 101)
-                        .addComponent(jLabelRecoverPassword))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(jButtonConnect, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(127, 127, 127)
+                .addComponent(jButtonConnect, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(131, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -90,16 +81,13 @@ public class LoginJPanelView extends javax.swing.JPanel {
                         .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jButtonConnect, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelRecoverPassword)
-                .addGap(17, 17, 17))
+                .addGap(52, 52, 52))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonConnect;
     private javax.swing.JLabel jLabelPassword;
-    private javax.swing.JLabel jLabelRecoverPassword;
     private javax.swing.JLabel jLabelUserCode;
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JTextField jTextFieldUserCode;

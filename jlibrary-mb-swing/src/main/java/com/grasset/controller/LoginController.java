@@ -131,6 +131,7 @@ public class LoginController extends Controller {
                         break;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 JAlertHelper.showError("Erreur de Login", "Erreur pour faire le login: " + e.getMessage());
             }
         });

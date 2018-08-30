@@ -12,7 +12,7 @@ public interface BookReservationDAO extends GenericDAO<BookReservation> {
 
     Set<BookReservation> findAll(Client client);
     BookReservation findActive(BookSample bookSample, Client client);
-    Set<BookReservation> findAllActives(BookEdition bookEdition);
+    Set<BookReservation> findAllReserved(BookEdition bookEdition);
     BookSample findFirstAvailable(BookEdition bookEdition);
 
     void createBookReservationStatus();

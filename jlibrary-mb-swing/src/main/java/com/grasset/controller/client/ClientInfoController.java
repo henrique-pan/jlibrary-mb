@@ -5,9 +5,7 @@
  */
 package com.grasset.controller.client;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import com.grasset.book.Book;
 import com.grasset.book.BookEdition;
@@ -16,7 +14,9 @@ import com.grasset.book.BookReservationServiceImpl;
 import com.grasset.client.Client;
 import com.grasset.controller.manager.ManagerController;
 import com.grasset.env.CurrentSystemUser;
+import com.grasset.exception.InvalidActionException;
 import com.grasset.reservation.BookReservation;
+import com.grasset.reservation.BookReservationStatus;
 import com.grasset.view.ClientJPanelView;
 import com.grasset.view.ManagerJPanelView;
 import com.grasset.view.alerts.JAlertHelper;
@@ -52,6 +52,8 @@ public class ClientInfoController {
     private final JButton jButtonInfoRenew;
     private final JButton jButtonInfoCancel;
     private final JButton jButtonReload;
+    private final JTable jTable;
+
     private final JTextField jTextFieldClientSearch;
 
     private BookReservationService bookReservationService;
@@ -75,6 +77,7 @@ public class ClientInfoController {
         jButtonInfoCancel = clientView().getjButtonInfoCancel();
         jButtonReload = clientView().getjButtonInfoReload();
         jTextFieldClientSearch = clientView().getjTextFieldClientSearch();
+        jTable = clientView().getjTableReservations();
 
         bookReservationService = new BookReservationServiceImpl();
 
@@ -92,12 +95,54 @@ public class ClientInfoController {
 
     private void setButtonEvents() {
         jButtonInfoRenew.addActionListener(e -> {
+            try {
+                clientView().actualBookSelected = jTable.getSelectedRow();
+                if (jTable.getRowCount() > 0 && clientView().actualBookSelected != null) {
+                    clientView().actualBookSelected = jTable.getSelectedRow();
+                    Integer idBookReservation = (Integer) jTable.getModel().getValueAt(clientView().actualBookSelected, 0);
+                    BookReservation bookReservation = bookReservationService.getById(idBookReservation);
 
+                    if(!bookReservation.getReservationStatus().equals(BookReservationStatus.IN_PROGRESS)) {
+                        throw new InvalidActionException("Status invalid pour renouveler");
+                    } else {
+                        bookReservationService.renew(bookReservation);
+                    }
+                    updateTable();
+                }
+            } catch (InvalidActionException exp) {
+                exp.printStackTrace();
+                JAlertHelper.showInfo("Attention", exp.getMessage());
+            } catch (Exception exp) {
+                exp.printStackTrace();
+                JAlertHelper.showError("Erreur de Enlèvement", "Erreur pour faire le Enlèvement: " + exp.getMessage());
+            }
         });
 
         jButtonInfoCancel.addActionListener(e -> {
-            BookReservation bookReservation = new BookReservation();
-            bookReservationService.cancel(bookReservation);
+            try {
+                clientView().actualBookSelected = jTable.getSelectedRow();
+                if (jTable.getRowCount() > 0 && clientView().actualBookSelected != null) {
+                    clientView().actualBookSelected = jTable.getSelectedRow();
+                    Integer idBookReservation = (Integer) jTable.getModel().getValueAt(clientView().actualBookSelected, 0);
+                         BookReservation bookReservation = bookReservationService.getById(idBookReservation);
+
+                         if(bookReservation.getReservationStatus().equals(BookReservationStatus.CANCELED) ||
+                                 bookReservation.getReservationStatus().equals(BookReservationStatus.COMPLETED) ||
+                                 bookReservation.getReservationStatus().equals(BookReservationStatus.COMPLETED_WITH_PENALTY) ||
+                                 bookReservation.getReservationStatus().equals(BookReservationStatus.IN_PROGRESS)) {
+                             throw new InvalidActionException("Status invalid pour canceler");
+                         } else {
+                             bookReservationService.cancel(bookReservation);
+                         }
+                }
+                updateTable();
+            } catch (InvalidActionException exp) {
+                exp.printStackTrace();
+                JAlertHelper.showInfo("Attention", exp.getMessage());
+            } catch (Exception exp) {
+                exp.printStackTrace();
+                JAlertHelper.showError("Erreur de Enlèvement", "Erreur pour faire le Enlèvement: " + exp.getMessage());
+            }
         });
 
         jButtonReload.addActionListener(e -> {

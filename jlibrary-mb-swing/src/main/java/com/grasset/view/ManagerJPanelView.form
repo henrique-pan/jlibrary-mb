@@ -18,22 +18,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jTabbedPane" pref="1083" max="32767" attributes="0"/>
-                  <Component id="jPanelReservation" max="32767" attributes="0"/>
-              </Group>
+              <Component id="jTabbedPane" min="-2" pref="1083" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jTabbedPane" min="-2" pref="596" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanelReservation" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
+          <Component id="jTabbedPane" min="-2" pref="596" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -289,7 +281,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="210" y="220" width="-1" height="60"/>
+                  <AbsoluteConstraints x="290" y="220" width="-1" height="60"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -299,7 +291,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="340" y="220" width="-1" height="60"/>
+                  <AbsoluteConstraints x="430" y="220" width="-1" height="60"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -309,7 +301,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="470" y="220" width="-1" height="60"/>
+                  <AbsoluteConstraints x="570" y="220" width="-1" height="60"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -470,16 +462,6 @@
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="380" y="170" width="150" height="38"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButtonBookReserve1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="R&#xe9;server"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="580" y="220" width="-1" height="60"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -823,7 +805,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="160" y="250" width="-1" height="40"/>
+                  <AbsoluteConstraints x="330" y="250" width="-1" height="40"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -833,17 +815,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="320" y="249" width="-1" height="40"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButtonClientDetails">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="D&#xe9;tails"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="470" y="249" width="-1" height="40"/>
+                  <AbsoluteConstraints x="470" y="250" width="-1" height="40"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -863,7 +835,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="760" y="249" width="-1" height="40"/>
+                  <AbsoluteConstraints x="610" y="250" width="-1" height="40"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -884,16 +856,6 @@
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="810" y="0" width="180" height="40"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButtonClientReserve1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="R&#xe9;server"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="610" y="249" width="-1" height="40"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -927,7 +889,8 @@
                 <Component class="javax.swing.JTable" name="jTableReservations">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="6" rowCount="4">
+                      <Table columnCount="7" rowCount="4">
+                        <Column editable="false" title="Id" type="java.lang.String"/>
                         <Column editable="false" title="Code Client" type="java.lang.String"/>
                         <Column editable="false" title="ISBN" type="java.lang.String"/>
                         <Column editable="false" title="Nom du Livre" type="java.lang.String"/>
@@ -938,6 +901,11 @@
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
@@ -1224,30 +1192,6 @@
           </SubComponents>
         </Container>
       </SubComponents>
-    </Container>
-    <Container class="javax.swing.JPanel" name="jPanelReservation">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Nouvelle R&#xe9;servation">
-              <Font PropertyName="font" name="Lucida Grande" size="14" style="1"/>
-            </TitledBorder>
-          </Border>
-        </Property>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="109" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
     </Container>
   </SubComponents>
 </Form>

@@ -5,7 +5,6 @@ import com.grasset.dao.book.BookDAO;
 import com.grasset.dao.book.BookReservationDAO;
 import com.grasset.dao.book.impl.BookDAOImpl;
 import com.grasset.dao.book.impl.BookReservationDAOImpl;
-import com.grasset.exception.DBException;
 import com.grasset.exception.InvalidActionException;
 import com.grasset.reservation.BookReservation;
 import com.grasset.reservation.BookReservationStatus;
@@ -40,8 +39,8 @@ public class BookReservationServiceImpl implements BookReservationService {
     }
 
     @Override
-    public Set<BookReservation> getAllActives(BookEdition bookEdition) {
-        return bookReservationDAO.findAllActives(bookEdition);
+    public Set<BookReservation> getAllReserved(BookEdition bookEdition) {
+        return bookReservationDAO.findAllReserved(bookEdition);
     }
 
     @Override
@@ -50,7 +49,7 @@ public class BookReservationServiceImpl implements BookReservationService {
     }
 
     @Override
-    public boolean reserve(BookEdition bookEdition, Client client) throws InvalidActionException {
+    public boolean reserve(BookEdition bookEdition, Client client) throws Exception {
         int count = 0;
         Set<BookReservation> allByClient = getAll(client);
         for (BookReservation bookReservation : allByClient) {
@@ -63,10 +62,10 @@ public class BookReservationServiceImpl implements BookReservationService {
         }
 
         Integer totalExistent = bookEdition.getTotalSamples();
-        Set<BookReservation> allActives = getAllActives(bookEdition);
-        Integer totalActives = allActives.size();
+        Set<BookReservation> allReserved = getAllReserved(bookEdition);
+        Integer totalReserved = allReserved.size();
 
-        if (totalExistent > totalActives) {
+        if (totalExistent > totalReserved) {
             BookSample bookSample = getFirstAvailable(bookEdition);
 
             BookReservation bookReservation = new BookReservation();
@@ -87,5 +86,24 @@ public class BookReservationServiceImpl implements BookReservationService {
         bookReservation.setReservationStatus(BookReservationStatus.CANCELED);
         bookReservationDAO.merge(bookReservation);
         return true;
+    }
+
+    @Override
+    public boolean finnish(BookReservation bookReservation) throws InvalidActionException {
+        bookReservation.setReservationStatus(BookReservationStatus.COMPLETED);
+        bookReservationDAO.merge(bookReservation);
+        return true;
+    }
+
+    @Override
+    public boolean renew(BookReservation bookReservation) throws InvalidActionException {
+        bookReservation.setReservationStatus(BookReservationStatus.DEFERRED);
+        bookReservationDAO.merge(bookReservation);
+        return true;
+    }
+
+    @Override
+    public Set<BookReservation> getAll() {
+        return bookReservationDAO.findAll();
     }
 }

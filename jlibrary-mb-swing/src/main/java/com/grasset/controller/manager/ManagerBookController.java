@@ -52,7 +52,6 @@ public class ManagerBookController {
     private final JButton jButtonBookSave;
     private final JButton jButtonBookDelete;
     private final JButton jButtonBookDetails;
-    private final JButton jButtonBookReserve;
     private final JButton jButtonBookClear;
     private final JButton jButtonBookReload;
     private final JTextField jTextFieldBookSearch;
@@ -82,7 +81,6 @@ public class ManagerBookController {
         jButtonBookSave = managerView().getjButtonBookSave();
         jButtonBookDelete = managerView().getjButtonBookDelete();
         jButtonBookDetails = managerView().getjButtonBookDetails();
-        jButtonBookReserve = managerView().getjButtonBookReserve();
         jButtonBookClear = managerView().getjButtonBookClear();
         jButtonBookReload = managerView().getjButtonBookReload();
         jTableBook = managerView().getjTableBooks();
@@ -170,10 +168,6 @@ public class ManagerBookController {
                 exp.printStackTrace();
                 JAlertHelper.showError("Erreur de Enlèvement", "Erreur pour faire le Enlèvement: " + exp.getMessage());
             }
-        });
-
-        jButtonBookReserve.addActionListener(e -> {
-
         });
 
         jButtonBookClear.addActionListener(e -> {

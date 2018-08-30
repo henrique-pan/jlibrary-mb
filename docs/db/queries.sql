@@ -18,7 +18,18 @@ SELECT * FROM ADDRESS;
 
 
 SELECT * FROM BOOK_RESERVATION_STATUS;
+SELECT * FROM BOOK_RESERVATION;
 
+SELECT * FROM BOOK_SAMPLE bs 
+WHERE bs.ID_BOOK_SAMPLE NOT IN(SELECT ID_BOOK_SAMPLE FROM BOOK_RESERVATION 
+								WHERE ID_BOOK_RESERVATION_STATUS IN(1, 2, 5)) 
+                                AND bs.ID_BOOK_EDITION = 6 LIMIT 1;
+                                
+
+                                
+                                
+                                SELECT ID_BOOK_SAMPLE FROM BOOK_RESERVATION 
+								WHERE ID_BOOK_RESERVATION_STATUS NOT IN(2, 5);
 
 
 

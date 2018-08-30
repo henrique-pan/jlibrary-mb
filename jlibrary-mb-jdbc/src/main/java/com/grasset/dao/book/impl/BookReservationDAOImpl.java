@@ -8,6 +8,7 @@ import com.grasset.db.ConnectionFactory;
 import com.grasset.exception.DBException;
 import com.grasset.reservation.BookReservation;
 import com.grasset.reservation.BookReservationStatus;
+import com.grasset.user.SystemUser;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
@@ -23,7 +24,10 @@ public class BookReservationDAOImpl implements BookReservationDAO {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM BOOK_RESERVATION br ");
         query.append("INNER JOIN BOOK_SAMPLE bs ON(bs.ID_BOOK_SAMPLE = br.ID_BOOK_SAMPLE) ");
+        query.append("INNER JOIN BOOK_EDITION be ON(be.ID_BOOK_EDITION = bs.ID_BOOK_EDITION) ");
+        query.append("INNER JOIN BOOK b ON(b.ID_BOOK = be.ID_BOOK) ");
         query.append("INNER JOIN CLIENT c ON(c.ID_CLIENT = br.ID_CLIENT) ");
+        query.append("INNER JOIN SYSTEM_USER su ON(su.ID_SYSTEM_USER = c.ID_SYSTEM_USER) ");
         query.append("WHERE br.ID_BOOK_RESERVATION = ? ");
         query.append("ORDER BY br.DT_MODIFICATION DESC ");
 
@@ -41,6 +45,15 @@ public class BookReservationDAOImpl implements BookReservationDAO {
                 bookReservation.setIdBookReservation(rs.getInt("br.ID_BOOK_RESERVATION"));
 
                 BookSample bookSample = new BookSample();
+
+                // BOOK
+                bookSample.setTitle(rs.getString("b.NM_TITLE"));
+
+                // BOOK_EDITION
+                bookSample.setISBN(rs.getString("be.CD_ISBN"));
+                bookSample.setRare(rs.getString("be.FL_RARE").equals("Y"));
+
+                // BOOK_SAMPLE
                 bookSample.setIdBookSample(rs.getInt("bs.ID_BOOK_SAMPLE"));
                 bookSample.setCodeSample(rs.getString("bs.CD_CODE"));
                 bookSample.setCreationDate(rs.getTimestamp("bs.DT_CREATION"));
@@ -48,6 +61,11 @@ public class BookReservationDAOImpl implements BookReservationDAO {
                 bookReservation.setBookSample(bookSample);
 
                 Client client = new Client();
+                //SYSTEM_USER
+                client.setIdSystemUser(rs.getInt("su.ID_SYSTEM_USER"));
+                client.setCode(rs.getString("su.CD_USER"));
+
+                // CLIENT
                 client.setIdClient(rs.getInt("c.ID_CLIENT"));
                 client.setName(rs.getString("c.NM_NAME"));
                 client.setLastName(rs.getString("c.NM_LAST_NAME"));
@@ -77,7 +95,7 @@ public class BookReservationDAOImpl implements BookReservationDAO {
     public BookReservation findActive(BookSample bookSample, Client client) {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM BOOK_RESERVATION br ");
-        query.append("WHERE br.ID_BOOK_SAMPLE = ? AND br.ID_CLIENT = ? AND ID_BOOK_RESERVATION_STATUS IN(2, 5) ");
+        query.append("WHERE br.ID_BOOK_SAMPLE = ? AND br.ID_CLIENT = ? AND ID_BOOK_RESERVATION_STATUS IN(1, 2, 5) ");
 
         try (Connection connection = ConnectionFactory.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
@@ -116,7 +134,10 @@ public class BookReservationDAOImpl implements BookReservationDAO {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM BOOK_RESERVATION br ");
         query.append("INNER JOIN BOOK_SAMPLE bs ON(bs.ID_BOOK_SAMPLE = br.ID_BOOK_SAMPLE) ");
+        query.append("INNER JOIN BOOK_EDITION be ON(be.ID_BOOK_EDITION = bs.ID_BOOK_EDITION) ");
+        query.append("INNER JOIN BOOK b ON(b.ID_BOOK = be.ID_BOOK) ");
         query.append("INNER JOIN CLIENT c ON(c.ID_CLIENT = br.ID_CLIENT) ");
+        query.append("INNER JOIN SYSTEM_USER su ON(su.ID_SYSTEM_USER = c.ID_SYSTEM_USER) ");
         query.append("ORDER BY br.DT_MODIFICATION DESC ");
 
         try (Connection connection = ConnectionFactory.getDBConnection();
@@ -131,6 +152,14 @@ public class BookReservationDAOImpl implements BookReservationDAO {
                 bookReservation.setIdBookReservation(rs.getInt("br.ID_BOOK_RESERVATION"));
 
                 BookSample bookSample = new BookSample();
+
+                // BOOK
+                bookSample.setTitle(rs.getString("b.NM_TITLE"));
+
+                // BOOK_EDITION
+                bookSample.setISBN(rs.getString("be.CD_ISBN"));
+
+                // BOOK_SAMPLE
                 bookSample.setIdBookSample(rs.getInt("bs.ID_BOOK_SAMPLE"));
                 bookSample.setCodeSample(rs.getString("bs.CD_CODE"));
                 bookSample.setCreationDate(rs.getTimestamp("bs.DT_CREATION"));
@@ -138,6 +167,11 @@ public class BookReservationDAOImpl implements BookReservationDAO {
                 bookReservation.setBookSample(bookSample);
 
                 Client client = new Client();
+                //SYSTEM_USER
+                client.setIdSystemUser(rs.getInt("su.ID_SYSTEM_USER"));
+                client.setCode(rs.getString("su.CD_USER"));
+
+                // CLIENT
                 client.setIdClient(rs.getInt("c.ID_CLIENT"));
                 client.setName(rs.getString("c.NM_NAME"));
                 client.setLastName(rs.getString("c.NM_LAST_NAME"));
@@ -145,6 +179,7 @@ public class BookReservationDAOImpl implements BookReservationDAO {
                 client.setEmail(rs.getString("c.DS_EMAIL"));
                 bookReservation.setClient(client);
 
+                // RESERVATION
                 Integer status = rs.getInt("br.ID_BOOK_RESERVATION_STATUS");
                 BookReservationStatus reservationStatus = BookReservationStatus.getStatus(status);
                 bookReservation.setReservationStatus(reservationStatus);
@@ -170,7 +205,10 @@ public class BookReservationDAOImpl implements BookReservationDAO {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM BOOK_RESERVATION br ");
         query.append("INNER JOIN BOOK_SAMPLE bs ON(bs.ID_BOOK_SAMPLE = br.ID_BOOK_SAMPLE) ");
+        query.append("INNER JOIN BOOK_EDITION be ON(be.ID_BOOK_EDITION = bs.ID_BOOK_EDITION) ");
+        query.append("INNER JOIN BOOK b ON(b.ID_BOOK = be.ID_BOOK) ");
         query.append("INNER JOIN CLIENT c ON(c.ID_CLIENT = br.ID_CLIENT) ");
+        query.append("INNER JOIN SYSTEM_USER su ON(su.ID_SYSTEM_USER = c.ID_SYSTEM_USER) ");
         query.append("WHERE c.ID_CLIENT = ? ");
         query.append("ORDER BY br.DT_MODIFICATION DESC ");
 
@@ -185,9 +223,16 @@ public class BookReservationDAOImpl implements BookReservationDAO {
             Set<BookReservation> set = new HashSet<>();
             while (rs.next()) {
                 BookReservation bookReservation = new BookReservation();
-                bookReservation.setIdBookReservation(rs.getInt("br.ID_BOOK_RESERVATION"));
 
                 BookSample bookSample = new BookSample();
+                // BOOK
+                bookSample.setTitle(rs.getString("b.NM_TITLE"));
+
+                // BOOK_EDITION
+                bookSample.setISBN(rs.getString("be.CD_ISBN"));
+
+                // BOOK_SAMPLE
+                bookReservation.setIdBookReservation(rs.getInt("br.ID_BOOK_RESERVATION"));
                 bookSample.setIdBookSample(rs.getInt("bs.ID_BOOK_SAMPLE"));
                 bookSample.setCodeSample(rs.getString("bs.CD_CODE"));
                 bookSample.setCreationDate(rs.getTimestamp("bs.DT_CREATION"));
@@ -217,12 +262,13 @@ public class BookReservationDAOImpl implements BookReservationDAO {
     }
 
     @Override
-    public Set<BookReservation> findAllActives(BookEdition bookEdition) {
+    public Set<BookReservation> findAllReserved(BookEdition bookEdition) {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM BOOK_RESERVATION br ");
         query.append("INNER JOIN BOOK_SAMPLE bs ON(bs.ID_BOOK_SAMPLE = br.ID_BOOK_SAMPLE) ");
         query.append("INNER JOIN CLIENT c ON(c.ID_CLIENT = br.ID_CLIENT) ");
-        query.append("WHERE bs.ID_BOOK_EDITION = ? AND ID_BOOK_RESERVATION_STATUS NOT IN(2, 5) ");
+        query.append("WHERE bs.ID_BOOK_EDITION = ? AND ID_BOOK_RESERVATION_STATUS IN(1, 2, 5) ");
+        query.append("GROUP BY bs.CD_CODE ");
         query.append("ORDER BY br.DT_MODIFICATION DESC ");
 
         try (Connection connection = ConnectionFactory.getDBConnection();
@@ -279,7 +325,7 @@ public class BookReservationDAOImpl implements BookReservationDAO {
         query.append("SELECT * FROM BOOK_SAMPLE bs ");
         query.append("WHERE bs.ID_BOOK_SAMPLE NOT IN( ");
         query.append("SELECT ID_BOOK_SAMPLE FROM BOOK_RESERVATION ");
-        query.append("WHERE ID_BOOK_RESERVATION_STATUS NOT IN(2, 5)) AND bs.ID_BOOK_EDITION = ? ");
+        query.append("WHERE ID_BOOK_RESERVATION_STATUS IN(1, 2, 5)) AND bs.ID_BOOK_EDITION = ? ");
         query.append("LIMIT 1 ");
 
         try (Connection connection = ConnectionFactory.getDBConnection();

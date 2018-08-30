@@ -73,7 +73,7 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jTextFieldClientCode = new javax.swing.JTextField();
         jButtonInfoReload = new javax.swing.JButton();
         jButtonInfoRenew = new javax.swing.JButton();
-        jButtonInfoCancel1 = new javax.swing.JButton();
+        jButtonInfoCancel = new javax.swing.JButton();
         jPanelBooks = new javax.swing.JPanel();
         jScrollPaneBook = new javax.swing.JScrollPane();
         jTableBooks = new javax.swing.JTable();
@@ -105,7 +105,6 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jTextFieldOriginalLanguage = new javax.swing.JTextField();
         jLabelEditionLanguage = new javax.swing.JLabel();
         jTextFieldEditionLanguage = new javax.swing.JTextField();
-        jButtonBookWaitList1 = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(1072, 578));
         setMinimumSize(new java.awt.Dimension(1072, 578));
@@ -115,20 +114,20 @@ public class ClientJPanelView extends javax.swing.JPanel {
 
         jTableReservations.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Code Client", "ISBN", "Nom du Livre", "Date Reservation", "Status", "Type"
+                "Id", "Code Client", "ISBN", "Nom du Livre", "Date Reservation", "Status", "Type"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -263,9 +262,9 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jPanelInfo.add(jButtonInfoRenew);
         jButtonInfoRenew.setBounds(560, 250, 97, 40);
 
-        jButtonInfoCancel1.setText("Annuler");
-        jPanelInfo.add(jButtonInfoCancel1);
-        jButtonInfoCancel1.setBounds(390, 250, 88, 40);
+        jButtonInfoCancel.setText("Annuler");
+        jPanelInfo.add(jButtonInfoCancel);
+        jButtonInfoCancel.setBounds(390, 250, 88, 40);
 
         jTabbedPane.addTab("Info", jPanelInfo);
 
@@ -370,7 +369,7 @@ public class ClientJPanelView extends javax.swing.JPanel {
 
         jButtonBookReserve.setText("Réserver");
         jPanelBooks.add(jButtonBookReserve);
-        jButtonBookReserve.setBounds(390, 220, 97, 60);
+        jButtonBookReserve.setBounds(470, 220, 97, 60);
 
         jLabelEditionYear.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabelEditionYear.setText("<html><p align=\"center\">Année</p>Édition:<html>");
@@ -426,10 +425,6 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jPanelBooks.add(jTextFieldEditionLanguage);
         jTextFieldEditionLanguage.setBounds(570, 130, 150, 38);
 
-        jButtonBookWaitList1.setText("Attendre");
-        jPanelBooks.add(jButtonBookWaitList1);
-        jButtonBookWaitList1.setBounds(570, 220, 98, 60);
-
         jTabbedPane.addTab("Livres", jPanelBooks);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -458,8 +453,7 @@ public class ClientJPanelView extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonBookReload;
     private javax.swing.JButton jButtonBookReserve;
-    private javax.swing.JButton jButtonBookWaitList1;
-    private javax.swing.JButton jButtonInfoCancel1;
+    private javax.swing.JButton jButtonInfoCancel;
     private javax.swing.JButton jButtonInfoReload;
     private javax.swing.JButton jButtonInfoRenew;
     private javax.swing.JCheckBox jCheckBoxRare;
@@ -627,13 +621,14 @@ public class ClientJPanelView extends javax.swing.JPanel {
 
         if (!bookReservationSet.isEmpty()) {
             bookReservationSet.stream().map((bookReservation) -> {
-                Object[] obj = new Object[6];
-                obj[0] = bookReservation.getClient().getCode();
-                obj[1] = bookReservation.getBookSample().getISBN();
-                obj[2] = bookReservation.getBookSample().getTitle();
-                obj[3] = bookReservation.getCreationDate();
-                obj[4] = bookReservation.getReservationStatus().getStatus();
-                obj[5] = "LIVRE NON RARE";
+                Object[] obj = new Object[7];
+                obj[0] = bookReservation.getIdBookReservation();
+                obj[1] = bookReservation.getClient().getCode();
+                obj[2] = bookReservation.getBookSample().getISBN();
+                obj[3] = bookReservation.getBookSample().getTitle();
+                obj[4] = bookReservation.getCreationDate();
+                obj[5] = bookReservation.getReservationStatus().getStatus();
+                obj[6] = "LIVRE NON RARE";
                 return obj;
             }).forEachOrdered((obj) -> {
                 defaultTableModel.addRow(obj);
@@ -649,12 +644,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
         return jButtonBookReserve;
     }
 
-    public JButton getjButtonBookWaitList() {
-        return jButtonBookReload;
-    }
-
     public JButton getjButtonInfoCancel() {
-        return jButtonInfoReload;
+        return jButtonInfoCancel;
     }
 
     public JButton getjButtonInfoRenew() {

@@ -52,7 +52,6 @@ public class ManagerClientController {
     private final JCheckBox jCheckBoxClientValid;
     private final JButton jButtonClientSave;
     private final JButton jButtonClientDelete;
-    private final JButton jButtonClientDetails;
     private final JButton jButtonClientReserve;
     private final JButton jButtonClientClear;
     private final JButton jButtonClientReload;
@@ -82,7 +81,6 @@ public class ManagerClientController {
         jCheckBoxClientValid = managerView().getjCheckBoxClientValid();
         jButtonClientSave = managerView().getjButtonClientSave();
         jButtonClientDelete = managerView().getjButtonClientDelete();
-        jButtonClientDetails = managerView().getjButtonClientDetails();
         jButtonClientReserve = managerView().getjButtonClientReserve();
         jButtonClientClear = managerView().getjButtonClientClear();
         jButtonClientReload = managerView().getjButtonClientReload();
@@ -152,10 +150,6 @@ public class ManagerClientController {
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
-        });
-
-        jButtonClientDetails.addActionListener(e -> {
-            JAlertHelper.showInfo("Attention!", "Pour cette functionnalité, veuillez acheter la version PREMIUM.");
         });
 
         jButtonClientReserve.addActionListener(e -> {

@@ -42,7 +42,6 @@ public class ClientBookController {
     private final JTextField jTextFieldTotalSamples;
     private final JTextField jTextFieldOriginalLanguage;
     private final JTextField jTextFieldEditionLanguage;
-    private final JButton jButtonBookWaitList;
     private final JButton jButtonBookReserve;
     private final JButton jButtonBookReload;
     private final JTextField jTextFieldBookSearch;
@@ -68,7 +67,6 @@ public class ClientBookController {
         jTextFieldTotalSamples = clientView().getjTextFieldTotalSamples();
         jTextFieldOriginalLanguage = clientView().getjTextFieldOriginalLanguage();
         jTextFieldEditionLanguage = clientView().getjTextFieldEditionLanguage();
-        jButtonBookWaitList = clientView().getjButtonBookWaitList();
         jButtonBookReserve = clientView().getjButtonBookReserve();
         jTextFieldBookSearch = clientView().getjTextFieldBookSearch();
         jButtonBookReload = clientView().getjButtonBookReload();
@@ -89,10 +87,6 @@ public class ClientBookController {
     }
 
     private void setButtonEvents() {
-        jButtonBookWaitList.addActionListener(e -> {
-
-        });
-
         jButtonBookReserve.addActionListener(e -> {
             try {
                 clientView().actualBookSelected = jTable.getSelectedRow();
@@ -103,11 +97,18 @@ public class ClientBookController {
 
                     Client client = CurrentSystemUser.getClient();
 
-                    bookReservationService.reserve(bookEdition, client);
+                    boolean result = bookReservationService.reserve(bookEdition, client);
+                    if(result) {
+                        JAlertHelper.showInfo("Reservation", "Le livre a été reservé");
+                    }
                 }
             } catch (InvalidActionException exp) {
-                exp.printStackTrace();
-                JAlertHelper.showInfo("Attention", exp.getMessage());
+                if(exp.getMessage().equals("Il n'y a plus de livres disponibles.")) {
+                    JAlertHelper.showYesOrNoMessage("Liste d'attente", "Il n'y a plus de livres disponibles. Est-ce vou voulez entrer dans la liste d'attente? Vous serez informé dés qu'un livre sera disponible.");
+                } else {
+                    exp.printStackTrace();
+                    JAlertHelper.showInfo("Attention", exp.getMessage());
+                }
             } catch (Exception exp) {
                 exp.printStackTrace();
                 JAlertHelper.showError("Erreur de Enlèvement", "Erreur pour faire le Enlèvement: " + exp.getMessage());

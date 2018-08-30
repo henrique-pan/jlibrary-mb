@@ -10,7 +10,7 @@ import com.grasset.book.Book;
 import com.grasset.book.BookEdition;
 import com.grasset.book.BookSample;
 import com.grasset.client.Client;
-import com.grasset.user.ManagerUser;
+import com.grasset.reservation.BookReservation;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
      */
     public ManagerJPanelView() {
         initComponents();
-        
+
         configureTables();
     }
 
@@ -89,7 +89,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jTextFieldOriginalLanguage = new javax.swing.JTextField();
         jLabelEditionLanguage = new javax.swing.JLabel();
         jTextFieldEditionLanguage = new javax.swing.JTextField();
-        jButtonBookReserve1 = new javax.swing.JButton();
         jPanelClients = new javax.swing.JPanel();
         jScrollPaneClient = new javax.swing.JScrollPane();
         jTableClients = new javax.swing.JTable();
@@ -121,12 +120,10 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jTextFieldClientCode = new javax.swing.JTextField();
         jButtonClientSave = new javax.swing.JButton();
         jButtonClientDelete = new javax.swing.JButton();
-        jButtonClientDetails = new javax.swing.JButton();
         jButtonClientReload = new javax.swing.JButton();
         jButtonClientClear = new javax.swing.JButton();
         jLabelClientCode1 = new javax.swing.JLabel();
         jPasswordFieldClient = new javax.swing.JPasswordField();
-        jButtonClientReserve1 = new javax.swing.JButton();
         jPanelReservations = new javax.swing.JPanel();
         jScrollPaneReservations = new javax.swing.JScrollPane();
         jTableReservations = new javax.swing.JTable();
@@ -155,7 +152,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jLabelReservationBookCodeSample = new javax.swing.JLabel();
         jTextFieldReservationBookCodeSample = new javax.swing.JTextField();
         jButtonReservationRenew1 = new javax.swing.JButton();
-        jPanelReservation = new javax.swing.JPanel();
 
         jPanelBooks.setLayout(null);
 
@@ -250,15 +246,15 @@ public class ManagerJPanelView extends javax.swing.JPanel {
 
         jButtonBookSave.setText("Enregistrer");
         jPanelBooks.add(jButtonBookSave);
-        jButtonBookSave.setBounds(210, 220, 112, 60);
+        jButtonBookSave.setBounds(290, 220, 112, 60);
 
         jButtonBookDelete.setText("Supprimer");
         jPanelBooks.add(jButtonBookDelete);
-        jButtonBookDelete.setBounds(340, 220, 108, 60);
+        jButtonBookDelete.setBounds(430, 220, 108, 60);
 
         jButtonBookDetails.setText("Détails");
         jPanelBooks.add(jButtonBookDetails);
-        jButtonBookDetails.setBounds(470, 220, 88, 60);
+        jButtonBookDetails.setBounds(570, 220, 88, 60);
 
         jButtonBookReload.setText("Recharger");
         jPanelBooks.add(jButtonBookReload);
@@ -316,10 +312,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jLabelEditionLanguage.setBounds(310, 170, 70, 32);
         jPanelBooks.add(jTextFieldEditionLanguage);
         jTextFieldEditionLanguage.setBounds(380, 170, 150, 38);
-
-        jButtonBookReserve1.setText("Réserver");
-        jPanelBooks.add(jButtonBookReserve1);
-        jButtonBookReserve1.setBounds(580, 220, 97, 60);
 
         jTabbedPane.addTab("Livres", jPanelBooks);
 
@@ -446,15 +438,11 @@ public class ManagerJPanelView extends javax.swing.JPanel {
 
         jButtonClientSave.setText("Enregistrer");
         jPanelClients.add(jButtonClientSave);
-        jButtonClientSave.setBounds(160, 250, 112, 40);
+        jButtonClientSave.setBounds(330, 250, 112, 40);
 
         jButtonClientDelete.setText("Supprimer");
         jPanelClients.add(jButtonClientDelete);
-        jButtonClientDelete.setBounds(320, 249, 108, 40);
-
-        jButtonClientDetails.setText("Détails");
-        jPanelClients.add(jButtonClientDetails);
-        jButtonClientDetails.setBounds(470, 249, 88, 40);
+        jButtonClientDelete.setBounds(470, 250, 108, 40);
 
         jButtonClientReload.setText("Recharger");
         jPanelClients.add(jButtonClientReload);
@@ -462,7 +450,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
 
         jButtonClientClear.setText("Nettoyer");
         jPanelClients.add(jButtonClientClear);
-        jButtonClientClear.setBounds(760, 249, 98, 40);
+        jButtonClientClear.setBounds(610, 250, 98, 40);
 
         jLabelClientCode1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabelClientCode1.setText("Code:");
@@ -471,30 +459,26 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jPanelClients.add(jPasswordFieldClient);
         jPasswordFieldClient.setBounds(810, 0, 180, 40);
 
-        jButtonClientReserve1.setText("Réserver");
-        jPanelClients.add(jButtonClientReserve1);
-        jButtonClientReserve1.setBounds(610, 249, 97, 40);
-
         jTabbedPane.addTab("Clients", jPanelClients);
 
         jPanelReservations.setLayout(null);
 
         jTableReservations.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Code Client", "ISBN", "Nom du Livre", "Date Reservation", "Status", "Type"
+                "Id", "Code Client", "ISBN", "Nom du Livre", "Date Reservation", "Status", "Type"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -599,37 +583,18 @@ public class ManagerJPanelView extends javax.swing.JPanel {
 
         jTabbedPane.addTab("Réservations", jPanelReservations);
 
-        jPanelReservation.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nouvelle Réservation", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 1, 14))); // NOI18N
-
-        javax.swing.GroupLayout jPanelReservationLayout = new javax.swing.GroupLayout(jPanelReservation);
-        jPanelReservation.setLayout(jPanelReservationLayout);
-        jPanelReservationLayout.setHorizontalGroup(
-            jPanelReservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanelReservationLayout.setVerticalGroup(
-            jPanelReservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 109, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1083, Short.MAX_VALUE)
-                    .addComponent(jPanelReservation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1083, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelReservation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -639,13 +604,10 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     private javax.swing.JButton jButtonBookDelete;
     private javax.swing.JButton jButtonBookDetails;
     private javax.swing.JButton jButtonBookReload;
-    private javax.swing.JButton jButtonBookReserve1;
     private javax.swing.JButton jButtonBookSave;
     private javax.swing.JButton jButtonClientClear;
     private javax.swing.JButton jButtonClientDelete;
-    private javax.swing.JButton jButtonClientDetails;
     private javax.swing.JButton jButtonClientReload;
-    private javax.swing.JButton jButtonClientReserve1;
     private javax.swing.JButton jButtonClientSave;
     private javax.swing.JButton jButtonReservationCancel;
     private javax.swing.JButton jButtonReservationClear;
@@ -691,7 +653,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelTotalSamples;
     private javax.swing.JPanel jPanelBooks;
     private javax.swing.JPanel jPanelClients;
-    private javax.swing.JPanel jPanelReservation;
     private javax.swing.JPanel jPanelReservations;
     private javax.swing.JPasswordField jPasswordFieldClient;
     private javax.swing.JScrollPane jScrollPaneBook;
@@ -762,6 +723,16 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jTableBooks.getColumnModel().getColumn(3).setPreferredWidth(100);
         jTableBooks.getColumnModel().getColumn(4).setPreferredWidth(200);
         jTableBooks.getColumnModel().getColumn(5).setPreferredWidth(100);
+
+        jTableReservations.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        jTableReservations.getColumnModel().getColumn(0).setPreferredWidth(80);
+        jTableReservations.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTableReservations.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTableReservations.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jTableReservations.getColumnModel().getColumn(4).setPreferredWidth(200);
+        jTableReservations.getColumnModel().getColumn(5).setPreferredWidth(100);
+        jTableReservations.getColumnModel().getColumn(6).setPreferredWidth(100);
     }
 
     // BOOK TABLE
@@ -782,7 +753,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
                 obj[1] = bookEdition.getTitle();
 
                 Set<Author> authors = bookEdition.getAuthors();
-                if(authors != null && !authors.isEmpty()) {
+                if (authors != null && !authors.isEmpty()) {
                     List<String> list = new ArrayList<>();
                     authors.forEach(author -> {
                         list.add(author.getName());
@@ -813,7 +784,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
             jTextFieldBookYear.setText(String.valueOf(bookEdition.getBookYear()));
 
             Set<Author> authors = bookEdition.getAuthors();
-            if(authors != null && !authors.isEmpty()) {
+            if (authors != null && !authors.isEmpty()) {
                 List<String> list = new ArrayList<>();
                 authors.forEach(author -> {
                     list.add(author.getName());
@@ -897,8 +868,51 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         }
     }
     // CLIENT TABLE
-    
-    
+    // RESERVATION TABLE
+    public Integer actualReservationSelected = null;
+
+    public void updateReservationsTable(Set<BookReservation> bookReservationSet) {
+        DefaultTableModel defaultTableModel = (DefaultTableModel) jTableReservations.getModel();
+        int size = defaultTableModel.getRowCount();
+        for (int i = 0; i < size; i++) {
+            defaultTableModel.removeRow(0);
+        }
+
+        if (!bookReservationSet.isEmpty()) {
+            bookReservationSet.stream().map((bookReservation) -> {
+                Object[] obj = new Object[7];
+                obj[0] = bookReservation.getIdBookReservation();
+                obj[1] = bookReservation.getClient().getCode();
+                obj[2] = bookReservation.getBookSample().getISBN();
+                obj[3] = bookReservation.getBookSample().getTitle();
+                obj[4] = bookReservation.getCreationDate();
+                obj[5] = bookReservation.getReservationStatus().getStatus();
+                obj[6] = "LIVRE NON RARE";
+                return obj;
+            }).forEachOrdered((obj) -> {
+                defaultTableModel.addRow(obj);
+            });
+
+            actualReservationSelected = 0;
+            jTableReservations.setRowSelectionInterval(0, actualReservationSelected);
+        }
+    }
+
+    public void setReservationsFields(BookReservation bookReservation) {
+        if (bookReservation != null) {
+            jTextFieldReservationBookISBN.setText(bookReservation.getBookSample().getISBN());
+            jTextFieldReservationBookName.setText(bookReservation.getBookSample().getTitle());
+            jTextFieldReservationBookCodeSample.setText(bookReservation.getBookSample().getCodeSample());
+            jTextFieldReservationClientCode.setText(bookReservation.getClient().getCode());
+            jTextFieldReservationClientName.setText(bookReservation.getClient().getName());
+            jTextFieldReservationDate.setText(bookReservation.getCreationDate().toString());
+            jTextFieldReservationReturnDate.setText("7");
+            jTextFieldReservationStatus.setText(bookReservation.getReservationStatus().getStatus());
+            jCheckBoxReservationRare.setSelected(bookReservation.getBookSample().isRare());
+        }
+    }
+    // RESERVATION TABLE
+
     public JButton getjButtonBookClear() {
         return jButtonBookClear;
     }
@@ -911,10 +925,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         return jButtonBookDetails;
     }
 
-    public JButton getjButtonBookReserve() {
-        return jButtonBookReload;
-    }
-
     public JButton getjButtonBookSave() {
         return jButtonBookSave;
     }
@@ -925,10 +935,6 @@ public class ManagerJPanelView extends javax.swing.JPanel {
 
     public JButton getjButtonClientDelete() {
         return jButtonClientDelete;
-    }
-
-    public JButton getjButtonClientDetails() {
-        return jButtonClientDetails;
     }
 
     public JButton getjButtonClientReserve() {
@@ -952,7 +958,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     }
 
     public JButton getjButtonReservationRenew() {
-        return jButtonReservationReload;
+        return jButtonReservationRenew1;
     }
 
     public JCheckBox getjCheckBoxBookRare() {
@@ -1030,7 +1036,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     public JTextField getjTextFieldClientEmail() {
         return jTextFieldClientEmail;
     }
-    
+
     public JTextField getjTextFieldClientLastName() {
         return jTextFieldClientLastName;
     }
@@ -1126,19 +1132,19 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     public JTextField getjTextFieldZIPCode() {
         return jTextFieldZIPCode;
     }
-    
+
     public JPasswordField getjPasswordFieldClient() {
         return jPasswordFieldClient;
     }
-    
+
     public JButton getjButtonBookReload() {
         return jButtonBookReload;
     }
-    
+
     public JButton getjButtonClientReload() {
         return jButtonClientReload;
     }
-    
+
     public JButton getjButtonReservationReload() {
         return jButtonReservationReload;
     }
