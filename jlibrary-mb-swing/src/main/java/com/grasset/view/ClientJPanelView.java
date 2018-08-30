@@ -9,6 +9,7 @@ import com.grasset.book.Author;
 import com.grasset.book.Book;
 import com.grasset.book.BookEdition;
 import com.grasset.book.BookSample;
+import com.grasset.reservation.BookReservation;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -43,7 +44,7 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jTabbedPane = new javax.swing.JTabbedPane();
         jPanelInfo = new javax.swing.JPanel();
         jScrollPaneReservation = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTableReservations = new javax.swing.JTable();
         jTextFieldClientSearch = new javax.swing.JTextField();
         jLabelClientName = new javax.swing.JLabel();
         jTextFieldClientName = new javax.swing.JTextField();
@@ -68,12 +69,11 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jLabelClientDocConfirmation = new javax.swing.JLabel();
         jTextFieldDocVerification = new javax.swing.JTextField();
         jCheckBoxValid = new javax.swing.JCheckBox();
-        jLabelClientId = new javax.swing.JLabel();
-        jTextFieldClientId = new javax.swing.JTextField();
         jLabelClientCode = new javax.swing.JLabel();
         jTextFieldClientCode = new javax.swing.JTextField();
-        jButtonInfoCancel = new javax.swing.JButton();
+        jButtonInfoReload = new javax.swing.JButton();
         jButtonInfoRenew = new javax.swing.JButton();
+        jButtonInfoCancel1 = new javax.swing.JButton();
         jPanelBooks = new javax.swing.JPanel();
         jScrollPaneBook = new javax.swing.JScrollPane();
         jTableBooks = new javax.swing.JTable();
@@ -91,7 +91,7 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jTextFieldEditor = new javax.swing.JTextField();
         jTextFieldTotalSamples = new javax.swing.JTextField();
         jCheckBoxRare = new javax.swing.JCheckBox();
-        jButtonBookWaitList = new javax.swing.JButton();
+        jButtonBookReload = new javax.swing.JButton();
         jButtonBookReserve = new javax.swing.JButton();
         jLabelEditionYear = new javax.swing.JLabel();
         jTextFieldEditionYear = new javax.swing.JTextField();
@@ -105,6 +105,7 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jTextFieldOriginalLanguage = new javax.swing.JTextField();
         jLabelEditionLanguage = new javax.swing.JLabel();
         jTextFieldEditionLanguage = new javax.swing.JTextField();
+        jButtonBookWaitList1 = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(1072, 578));
         setMinimumSize(new java.awt.Dimension(1072, 578));
@@ -112,7 +113,7 @@ public class ClientJPanelView extends javax.swing.JPanel {
 
         jPanelInfo.setLayout(null);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTableReservations.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -120,7 +121,7 @@ public class ClientJPanelView extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Code", "Id", "Prénom", "Nom", "E-mail", "Téléphone"
+                "Code Client", "ISBN", "Nom du Livre", "Date Reservation", "Status", "Type"
             }
         ) {
             Class[] types = new Class [] {
@@ -138,10 +139,10 @@ public class ClientJPanelView extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPaneReservation.setViewportView(jTable2);
+        jScrollPaneReservation.setViewportView(jTableReservations);
 
         jPanelInfo.add(jScrollPaneReservation);
-        jScrollPaneReservation.setBounds(0, 340, 1056, 200);
+        jScrollPaneReservation.setBounds(0, 340, 1040, 200);
         jPanelInfo.add(jTextFieldClientSearch);
         jTextFieldClientSearch.setBounds(6, 294, 1050, 40);
 
@@ -245,31 +246,26 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jPanelInfo.add(jCheckBoxValid);
         jCheckBoxValid.setBounds(870, 190, 74, 23);
 
-        jLabelClientId.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jLabelClientId.setText("Id:");
-        jPanelInfo.add(jLabelClientId);
-        jLabelClientId.setBounds(740, 10, 16, 16);
-
-        jTextFieldClientId.setEditable(false);
-        jPanelInfo.add(jTextFieldClientId);
-        jTextFieldClientId.setBounds(760, 0, 227, 38);
-
         jLabelClientCode.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabelClientCode.setText("Code:");
         jPanelInfo.add(jLabelClientCode);
-        jLabelClientCode.setBounds(720, 50, 37, 16);
+        jLabelClientCode.setBounds(720, 10, 37, 16);
 
         jTextFieldClientCode.setEditable(false);
         jPanelInfo.add(jTextFieldClientCode);
-        jTextFieldClientCode.setBounds(760, 40, 227, 38);
+        jTextFieldClientCode.setBounds(760, 0, 227, 38);
 
-        jButtonInfoCancel.setText("Annuler");
-        jPanelInfo.add(jButtonInfoCancel);
-        jButtonInfoCancel.setBounds(550, 250, 88, 40);
+        jButtonInfoReload.setText("Recharger");
+        jPanelInfo.add(jButtonInfoReload);
+        jButtonInfoReload.setBounds(940, 250, 88, 40);
 
         jButtonInfoRenew.setText("Renouveler");
         jPanelInfo.add(jButtonInfoRenew);
-        jButtonInfoRenew.setBounds(380, 250, 97, 40);
+        jButtonInfoRenew.setBounds(560, 250, 97, 40);
+
+        jButtonInfoCancel1.setText("Annuler");
+        jPanelInfo.add(jButtonInfoCancel1);
+        jButtonInfoCancel1.setBounds(390, 250, 88, 40);
 
         jTabbedPane.addTab("Info", jPanelInfo);
 
@@ -304,7 +300,7 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jScrollPaneBook.setViewportView(jTableBooks);
 
         jPanelBooks.add(jScrollPaneBook);
-        jScrollPaneBook.setBounds(0, 340, 1060, 210);
+        jScrollPaneBook.setBounds(0, 340, 1040, 210);
         jPanelBooks.add(jTextFieldBookSearch);
         jTextFieldBookSearch.setBounds(6, 294, 1040, 40);
 
@@ -368,13 +364,13 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jPanelBooks.add(jCheckBoxRare);
         jCheckBoxRare.setBounds(930, 180, 63, 23);
 
-        jButtonBookWaitList.setText("Attendre");
-        jPanelBooks.add(jButtonBookWaitList);
-        jButtonBookWaitList.setBounds(400, 220, 98, 60);
+        jButtonBookReload.setText("Reload");
+        jPanelBooks.add(jButtonBookReload);
+        jButtonBookReload.setBounds(930, 220, 86, 60);
 
         jButtonBookReserve.setText("Réserver");
         jPanelBooks.add(jButtonBookReserve);
-        jButtonBookReserve.setBounds(560, 220, 97, 60);
+        jButtonBookReserve.setBounds(390, 220, 97, 60);
 
         jLabelEditionYear.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabelEditionYear.setText("<html><p align=\"center\">Année</p>Édition:<html>");
@@ -430,6 +426,10 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jPanelBooks.add(jTextFieldEditionLanguage);
         jTextFieldEditionLanguage.setBounds(570, 130, 150, 38);
 
+        jButtonBookWaitList1.setText("Attendre");
+        jPanelBooks.add(jButtonBookWaitList1);
+        jButtonBookWaitList1.setBounds(570, 220, 98, 60);
+
         jTabbedPane.addTab("Livres", jPanelBooks);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -456,9 +456,11 @@ public class ClientJPanelView extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonBookReload;
     private javax.swing.JButton jButtonBookReserve;
-    private javax.swing.JButton jButtonBookWaitList;
-    private javax.swing.JButton jButtonInfoCancel;
+    private javax.swing.JButton jButtonBookWaitList1;
+    private javax.swing.JButton jButtonInfoCancel1;
+    private javax.swing.JButton jButtonInfoReload;
     private javax.swing.JButton jButtonInfoRenew;
     private javax.swing.JCheckBox jCheckBoxRare;
     private javax.swing.JCheckBox jCheckBoxValid;
@@ -474,7 +476,6 @@ public class ClientJPanelView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelClientCode;
     private javax.swing.JLabel jLabelClientDocConfirmation;
     private javax.swing.JLabel jLabelClientEmail;
-    private javax.swing.JLabel jLabelClientId;
     private javax.swing.JLabel jLabelClientLastName;
     private javax.swing.JLabel jLabelClientName;
     private javax.swing.JLabel jLabelClientPhone;
@@ -493,8 +494,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparatorClientAddress;
     private javax.swing.JSeparator jSeparatorClientInfo;
     private javax.swing.JTabbedPane jTabbedPane;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTableBooks;
+    private javax.swing.JTable jTableReservations;
     private javax.swing.JTextField jTextFieldBookAuthors;
     private javax.swing.JTextField jTextFieldBookEdition;
     private javax.swing.JTextField jTextFieldBookFormat;
@@ -506,7 +507,6 @@ public class ClientJPanelView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextFieldClientCity;
     private javax.swing.JTextField jTextFieldClientCode;
     private javax.swing.JTextField jTextFieldClientEmail;
-    private javax.swing.JTextField jTextFieldClientId;
     private javax.swing.JTextField jTextFieldClientLastName;
     private javax.swing.JTextField jTextFieldClientName;
     private javax.swing.JTextField jTextFieldClientPhone;
@@ -533,10 +533,19 @@ public class ClientJPanelView extends javax.swing.JPanel {
         jTableBooks.getColumnModel().getColumn(3).setPreferredWidth(100);
         jTableBooks.getColumnModel().getColumn(4).setPreferredWidth(200);
         jTableBooks.getColumnModel().getColumn(5).setPreferredWidth(100);
+
+        jTableBooks.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        jTableBooks.getColumnModel().getColumn(0).setPreferredWidth(80);
+        jTableBooks.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTableBooks.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTableBooks.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jTableBooks.getColumnModel().getColumn(4).setPreferredWidth(200);
+        jTableBooks.getColumnModel().getColumn(5).setPreferredWidth(100);
     }
 
     // BOOK TABLE
-    public Integer actualBookSelectedVenue = null;
+    public Integer actualBookSelected = null;
 
     public void updateBookTable(Set<Book> bookSet) {
         DefaultTableModel defaultTableModel = (DefaultTableModel) jTableBooks.getModel();
@@ -570,8 +579,8 @@ public class ClientJPanelView extends javax.swing.JPanel {
                 defaultTableModel.addRow(obj);
             });
 
-            actualBookSelectedVenue = 0;
-            jTableBooks.setRowSelectionInterval(0, actualBookSelectedVenue);
+            actualBookSelected = 0;
+            jTableBooks.setRowSelectionInterval(0, actualBookSelected);
         }
     }
 
@@ -606,16 +615,46 @@ public class ClientJPanelView extends javax.swing.JPanel {
     }
     // BOOK TABLE
 
+    // RESERVATION TABLE
+    public Integer actualReservationSelected = null;
+
+    public void updateReservationTable(Set<BookReservation> bookReservationSet) {
+        DefaultTableModel defaultTableModel = (DefaultTableModel) jTableReservations.getModel();
+        int size = defaultTableModel.getRowCount();
+        for (int i = 0; i < size; i++) {
+            defaultTableModel.removeRow(0);
+        }
+
+        if (!bookReservationSet.isEmpty()) {
+            bookReservationSet.stream().map((bookReservation) -> {
+                Object[] obj = new Object[6];
+                obj[0] = bookReservation.getClient().getCode();
+                obj[1] = bookReservation.getBookSample().getISBN();
+                obj[2] = bookReservation.getBookSample().getTitle();
+                obj[3] = bookReservation.getCreationDate();
+                obj[4] = bookReservation.getReservationStatus().getStatus();
+                obj[5] = "LIVRE NON RARE";
+                return obj;
+            }).forEachOrdered((obj) -> {
+                defaultTableModel.addRow(obj);
+            });
+
+            actualReservationSelected = 0;
+            jTableReservations.setRowSelectionInterval(0, actualReservationSelected);
+        }
+    }
+    // RESERVATION TABLE
+
     public JButton getjButtonBookReserve() {
         return jButtonBookReserve;
     }
 
     public JButton getjButtonBookWaitList() {
-        return jButtonBookWaitList;
+        return jButtonBookReload;
     }
 
     public JButton getjButtonInfoCancel() {
-        return jButtonInfoCancel;
+        return jButtonInfoReload;
     }
 
     public JButton getjButtonInfoRenew() {
@@ -672,10 +711,6 @@ public class ClientJPanelView extends javax.swing.JPanel {
 
     public JTextField getjTextFieldClientEmail() {
         return jTextFieldClientEmail;
-    }
-
-    public JTextField getjTextFieldClientId() {
-        return jTextFieldClientId;
     }
 
     public JTextField getjTextFieldClientLastName() {
@@ -739,7 +774,15 @@ public class ClientJPanelView extends javax.swing.JPanel {
     }
 
     public JTable getjTableReservations() {
-        return jTable2;
+        return jTableReservations;
+    }
+    
+    public JButton getjButtonInfoReload() {
+        return jButtonInfoReload;
+    }
+    
+    public JButton getjButtonBookReload() {
+        return jButtonBookReload;
     }
     
 }

@@ -9,14 +9,23 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
+import com.grasset.book.Book;
+import com.grasset.book.BookEdition;
+import com.grasset.book.BookReservationService;
+import com.grasset.book.BookReservationServiceImpl;
 import com.grasset.client.Client;
 import com.grasset.controller.manager.ManagerController;
 import com.grasset.env.CurrentSystemUser;
+import com.grasset.reservation.BookReservation;
 import com.grasset.view.ClientJPanelView;
 import com.grasset.view.ManagerJPanelView;
+import com.grasset.view.alerts.JAlertHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -44,6 +53,8 @@ public class ClientInfoController {
     private final JButton jButtonInfoCancel;
     private final JTextField jTextFieldClientSearch;
 
+    private BookReservationService bookReservationService;
+
     public ClientInfoController(ClientController clientController) {
         this.clientController = clientController;
 
@@ -63,12 +74,16 @@ public class ClientInfoController {
         jButtonInfoCancel = clientView().getjButtonInfoCancel();
         jTextFieldClientSearch = clientView().getjTextFieldClientSearch();
 
+        bookReservationService = new BookReservationServiceImpl();
+
         loadInfo();
 
         setEvents();
     }
 
     private void setEvents() {
+        // Table Events
+        setTableEvents();
         // Button Events
         setButtonEvents();
     }
@@ -97,6 +112,72 @@ public class ClientInfoController {
         jTextFieldZIPCode.setText(client.getAddress().getZipCode());
         jTextFieldDocVerification.setText(client.getAddress().getAddressProof());
         jCheckBoxValid.setSelected(client.getAddress().isValid());
+    }
+
+    private void setTableEvents() {
+        updateTable();
+
+        jTextFieldClientSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                try {
+                    doSearch();
+                } catch (Exception exp) {
+                    exp.printStackTrace();
+                    JAlertHelper.showError("Erreur de Enlèvement", "Erreur pour faire le Enlèvement: " + exp.getMessage());
+                }
+            }
+
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                try {
+                    doSearch();
+                } catch (Exception exp) {
+                    exp.printStackTrace();
+                    JAlertHelper.showError("Erreur de Enlèvement", "Erreur pour faire le Enlèvement: " + exp.getMessage());
+                }
+            }
+        });
+    }
+
+    private void updateTable() {
+        try {
+            Client client = CurrentSystemUser.getClient();
+            Set<BookReservation> set = bookReservationService.getAll(client);
+            clientView().updateReservationTable(set);
+        } catch (Exception exp) {
+            exp.printStackTrace();
+            JAlertHelper.showError("Erreur pour remplir table", "Erreur pour creer table: " + exp.getMessage());
+        }
+    }
+
+    private void updateTable(Set<BookReservation> set) {
+        try {
+            clientView().updateReservationTable(set);
+        } catch (Exception exp) {
+            exp.printStackTrace();
+            JAlertHelper.showError("Erreur pour remplir table", "Erreur pour creer table: " + exp.getMessage());
+        }
+    }
+
+    private void doSearch() throws Exception {
+        String text = jTextFieldClientSearch.getText();
+
+        if (text.equals("")) {
+            updateTable();
+        } else {
+            clientView().actualBookSelected = null;
+            Set<BookReservation> resultSet = new HashSet<>();
+            Client client = CurrentSystemUser.getClient();
+            Set<BookReservation> set = bookReservationService.getAll(client);
+            for (BookReservation bookReservation : set) {
+                String title = bookReservation.getBookSample().getTitle();
+                String ISBN = bookReservation.getClient().getCode();
+                String s = title.concat(ISBN);
+                if (s.toUpperCase().contains(text.toUpperCase())) {
+                    resultSet.add(bookReservation);
+                }
+            }
+            updateTable(resultSet);
+        }
     }
 
 

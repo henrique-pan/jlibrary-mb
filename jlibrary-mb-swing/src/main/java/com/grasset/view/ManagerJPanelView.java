@@ -73,7 +73,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jButtonBookSave = new javax.swing.JButton();
         jButtonBookDelete = new javax.swing.JButton();
         jButtonBookDetails = new javax.swing.JButton();
-        jButtonBookReserve = new javax.swing.JButton();
+        jButtonBookReload = new javax.swing.JButton();
         jButtonBookClear = new javax.swing.JButton();
         jLabelEditionYear = new javax.swing.JLabel();
         jTextFieldEditionYear = new javax.swing.JTextField();
@@ -89,6 +89,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jTextFieldOriginalLanguage = new javax.swing.JTextField();
         jLabelEditionLanguage = new javax.swing.JLabel();
         jTextFieldEditionLanguage = new javax.swing.JTextField();
+        jButtonBookReserve1 = new javax.swing.JButton();
         jPanelClients = new javax.swing.JPanel();
         jScrollPaneClient = new javax.swing.JScrollPane();
         jTableClients = new javax.swing.JTable();
@@ -121,10 +122,11 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jButtonClientSave = new javax.swing.JButton();
         jButtonClientDelete = new javax.swing.JButton();
         jButtonClientDetails = new javax.swing.JButton();
-        jButtonClientReserve = new javax.swing.JButton();
+        jButtonClientReload = new javax.swing.JButton();
         jButtonClientClear = new javax.swing.JButton();
         jLabelClientCode1 = new javax.swing.JLabel();
         jPasswordFieldClient = new javax.swing.JPasswordField();
+        jButtonClientReserve1 = new javax.swing.JButton();
         jPanelReservations = new javax.swing.JPanel();
         jScrollPaneReservations = new javax.swing.JScrollPane();
         jTableReservations = new javax.swing.JTable();
@@ -148,10 +150,11 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jSeparatorReservationBook = new javax.swing.JSeparator();
         jButtonReservationFinish = new javax.swing.JButton();
         jButtonReservationCancel = new javax.swing.JButton();
-        jButtonReservationRenew = new javax.swing.JButton();
+        jButtonReservationReload = new javax.swing.JButton();
         jButtonReservationClear = new javax.swing.JButton();
         jLabelReservationBookCodeSample = new javax.swing.JLabel();
         jTextFieldReservationBookCodeSample = new javax.swing.JTextField();
+        jButtonReservationRenew1 = new javax.swing.JButton();
         jPanelReservation = new javax.swing.JPanel();
 
         jPanelBooks.setLayout(null);
@@ -257,9 +260,9 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jPanelBooks.add(jButtonBookDetails);
         jButtonBookDetails.setBounds(470, 220, 88, 60);
 
-        jButtonBookReserve.setText("Réserver");
-        jPanelBooks.add(jButtonBookReserve);
-        jButtonBookReserve.setBounds(580, 220, 97, 60);
+        jButtonBookReload.setText("Recharger");
+        jPanelBooks.add(jButtonBookReload);
+        jButtonBookReload.setBounds(950, 220, 97, 60);
 
         jButtonBookClear.setText("Nettoyer");
         jPanelBooks.add(jButtonBookClear);
@@ -313,6 +316,10 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jLabelEditionLanguage.setBounds(310, 170, 70, 32);
         jPanelBooks.add(jTextFieldEditionLanguage);
         jTextFieldEditionLanguage.setBounds(380, 170, 150, 38);
+
+        jButtonBookReserve1.setText("Réserver");
+        jPanelBooks.add(jButtonBookReserve1);
+        jButtonBookReserve1.setBounds(580, 220, 97, 60);
 
         jTabbedPane.addTab("Livres", jPanelBooks);
 
@@ -449,9 +456,9 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jPanelClients.add(jButtonClientDetails);
         jButtonClientDetails.setBounds(470, 249, 88, 40);
 
-        jButtonClientReserve.setText("Réserver");
-        jPanelClients.add(jButtonClientReserve);
-        jButtonClientReserve.setBounds(610, 249, 97, 40);
+        jButtonClientReload.setText("Recharger");
+        jPanelClients.add(jButtonClientReload);
+        jButtonClientReload.setBounds(950, 250, 97, 40);
 
         jButtonClientClear.setText("Nettoyer");
         jPanelClients.add(jButtonClientClear);
@@ -463,6 +470,10 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jLabelClientCode1.setBounds(720, 50, 37, 16);
         jPanelClients.add(jPasswordFieldClient);
         jPasswordFieldClient.setBounds(810, 0, 180, 40);
+
+        jButtonClientReserve1.setText("Réserver");
+        jPanelClients.add(jButtonClientReserve1);
+        jButtonClientReserve1.setBounds(610, 249, 97, 40);
 
         jTabbedPane.addTab("Clients", jPanelClients);
 
@@ -476,7 +487,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "ISBN", "Nom du Livre", "Code Client", "Nom Client", "Date du Prêt", "Prévision"
+                "Code Client", "ISBN", "Nom du Livre", "Date Reservation", "Status", "Type"
             }
         ) {
             Class[] types = new Class [] {
@@ -567,9 +578,9 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jPanelReservations.add(jButtonReservationCancel);
         jButtonReservationCancel.setBounds(410, 230, 98, 60);
 
-        jButtonReservationRenew.setText("Renouveler");
-        jPanelReservations.add(jButtonReservationRenew);
-        jButtonReservationRenew.setBounds(530, 230, 113, 60);
+        jButtonReservationReload.setText("Recharger");
+        jPanelReservations.add(jButtonReservationReload);
+        jButtonReservationReload.setBounds(940, 230, 106, 60);
 
         jButtonReservationClear.setText("Nettoyer");
         jPanelReservations.add(jButtonReservationClear);
@@ -581,6 +592,10 @@ public class ManagerJPanelView extends javax.swing.JPanel {
         jLabelReservationBookCodeSample.setBounds(620, 10, 90, 40);
         jPanelReservations.add(jTextFieldReservationBookCodeSample);
         jTextFieldReservationBookCodeSample.setBounds(700, 10, 210, 38);
+
+        jButtonReservationRenew1.setText("Renouveler");
+        jPanelReservations.add(jButtonReservationRenew1);
+        jButtonReservationRenew1.setBounds(530, 230, 113, 60);
 
         jTabbedPane.addTab("Réservations", jPanelReservations);
 
@@ -623,17 +638,20 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     private javax.swing.JButton jButtonBookClear;
     private javax.swing.JButton jButtonBookDelete;
     private javax.swing.JButton jButtonBookDetails;
-    private javax.swing.JButton jButtonBookReserve;
+    private javax.swing.JButton jButtonBookReload;
+    private javax.swing.JButton jButtonBookReserve1;
     private javax.swing.JButton jButtonBookSave;
     private javax.swing.JButton jButtonClientClear;
     private javax.swing.JButton jButtonClientDelete;
     private javax.swing.JButton jButtonClientDetails;
-    private javax.swing.JButton jButtonClientReserve;
+    private javax.swing.JButton jButtonClientReload;
+    private javax.swing.JButton jButtonClientReserve1;
     private javax.swing.JButton jButtonClientSave;
     private javax.swing.JButton jButtonReservationCancel;
     private javax.swing.JButton jButtonReservationClear;
     private javax.swing.JButton jButtonReservationFinish;
-    private javax.swing.JButton jButtonReservationRenew;
+    private javax.swing.JButton jButtonReservationReload;
+    private javax.swing.JButton jButtonReservationRenew1;
     private javax.swing.JCheckBox jCheckBoxBookRare;
     private javax.swing.JCheckBox jCheckBoxClientValid;
     private javax.swing.JCheckBox jCheckBoxReservationRare;
@@ -894,7 +912,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     }
 
     public JButton getjButtonBookReserve() {
-        return jButtonBookReserve;
+        return jButtonBookReload;
     }
 
     public JButton getjButtonBookSave() {
@@ -914,7 +932,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     }
 
     public JButton getjButtonClientReserve() {
-        return jButtonClientReserve;
+        return jButtonClientReload;
     }
 
     public JButton getjButtonClientSave() {
@@ -934,7 +952,7 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     }
 
     public JButton getjButtonReservationRenew() {
-        return jButtonReservationRenew;
+        return jButtonReservationReload;
     }
 
     public JCheckBox getjCheckBoxBookRare() {
@@ -1111,6 +1129,18 @@ public class ManagerJPanelView extends javax.swing.JPanel {
     
     public JPasswordField getjPasswordFieldClient() {
         return jPasswordFieldClient;
+    }
+    
+    public JButton getjButtonBookReload() {
+        return jButtonBookReload;
+    }
+    
+    public JButton getjButtonClientReload() {
+        return jButtonClientReload;
+    }
+    
+    public JButton getjButtonReservationReload() {
+        return jButtonReservationReload;
     }
 
 }

@@ -11,13 +11,9 @@ import com.grasset.book.*;
 import com.grasset.client.Client;
 import com.grasset.env.CurrentSystemUser;
 import com.grasset.exception.InvalidActionException;
-import com.grasset.reservation.BookReservation;
-import com.grasset.reservation.BookReservationStatus;
 import com.grasset.view.ClientJPanelView;
 import com.grasset.view.alerts.JAlertHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -48,6 +44,7 @@ public class ClientBookController {
     private final JTextField jTextFieldEditionLanguage;
     private final JButton jButtonBookWaitList;
     private final JButton jButtonBookReserve;
+    private final JButton jButtonBookReload;
     private final JTextField jTextFieldBookSearch;
     private final JTable jTable;
 
@@ -74,6 +71,7 @@ public class ClientBookController {
         jButtonBookWaitList = clientView().getjButtonBookWaitList();
         jButtonBookReserve = clientView().getjButtonBookReserve();
         jTextFieldBookSearch = clientView().getjTextFieldBookSearch();
+        jButtonBookReload = clientView().getjButtonBookReload();
 
         jTable = clientView().getjTableBooks();
 
@@ -97,10 +95,10 @@ public class ClientBookController {
 
         jButtonBookReserve.addActionListener(e -> {
             try {
-                clientView().actualBookSelectedVenue = jTable.getSelectedRow();
-                if (jTable.getRowCount() > 0 && clientView().actualBookSelectedVenue != null) {
-                    clientView().actualBookSelectedVenue = jTable.getSelectedRow();
-                    String ISBN = (String) jTable.getModel().getValueAt(clientView().actualBookSelectedVenue, 0);
+                clientView().actualBookSelected = jTable.getSelectedRow();
+                if (jTable.getRowCount() > 0 && clientView().actualBookSelected != null) {
+                    clientView().actualBookSelected = jTable.getSelectedRow();
+                    String ISBN = (String) jTable.getModel().getValueAt(clientView().actualBookSelected, 0);
                     BookEdition bookEdition = (BookEdition) bookService.getBook(ISBN);
 
                     Client client = CurrentSystemUser.getClient();
@@ -114,6 +112,10 @@ public class ClientBookController {
                 exp.printStackTrace();
                 JAlertHelper.showError("Erreur de Enlèvement", "Erreur pour faire le Enlèvement: " + exp.getMessage());
             }
+        });
+
+        jButtonBookReload.addActionListener(e -> {
+            updateTable();
         });
     }
 
@@ -143,10 +145,10 @@ public class ClientBookController {
         jTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 try {
-                    clientView().actualBookSelectedVenue = jTable.getSelectedRow();
-                    if (jTable.getRowCount() > 0 && clientView().actualBookSelectedVenue != null) {
-                        clientView().actualBookSelectedVenue = jTable.getSelectedRow();
-                        String ISBN = (String) jTable.getModel().getValueAt(clientView().actualBookSelectedVenue, 0);
+                    clientView().actualBookSelected = jTable.getSelectedRow();
+                    if (jTable.getRowCount() > 0 && clientView().actualBookSelected != null) {
+                        clientView().actualBookSelected = jTable.getSelectedRow();
+                        String ISBN = (String) jTable.getModel().getValueAt(clientView().actualBookSelected, 0);
                         Book book = bookService.getBook(ISBN);
                         clientView().setBookFields(book);
                     }
@@ -160,10 +162,10 @@ public class ClientBookController {
         jTable.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
-                    clientView().actualBookSelectedVenue = jTable.getSelectedRow();
-                    if (jTable.getRowCount() > 0 && clientView().actualBookSelectedVenue != null) {
-                        clientView().actualBookSelectedVenue = jTable.getSelectedRow();
-                        String ISBN = (String) jTable.getModel().getValueAt(clientView().actualBookSelectedVenue, 0);
+                    clientView().actualBookSelected = jTable.getSelectedRow();
+                    if (jTable.getRowCount() > 0 && clientView().actualBookSelected != null) {
+                        clientView().actualBookSelected = jTable.getSelectedRow();
+                        String ISBN = (String) jTable.getModel().getValueAt(clientView().actualBookSelected, 0);
                         Book book = bookService.getBook(ISBN);
                         clientView().setBookFields(book);
                     }
@@ -200,7 +202,7 @@ public class ClientBookController {
         if (text.equals("")) {
             updateTable();
         } else {
-            clientView().actualBookSelectedVenue = null;
+            clientView().actualBookSelected = null;
             Set<Book> resultSet = new HashSet<>();
             Set<Book> set = bookService.getBooks();
             for (Book book : set) {

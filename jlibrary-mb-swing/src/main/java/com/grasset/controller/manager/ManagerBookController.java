@@ -54,6 +54,7 @@ public class ManagerBookController {
     private final JButton jButtonBookDetails;
     private final JButton jButtonBookReserve;
     private final JButton jButtonBookClear;
+    private final JButton jButtonBookReload;
     private final JTextField jTextFieldBookSearch;
     private final JTable jTableBook;
 
@@ -83,6 +84,7 @@ public class ManagerBookController {
         jButtonBookDetails = managerView().getjButtonBookDetails();
         jButtonBookReserve = managerView().getjButtonBookReserve();
         jButtonBookClear = managerView().getjButtonBookClear();
+        jButtonBookReload = managerView().getjButtonBookReload();
         jTableBook = managerView().getjTableBooks();
 
         jTextFieldBookSearch = managerView().getjTextFieldBookSearch();
@@ -176,6 +178,10 @@ public class ManagerBookController {
 
         jButtonBookClear.addActionListener(e -> {
             clear();
+        });
+
+        jButtonBookReload.addActionListener(e -> {
+            updateTable();
         });
     }
 

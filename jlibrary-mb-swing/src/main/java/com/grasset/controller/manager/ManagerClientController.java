@@ -55,9 +55,12 @@ public class ManagerClientController {
     private final JButton jButtonClientDetails;
     private final JButton jButtonClientReserve;
     private final JButton jButtonClientClear;
+    private final JButton jButtonClientReload;
     private final JTextField jTextFieldClientSearch;
     private final JTable jTableClient;
     private final JPasswordField jPasswordField;
+
+
 
     //Service
     private final ClientService clientService;
@@ -82,6 +85,7 @@ public class ManagerClientController {
         jButtonClientDetails = managerView().getjButtonClientDetails();
         jButtonClientReserve = managerView().getjButtonClientReserve();
         jButtonClientClear = managerView().getjButtonClientClear();
+        jButtonClientReload = managerView().getjButtonClientReload();
         jTextFieldClientSearch = managerView().getjTextFieldClientSearch();
         jTableClient = managerView().getjTableClients();
         jPasswordField = managerView().getjPasswordFieldClient();
@@ -160,6 +164,10 @@ public class ManagerClientController {
 
         jButtonClientClear.addActionListener(e -> {
             clear();
+        });
+
+        jButtonClientReload.addActionListener(e -> {
+            updateTable();
         });
     }
 
